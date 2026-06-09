@@ -1,0 +1,23 @@
+{
+  "name": "value-investing-course",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "npm run import:live && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "import:live": "python3 scripts/import_live_companions.py",
+    "verify:live": "python3 scripts/verify_live_companions.py",
+    "check": "npm run import:live && ASTRO_TELEMETRY_DISABLED=1 astro check"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.35.0",
+    "astro": "^5.0.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,23 @@
+---
+interface Props {
+  evidence?: string[];
+  assumptions?: string[];
+  judgments?: string[];
+}
+
+const { evidence = [], assumptions = [], judgments = [] } = Astro.props;
+---
+<div class="evidence-grid">
+  <section>
+    <span class="evidence-grid__tag fact">Reported / observed</span>
+    <ul>{evidence.map((item) => <li>{item}</li>)}</ul>
+  </section>
+  <section>
+    <span class="evidence-grid__tag assumption">Underwriting assumptions</span>
+    <ul>{assumptions.map((item) => <li>{item}</li>)}</ul>
+  </section>
+  <section>
+    <span class="evidence-grid__tag judgment">Investor judgments</span>
+    <ul>{judgments.map((item) => <li>{item}</li>)}</ul>
+  </section>
+</div>

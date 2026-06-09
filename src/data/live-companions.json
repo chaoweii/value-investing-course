@@ -1,0 +1,124 @@
+{
+  "generatedAt": "2026-06-09T15:56:59+00:00",
+  "source": "/Users/chao86/Documents/Investment 2/tost_googl_sotp_dcf/outputs/data/master_portfolio_valuation.csv",
+  "importWarning": "",
+  "snapshots": {
+    "TOST": {
+      "ticker": "TOST",
+      "company": "Toast, Inc.",
+      "currency": "USD",
+      "sourceRefreshDate": "2026-06-05",
+      "researchVersion": "v2026.05_raw_first_sotp_dcf_owner_earnings_v2",
+      "price": 25.1,
+      "bearValue": 17.24865395766681,
+      "baseValue": 34.13022272089836,
+      "bullValue": 50.855534632535864,
+      "marginOfSafety": 0.2645814179046959,
+      "baseFiveYearCagr": 0.2546992856624286,
+      "baseTenYearCagr": 0.17341546588377188,
+      "benchmarkGate": "clears BRK.B/SP500 base-case hurdle",
+      "verdict": "Core candidate",
+      "currentRead": "Constructive with verification",
+      "reports": {
+        "buySide": {
+          "path": "outputs/company_reports/TOST_buy_side_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/company_reports/TOST_buy_side_report.md",
+          "exists": true
+        },
+        "dcf": {
+          "path": "outputs/dcf/TOST_dcf_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/dcf/TOST_dcf_valuation.md",
+          "exists": true
+        },
+        "sotp": {
+          "path": "outputs/sotp/TOST_sotp_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/sotp/TOST_sotp_valuation.md",
+          "exists": true
+        },
+        "auditor": {
+          "path": "outputs/audits/TOST_conservative_auditor_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/audits/TOST_conservative_auditor_report.md",
+          "exists": true
+        }
+      }
+    },
+    "ADYEY": {
+      "ticker": "ADYEY",
+      "company": "Adyen N.V.",
+      "currency": "USD",
+      "sourceRefreshDate": "2026-06-03",
+      "researchVersion": "v2026.05_raw_first_sotp_dcf_owner_earnings_v2",
+      "price": 9.79,
+      "bearValue": 7.5481524143893965,
+      "baseValue": 16.58911951672232,
+      "bullValue": 23.867931612428368,
+      "marginOfSafety": 0.40985415228750444,
+      "baseFiveYearCagr": 0.17748975638710207,
+      "baseTenYearCagr": 0.1334942377115509,
+      "benchmarkGate": "clears BRK.B/SP500 base-case hurdle",
+      "verdict": "Core candidate",
+      "currentRead": "Approved staged quality compounder: enterprise payments with EUR/USD exposure",
+      "reports": {
+        "buySide": {
+          "path": "outputs/company_reports/ADYEY_buy_side_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/company_reports/ADYEY_buy_side_report.md",
+          "exists": true
+        },
+        "dcf": {
+          "path": "outputs/dcf/ADYEY_dcf_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/dcf/ADYEY_dcf_valuation.md",
+          "exists": true
+        },
+        "sotp": {
+          "path": "outputs/sotp/ADYEY_sotp_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/sotp/ADYEY_sotp_valuation.md",
+          "exists": true
+        },
+        "auditor": {
+          "path": "outputs/audits/ADYEY_conservative_auditor_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/audits/ADYEY_conservative_auditor_report.md",
+          "exists": true
+        }
+      }
+    },
+    "BRK.B": {
+      "ticker": "BRK.B",
+      "company": "Berkshire Hathaway Inc.",
+      "currency": "USD",
+      "sourceRefreshDate": "2026-06-05",
+      "researchVersion": "v2026.05_raw_first_sotp_dcf_owner_earnings_v2",
+      "price": 500.0,
+      "bearValue": 278.03792345370675,
+      "baseValue": 425.6314310369294,
+      "bullValue": 599.558772643506,
+      "marginOfSafety": -0.17472527529720439,
+      "baseFiveYearCagr": 0.03327123823144729,
+      "baseTenYearCagr": 0.02270320367208334,
+      "benchmarkGate": "fails hurdle; cash/SP500/BRK.B is the default",
+      "verdict": "Pass",
+      "currentRead": "Speculative recovery with option value",
+      "reports": {
+        "buySide": {
+          "path": "outputs/company_reports/BRK.B_buy_side_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/company_reports/BRK.B_buy_side_report.md",
+          "exists": true
+        },
+        "dcf": {
+          "path": "outputs/dcf/BRK.B_dcf_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/dcf/BRK.B_dcf_valuation.md",
+          "exists": true
+        },
+        "sotp": {
+          "path": "outputs/sotp/BRK.B_sotp_valuation.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/sotp/BRK.B_sotp_valuation.md",
+          "exists": true
+        },
+        "auditor": {
+          "path": "outputs/audits/BRK.B_conservative_auditor_report.md",
+          "uri": "file:///Users/chao86/Documents/Investment%202/tost_googl_sotp_dcf/outputs/audits/BRK.B_conservative_auditor_report.md",
+          "exists": false
+        }
+      }
+    }
+  }
+}

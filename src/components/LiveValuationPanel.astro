@@ -1,0 +1,60 @@
+---
+import live from '../data/live-companions.json';
+
+interface Props {
+  ticker: keyof typeof live.snapshots;
+}
+
+const { ticker } = Astro.props;
+const snapshot = live.snapshots[ticker];
+const staleDays = snapshot?.sourceRefreshDate
+  ? Math.floor((Date.now() - new Date(`${snapshot.sourceRefreshDate}T00:00:00Z`).getTime()) / 86400000)
+  : null;
+const stale = staleDays === null || staleDays > 14;
+const money = (value: number | null) => value == null ? '—' : new Intl.NumberFormat('en-US', {
+  style: 'currency', currency: snapshot.currency || 'USD', maximumFractionDigits: 2,
+}).format(value);
+const pct = (value: number | null) => value == null ? '—' : `${(value * 100).toFixed(1)}%`;
+const reportLabels: Record<string, string> = {
+  buySide: 'Buy-side report',
+  dcf: 'DCF',
+  sotp: 'SOTP',
+  auditor: 'Conservative audit',
+};
+---
+<section class="live-panel">
+  <div class="live-panel__head">
+    <div>
+      <p class="live-panel__eyebrow">Read-only live companion</p>
+      <h2>{snapshot ? `${snapshot.company} · ${ticker}` : ticker}</h2>
+    </div>
+    <span class:list={['freshness', { stale }]}>
+      {snapshot ? `Source date ${snapshot.sourceRefreshDate}` : 'Snapshot unavailable'}
+    </span>
+  </div>
+  {snapshot ? (
+    <>
+      {live.importWarning && <p class="stale-warning">{live.importWarning}</p>}
+      {stale && <p class="stale-warning">This snapshot may be stale. Treat it as a dated decision aid, not a current quote.</p>}
+      <div class="valuation-strip">
+        <div><span>Price</span><strong>{money(snapshot.price)}</strong></div>
+        <div><span>Bear value</span><strong>{money(snapshot.bearValue)}</strong></div>
+        <div><span>Base value</span><strong>{money(snapshot.baseValue)}</strong></div>
+        <div><span>Bull value</span><strong>{money(snapshot.bullValue)}</strong></div>
+        <div><span>Base MOS</span><strong>{pct(snapshot.marginOfSafety)}</strong></div>
+        <div><span>5Y base CAGR</span><strong>{pct(snapshot.baseFiveYearCagr)}</strong></div>
+      </div>
+      <div class="live-panel__decision">
+        <div><span>Workbench verdict</span><strong>{snapshot.verdict}</strong></div>
+        <div><span>Benchmark gate</span><strong>{snapshot.benchmarkGate}</strong></div>
+      </div>
+      <p class="live-panel__read">{snapshot.currentRead}</p>
+      <div class="live-panel__reports">
+        {Object.entries(snapshot.reports).map(([key, report]) => report.exists && (
+          <a href={report.uri} title={report.path}>{reportLabels[key]}</a>
+        ))}
+      </div>
+      <p class="live-panel__meta">Generated {live.generatedAt || 'not yet'} · Research version {snapshot.researchVersion}</p>
+    </>
+  ) : <p>Run <code>npm run import:live</code> to generate this dated snapshot.</p>}
+</section>

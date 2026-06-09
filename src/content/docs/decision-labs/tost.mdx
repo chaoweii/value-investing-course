@@ -1,0 +1,110 @@
+---
+title: TOST · Product Love vs. Stock Value
+description: Does merchant loyalty become durable owner FCF per share?
+---
+
+import DecisionLab from '../../../components/DecisionLab.astro';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EvidenceVsAssumption from '../../../components/EvidenceVsAssumption.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import LiveValuationPanel from '../../../components/LiveValuationPanel.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<DecisionLab
+  ticker="TOST"
+  question="Does product conviction and merchant loyalty make the stock attractive?"
+  tension="Toast may be a genuinely loved restaurant operating system. The investment still depends on how much cash belongs to shareholders after customer acquisition, SBC, and cash-funded buybacks."
+  journal="/journal/#tost"
+/>
+
+## The situation
+
+A Seattle-area fine-dining restaurant owner described Toast as comprehensive,
+responsive, and meaningfully better suited to the restaurant’s needs than a niche
+alternative. The restaurant recently switched from Aloha. This is valuable field
+diligence: it makes the product moat more tangible.
+
+It is not, by itself, proof of scalable owner economics.
+
+<EvidenceVsAssumption
+  evidence={[
+    'Field diligence supports product breadth, service quality, and a real Aloha displacement.',
+    'Toast combines software, payments, hardware, implementation, and restaurant workflows.',
+    'Management reports recurring gross-profit growth and a growing installed location base.',
+    'SBC and hardware or services investment remain real claims on owner economics.',
+  ]}
+  assumptions={[
+    'Merchant loyalty persists as Toast scales support and enters larger accounts.',
+    'Module attachment and payments monetization grow faster than support and acquisition cost.',
+    'Buybacks eventually offset SBC without consuming too much underwriteable owner cash.',
+  ]}
+  judgments={[
+    'A comprehensive stack may create higher switching costs than a narrow POS product.',
+    'Painful lock-in is weaker than earned loyalty; merchant references must distinguish the two.',
+    'The stock deserves capital only if per-share owner FCF compounds above the benchmark.',
+  ]}
+/>
+
+<ChineseNote title="产品好，不等于股票便宜">
+餐厅老板喜欢 Toast，是护城河证据；但股东回报还要经过获客成本、硬件补贴、SBC、回购价格和买入估值这几道关。
+</ChineseNote>
+
+## First-principles driver tree
+
+```text
+Net locations
+× recurring gross profit per location
+− hardware and implementation acquisition cost
+− sales, support, R&D, and G&A
+− cash taxes, capex, and working-capital needs
+= pre-capital-return owner FCF
+− cash required to offset SBC dilution
+= dilution-adjusted owner FCF
+÷ diluted shares
+= owner FCF per share
+```
+
+## What would make the moat real?
+
+- Additional restaurant-owner checks across independent, fine-dining, QSR, and
+  multi-location operators confirm reliable implementation and support.
+- Restaurants attach more modules and process more workflows without rising churn.
+- Legacy systems are displaced because Toast improves operations, not merely because
+  hardware is subsidized.
+- Support quality remains strong as locations scale.
+
+## Falsifiers
+
+- Net additions slow while recurring gross profit per location fails to compensate.
+- GPV per location declines structurally rather than cyclically.
+- Support deteriorates, merchants resent payment pricing, or switching away accelerates.
+- Buybacks consume cash but diluted shares continue rising materially.
+
+<ExerciseReveal prompt="Write the strongest possible reason that the restaurant-owner evidence could mislead you.">
+  A strong answer distinguishes selection bias, one restaurant format, implementation timing,
+  subsidized switching, and service quality that may not scale. Then identify the operating
+  metric that would reveal each failure.
+</ExerciseReveal>
+
+## Questions you may have missed
+
+<details>
+  <summary>Open only after recording your decision</summary>
+
+- Is Toast winning because its product is better, because switching is expensive, or because
+  acquisition subsidies are attractive?
+- Does the restaurant owner understand the full economic cost, including payment pricing?
+- What happens to support quality when installed locations double?
+- Are buybacks creating per-share value or merely paying employees indirectly?
+- Which competitor is strongest for the exact restaurant segment Toast wants next?
+</details>
+
+## Evidence sources
+
+- [Toast Q1 2026 earnings release filed on SEC EDGAR](https://www.sec.gov/Archives/edgar/data/1650164/000165016426000113/tost-20260331xexhibit991.htm)
+- [Toast Q1 2026 prepared remarks](https://s28.q4cdn.com/141746709/files/doc_financials/2026/q1/TOST-1Q26-Prepared-Remarks.pdf)
+- `tost_googl_sotp_dcf/source_materials/TOST/notes/2026-06-03-seattle-restaurant-owner-field-diligence.md`
+- The dated live companion links to the detailed buy-side, DCF, SOTP, and audit reports.
+
+<LiveValuationPanel ticker="TOST" />
+<ProgressTracker id="decision-lab-tost" />

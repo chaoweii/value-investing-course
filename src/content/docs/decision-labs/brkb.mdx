@@ -1,0 +1,111 @@
+---
+title: BRK.B · The Opportunity-Cost Benchmark
+description: Why a slower-growing allocator may still deserve capital.
+---
+
+import DecisionLab from '../../../components/DecisionLab.astro';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EvidenceVsAssumption from '../../../components/EvidenceVsAssumption.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import LiveValuationPanel from '../../../components/LiveValuationPanel.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<DecisionLab
+  ticker="BRK.B"
+  question="Why can a slower-growing allocator remain the opportunity-cost benchmark?"
+  tension="Berkshire may offer resilience, tax-efficient internal compounding, and exceptional capital allocation. Its scale and entry price can still make expected returns inadequate."
+  journal="/journal/#brkb"
+/>
+
+## The situation
+
+Berkshire is not merely a collection of operating companies and public securities.
+Its economic system combines insurance float, wholly owned businesses, tax-efficient
+capital movement, liquidity, and a willingness to wait.
+
+That makes it a useful benchmark even when it is not the most attractive stock:
+every new investment should explain why it deserves capital instead of a diversified,
+liquid allocator with a resilient balance sheet.
+
+<EvidenceVsAssumption
+  evidence={[
+    'Insurance float supplies investable capital whose cost depends on underwriting results.',
+    'Wholly owned operating businesses create diversified cash flows.',
+    'Large liquidity provides resilience and optionality during market stress.',
+    'Scale reduces the universe of acquisitions capable of moving intrinsic value.',
+  ]}
+  assumptions={[
+    'Underwriting remains disciplined enough that float is low-cost over time.',
+    'Successor managers preserve rational capital allocation and decentralized operations.',
+    'Operating businesses and securities compound sufficiently to overcome scale.',
+    'Repurchases occur only when meaningfully accretive.',
+  ]}
+  judgments={[
+    'Safety and quality do not guarantee an adequate return from every price.',
+    'Cash is both a drag in normal markets and valuable optionality in stressed markets.',
+    'BRK.B can be the benchmark without being the best current purchase.',
+  ]}
+/>
+
+<ChineseNote title="机会成本不是抽象概念">
+每买入一只股票，你都在放弃持有伯克希尔、指数或现金的机会。估值不是问“这家公司好吗”，而是问“它比替代选择好多少”。
+</ChineseNote>
+
+## The allocator equation
+
+```text
+Operating earnings
++ underwriting profit or loss
++ returns earned on float and retained capital
++ value created by acquisitions and repurchases
+− cost of mistakes, taxes, and idle capital
+= growth in per-share intrinsic value
+```
+
+The important unit is **per-share intrinsic value**, not reported revenue, total
+assets, or the absolute size of the investment portfolio.
+
+## What makes float valuable?
+
+Float is not automatically free money. Its economic value depends on:
+
+1. The duration before claims are paid.
+2. The underwriting profit or cost incurred while holding it.
+3. The returns available on the assets funded by it.
+4. The liquidity and regulatory constraints attached to it.
+
+## Falsifiers
+
+- Insurance underwriting becomes structurally unprofitable.
+- Succession weakens capital-allocation discipline or operating autonomy.
+- Scale forces persistent low-return deployment or excessive idle cash.
+- Repurchases or acquisitions occur above conservative intrinsic value.
+- The expected per-share return fails to clear simpler alternatives.
+
+<ExerciseReveal prompt="When should a faster-growing company fail the BRK.B opportunity-cost test?">
+  When its growth requires a high entry multiple, fragile assumptions, repeated dilution,
+  or a bear case with permanent capital loss. Growth is only valuable when the investor
+  captures enough of it per share at the price paid.
+</ExerciseReveal>
+
+## Questions you may have missed
+
+<details>
+  <summary>Open only after recording your decision</summary>
+
+- What return is Berkshire likely to earn from its current size, not its historical size?
+- How much value should be assigned to liquidity and crisis optionality?
+- Is the cash balance a strategic asset or evidence of limited reinvestment runway?
+- How would you value the company without relying on a single book-value multiple?
+- What specific advantage must another stock offer to justify greater risk?
+</details>
+
+## Evidence sources
+
+- [Berkshire Hathaway investor relations and annual reports](https://www.berkshirehathaway.com/)
+- [Berkshire Hathaway SEC filings](https://www.sec.gov/edgar/browse/?CIK=0001067983)
+- The dated live companion links to the detailed buy-side, DCF, and SOTP reports.
+- Treat the current Berkshire model as a prompt for further diligence: its local data-quality tier is not yet as strong as TOST or ADYEY.
+
+<LiveValuationPanel ticker="BRK.B" />
+<ProgressTracker id="decision-lab-brkb" />

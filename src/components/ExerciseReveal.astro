@@ -1,0 +1,11 @@
+---
+const { prompt, label = 'Reveal the reasoning rubric' } = Astro.props;
+---
+<section class="exercise">
+  <p class="exercise__label">Your turn</p>
+  <p class="exercise__prompt">{prompt}</p>
+  <details>
+    <summary>{label}</summary>
+    <div class="exercise__answer"><slot /></div>
+  </details>
+</section>

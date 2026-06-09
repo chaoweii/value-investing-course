@@ -1,0 +1,32 @@
+---
+const { id, label = 'Mark this lesson complete' } = Astro.props;
+---
+<div class="progress-tracker" data-progress-id={id}>
+  <button type="button" aria-pressed="false">
+    <span class="progress-check">✓</span>
+    <span class="progress-label">{label}</span>
+  </button>
+</div>
+<script>
+  const VERSION = 'owner-mindset-progress-v1';
+  document.querySelectorAll('[data-progress-id]').forEach((container) => {
+    const id = container.getAttribute('data-progress-id');
+    const button = container.querySelector('button');
+    const label = container.querySelector('.progress-label');
+    if (!id || !button || !label) return;
+    const read = () => JSON.parse(localStorage.getItem(VERSION) || '{}');
+    const render = () => {
+      const complete = Boolean(read()[id]);
+      button.setAttribute('aria-pressed', String(complete));
+      container.classList.toggle('complete', complete);
+      label.textContent = complete ? 'Completed · click to reset' : 'Mark this lesson complete';
+    };
+    button.addEventListener('click', () => {
+      const state = read();
+      state[id] = !state[id];
+      localStorage.setItem(VERSION, JSON.stringify(state));
+      render();
+    });
+    render();
+  });
+</script>

@@ -1,0 +1,12 @@
+---
+const { ticker, question, tension, journal } = Astro.props;
+---
+<section class="decision-lab">
+  <div class="decision-lab__ticker">{ticker}</div>
+  <div>
+    <p class="decision-lab__label">Decision before theory</p>
+    <h2>{question}</h2>
+    <p>{tension}</p>
+    <a class="journal-link" href={journal}>Open durable decision journal</a>
+  </div>
+</section>

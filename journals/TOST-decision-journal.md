@@ -1,0 +1,15 @@
+# TOST Decision Journal
+
+## Before The Framework
+- Date:
+- Decision: Buy / Hold / Monitor / Pass
+- Confidence, 1-5:
+- Maximum position size:
+- Why might the market be wrong?
+- What evidence would prove me wrong?
+- What am I assuming about merchant loyalty, pricing, and owner FCF per share?
+
+## After The Framework
+- What changed in my reasoning?
+- Which assumption matters most now?
+- What would cause me to add, trim, or exit?

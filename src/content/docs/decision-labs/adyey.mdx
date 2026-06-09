@@ -1,0 +1,114 @@
+---
+title: ADYEY · Wonderful Business, Asymmetric Stock?
+description: Separate quality, growth, margin expansion, and downside.
+---
+
+import DecisionLab from '../../../components/DecisionLab.astro';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EvidenceVsAssumption from '../../../components/EvidenceVsAssumption.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import LiveValuationPanel from '../../../components/LiveValuationPanel.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<DecisionLab
+  ticker="ADYEY"
+  question="Is a wonderful compounder truly asymmetric after a major price decline?"
+  tension="Adyen has a strong single-stack payments platform and attractive margins. A lower price helps, but asymmetry still depends on segment growth, margin durability, FX, and the downside case."
+  journal="/journal/#adyey"
+/>
+
+## The situation
+
+Adyen’s consolidated story is easy to admire: enterprise payments, a unified
+technology stack, global acquiring, and strong cash generation. The harder work is
+to avoid modeling it as one smooth growth rate.
+
+Digital, Unified Commerce, and Platforms have different customer acquisition paths,
+competitive pressures, absolute growth contributions, and maturity curves. Value-added
+services may deepen wallet share, but they must not be double-counted as a separate
+economic engine without evidence.
+
+<EvidenceVsAssumption
+  evidence={[
+    'Management has described continued expansion of existing customers, new customer acquisition, and financial-product development as growth drivers.',
+    'Unified Commerce and Platforms have recently grown faster than Digital.',
+    'Management guidance anchors near-term company revenue growth and an EBITDA-margin objective.',
+    'Adyen holds merchant settlement balances that must be separated from owner cash.',
+  ]}
+  assumptions={[
+    'Unified Commerce and Platforms can remain major absolute-growth contributors as their bases expand.',
+    'Operating leverage lifts margins without weakening hiring, service, or product development.',
+    'Digital remains a durable cash engine rather than entering structural share loss or price competition.',
+    'ADR ratio and EUR/USD translation are handled consistently.',
+  ]}
+  judgments={[
+    'A falling blended take rate can coexist with improving economics if mix and value delivered improve.',
+    'A high-quality business is asymmetric only when the bear case protects capital and the base case clears alternatives.',
+    'Management guidance is an anchor, not a guarantee or a substitute for a driver model.',
+  ]}
+/>
+
+<ChineseNote title="降价不等于有安全边际">
+股价下跌只改变了你支付的价格。真正的安全边际来自：即使增长、利润率或估值倍数低于预期，永久亏损仍然有限。
+</ChineseNote>
+
+## Build the company from its economic pillars
+
+| Pillar | First-principles question | Key failure mode |
+|---|---|---|
+| Digital | Does Adyen keep and expand global enterprise wallet share? | Large merchants multi-source and compress pricing. |
+| Unified Commerce | Does one commerce stack improve conversion and operating simplicity? | Omnichannel adoption is slower or less differentiated. |
+| Platforms | Does embedded payments become durable, high-quality revenue? | Competition, implementation cost, or regulatory complexity rises. |
+| Financial products and value-added tools | Do they deepen retention and economics? | Benefits are already captured in pillar growth and get double-counted. |
+
+## Margin expansion audit
+
+Do not assume a margin simply because the business is software-like. Derive it:
+
+```text
+Segment revenue growth and mix
+− payment and network costs
+− employee growth and compensation
+− sales, implementation, compliance, and product investment
+− depreciation, capex, taxes, and SBC
+= owner FCF
+```
+
+Margin expansion is credible only when the underlying cost lines scale more slowly
+than revenue for explainable reasons.
+
+## Falsifiers
+
+- Digital’s absolute annual revenue addition declines persistently.
+- Unified Commerce or Platforms growth requires disproportionate hiring or implementation cost.
+- EBITDA margin misses are explained repeatedly as temporary investment.
+- Financial products add regulatory or capital risk without clear economic returns.
+- Currency or ADR mechanics create a gap between business performance and per-ADR returns.
+
+<ExerciseReveal prompt="What evidence would distinguish healthy growth-rate deceleration from structural deterioration?">
+  Compare absolute segment revenue additions, wallet-share expansion, customer cohorts,
+  new-logo contribution, cost to serve, and retention. A lower percentage growth rate on a
+  larger base can be healthy; shrinking absolute additions with weaker economics is not.
+</ExerciseReveal>
+
+## Questions you may have missed
+
+<details>
+  <summary>Open only after recording your decision</summary>
+
+- How much of growth comes from existing merchants versus new logos and new products?
+- Does Unified Commerce actually have higher owner economics, or merely faster growth?
+- How much cash is truly distributable after merchant obligations and operating reserves?
+- What happens if the business performs well but the exit multiple normalizes?
+- What additional risk does the OTC ADR introduce relative to the ordinary share?
+</details>
+
+## Evidence sources
+
+- [Adyen Q1 2026 business update](https://investors.adyen.com/financials/q1-2026-4jxrap)
+- [Adyen Investor Day 2025 press release](https://www.adyen.com/press-and-media/adyen-hosts-investor-day-2025-in-amsterdam)
+- `tost_googl_sotp_dcf/data/staging/ADYEY/official_segment_net_revenue_history.csv`
+- The dated live companion links to the detailed buy-side, DCF, SOTP, and audit reports.
+
+<LiveValuationPanel ticker="ADYEY" />
+<ProgressTracker id="decision-lab-adyey" />
