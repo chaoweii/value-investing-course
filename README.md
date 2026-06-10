@@ -14,6 +14,7 @@ The site is deliberately separate from the valuation workbench:
 ```bash
 npm install
 npm run import:live
+npm run import:portfolio
 npm run refresh:macro
 npm run dev
 ```
@@ -29,6 +30,9 @@ The importer reads:
 `/Users/chao86/Documents/Investment 2/tost_googl_sotp_dcf/outputs/data/master_portfolio_valuation.csv`
 
 It never writes to the valuation workbench.
+
+The portfolio importer also reads the workbench's probability-weighted scenarios and writes only
+`src/data/portfolio-candidates.json` inside the course repository.
 
 ## Refresh the dated macro companion
 

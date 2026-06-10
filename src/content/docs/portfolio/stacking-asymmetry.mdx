@@ -1,0 +1,42 @@
+---
+title: From Stock Asymmetry To Portfolio Asymmetry
+description: Controlled losses, meaningful winners, and geometric compounding.
+---
+
+import AsymmetryStackSimulator from '../../../components/AsymmetryStackSimulator.astro';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<AsymmetryStackSimulator />
+
+## Positive expected value is necessary, not sufficient
+
+A portfolio can contain attractive individual investments and still fail because:
+
+- one position is large enough to cause ruin;
+- several positions share the same hidden failure mechanism;
+- probabilities and valuations are confidently wrong together;
+- losses force selling before winners can mature;
+- frequent trading interrupts long-duration compounding.
+
+The portfolio objective is **geometric wealth**, not the average result of an isolated wager.
+A 50% loss requires a 100% gain merely to recover. A 75% loss requires 300%.
+
+<ChineseNote title="允许犯错，不允许出局">
+长期投资不是追求每次都对，而是确保错误不会让你失去继续投资的资格，同时让真正正确的判断能够产生足够大的贡献。
+</ChineseNote>
+
+## Why Buffett-style asymmetry differs from betting
+
+The preferred source of asymmetry is a business with durable demand, pricing power, reinvestment
+runway, and owner cash flow purchased below conservative value. Scenario math does not rescue a
+weak business. It controls the consequences when sound underwriting still proves wrong.
+
+<ExerciseReveal prompt="Five equally weighted positions produce four 40% losses and one 300% gain. Why is this not automatically a good strategy?">
+Because the example assumes losses are capped, outcomes are sufficiently independent, the winner
+is identifiable and held, and the probabilities are favorable. Real portfolios must prove those
+conditions rather than admire the payoff diagram.
+</ExerciseReveal>
+
+<ProgressTracker id="portfolio-stacking-asymmetry" />

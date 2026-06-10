@@ -5,14 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "npm run import:live && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "build": "npm run import:live && npm run import:portfolio && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "import:live": "python3 scripts/import_live_companions.py",
+    "import:portfolio": "python3 scripts/import_portfolio_candidates.py",
     "refresh:macro": "python3 scripts/import_macro_snapshot.py",
     "verify:live": "python3 scripts/verify_live_companions.py",
     "verify:macro": "python3 scripts/verify_macro_snapshot.py",
     "test:macro": "python3 -m unittest discover -s tests -p 'test_*.py'",
-    "check": "npm run import:live && ASTRO_TELEMETRY_DISABLED=1 astro check"
+    "verify:portfolio": "python3 scripts/verify_portfolio_candidates.py",
+    "test:portfolio": "python3 -m unittest discover -s tests -p 'test_portfolio_*.py'",
+    "check": "npm run import:live && npm run import:portfolio && ASTRO_TELEMETRY_DISABLED=1 astro check"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.35.0",

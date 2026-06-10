@@ -1,0 +1,18 @@
+<section class="asymmetry-demo">
+  <div>
+    <p class="exercise__label">Stacking asymmetry</p>
+    <h2>Several mistakes can coexist with a strong portfolio result</h2>
+    <p>In this simple teaching basket, four positions are capped at a 40% loss while one succeeds at 4×.</p>
+  </div>
+  <div class="asymmetry-demo__bars" aria-label="Five equal-sized investment outcomes">
+    {[-40, -40, -40, -40, 300].map((result, index) => (
+      <div class:list={{ winner: result > 0 }}>
+        <span style={`height:${Math.abs(result) / 3 + 12}px`}></span>
+        <strong>{result > 0 ? '+' : ''}{result}%</strong>
+        <em>{index === 4 ? 'Large winner' : 'Controlled loss'}</em>
+      </div>
+    ))}
+  </div>
+  <p class="asymmetry-demo__result"><strong>Equal-weight portfolio result: +28%</strong> before time and compounding effects.</p>
+  <p>This works only because the losses are controlled and the winner is allowed to matter. It is not permission to buy weak businesses with dramatic bull cases.</p>
+</section>

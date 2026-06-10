@@ -1,0 +1,36 @@
+---
+title: Six Frameworks For Sizing Risk
+description: Compare quality concentration, inversion, risk budgets, pressing, explicit valuation, and staying power.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import SizingFrameworkComparison from '../../../components/SizingFrameworkComparison.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<SizingFrameworkComparison />
+
+## The frameworks disagree for useful reasons
+
+| Approach | Best use | Failure mode |
+|---|---|---|
+| Quality concentration | Exceptional economics, high evidence quality, conservative price | Quality becomes an excuse for overpaying |
+| Anti-ruin inversion | Large positions and uncertain external risks | Excess caution prevents winners from mattering |
+| Downside risk budget | Cyclical, correlated, or governance-sensitive assets | Static limits ignore improving evidence |
+| Press and cut | A visible inflection with rapidly improving evidence | Activity and price action replace underwriting |
+| Explicit probability valuation | Transparent scenario comparison | False precision in probabilities |
+| Simple conviction tiers | Operationally robust decision making | Broad labels hide material differences |
+
+## Recommended synthesis
+
+Begin with business-quality asymmetry. Use explicit scenarios to understand payoff. Then size at
+the **lowest** amount permitted by conviction, evidence quality, permanent-loss budget, theme
+concentration, governance, and liquidity.
+
+Fractional Kelly can illustrate how payoff and probability interact. It should not override the
+fact that your probability estimates are uncertain and correlations change during stress.
+
+<ChineseNote title="仓位不是信心分数">
+仓位同时表达收益机会、永久损失、相关性、证据质量和犯错后的生存能力。高信心不等于可以忽略风险预算。
+</ChineseNote>
+
+<ProgressTracker id="portfolio-sizing-frameworks" />

@@ -1,0 +1,236 @@
+---
+import snapshot from '../data/portfolio-candidates.json';
+
+const candidates = snapshot.candidates;
+const curated = snapshot.curatedTickers
+  .map((ticker) => candidates.find((candidate) => candidate.ticker === ticker))
+  .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate));
+const initialWeights: Record<string, number> = {
+  TOST: 10, ADYEY: 10, PDD: 5, TTD: 5, LEN: 5, FOUR: 5, 'BRK.B': 10, CASH: 50,
+};
+---
+<section class="portfolio-lab" data-portfolio-lab>
+  <div class="portfolio-lab__head">
+    <div>
+      <p class="live-panel__eyebrow">Read-only live portfolio companion</p>
+      <h2>Construct a portfolio that can survive being wrong</h2>
+      <p>Allocations are local teaching state. Price-band crossings create reviews, never trades.</p>
+    </div>
+    <span class="freshness">Generated {snapshot.generatedAt.slice(0, 10)}</span>
+  </div>
+
+  <script is:inline type="application/json" data-portfolio-data set:html={JSON.stringify(snapshot)}></script>
+
+  <div class="policy-controls">
+    {Object.entries(snapshot.policyDefaults).map(([key, value]) => (
+      <label>{key.replace(/([A-Z])/g, ' $1')}<input data-policy={key} type="number" min="0" max="100" value={value} /></label>
+    ))}
+  </div>
+
+  <div class="portfolio-add">
+    <label>Search live candidates
+      <input data-candidate-search list="portfolio-candidate-list" placeholder="Ticker or company" />
+      <datalist id="portfolio-candidate-list">
+        {candidates.map((candidate) => <option value={candidate.ticker}>{candidate.company}</option>)}
+      </datalist>
+    </label>
+    <button type="button" data-add-candidate>Add candidate</button>
+    <button type="button" data-reset-portfolio>Reset teaching portfolio</button>
+  </div>
+
+  <div class="portfolio-table-wrap">
+    <table class="portfolio-table">
+      <thead><tr><th>Holding</th><th>Weight</th><th>Expected 5Y CAGR</th><th>Bear 5Y return</th><th>Risk themes</th><th>Review trigger</th></tr></thead>
+      <tbody data-holdings>
+        {curated.map((candidate) => (
+          <tr data-ticker={candidate.ticker}>
+            <td><strong>{candidate.ticker}</strong><small>{candidate.company}</small></td>
+            <td><input aria-label={`${candidate.ticker} weight`} data-weight type="number" min="0" max="100" step="1" value={initialWeights[candidate.ticker] ?? 0} />%</td>
+            <td>{(candidate.expectedFiveYearCagr * 100).toFixed(1)}%</td>
+            <td>{(candidate.bearFiveYearReturn * 100).toFixed(1)}%</td>
+            <td><small>{candidate.themes.join(' · ')}</small></td>
+            <td><span class="review-trigger" data-review-trigger>Review</span></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="portfolio-metrics">
+    <article><span>Total allocated</span><strong data-total-weight>100%</strong><small data-total-warning></small></article>
+    <article><span>Weighted expected 5Y CAGR</span><strong data-expected-cagr>—</strong><small>Analyst scenarios, not a promise</small></article>
+    <article><span>Portfolio bear outcome</span><strong data-bear-outcome>—</strong><small data-bear-budget></small></article>
+    <article><span>Recovery after bear outcome</span><strong data-recovery>—</strong><small>Losses and recovery are nonlinear</small></article>
+  </div>
+
+  <div class="simulation-controls">
+    <label>Simulation mode
+      <select data-simulation-mode>
+        <option value="independent">Independent outcomes</option>
+        <option value="correlated">Correlated stress</option>
+      </select>
+    </label>
+    <button type="button" data-run-simulation>Run deterministic teaching simulation</button>
+  </div>
+  <div class="portfolio-metrics simulation-results">
+    <article><span>Loss probability</span><strong data-loss-probability>—</strong></article>
+    <article><span>10th percentile</span><strong data-p10>—</strong></article>
+    <article><span>Median</span><strong data-median>—</strong></article>
+    <article><span>90th percentile</span><strong data-p90>—</strong></article>
+  </div>
+
+  <h3>Hidden concentration</h3>
+  <div class="theme-exposure" data-theme-exposure></div>
+  <p class="stale-warning" data-policy-warning hidden></p>
+
+  <h3>Bear-case contribution</h3>
+  <p class="portfolio-lab__aside">Which positions create the modeled damage or protection matters more than the portfolio average alone.</p>
+  <div class="scenario-contribution" data-bear-contribution></div>
+
+  <h3>Dated allocation-change log</h3>
+  <p class="portfolio-lab__aside">Record the information that changed. A price-only review may properly end with no allocation change.</p>
+  <div class="decision-log-controls">
+    <label>Holding
+      <select data-log-ticker>{curated.map((candidate) => <option value={candidate.ticker}>{candidate.ticker}</option>)}</select>
+    </label>
+    <label>Primary reason
+      <select data-log-reason>
+        <option>Thesis strengthened</option>
+        <option>Thesis weakened or broken</option>
+        <option>Valuation / opportunity cost changed materially</option>
+        <option>Concentration or correlated-risk limit breached</option>
+        <option>Superior asymmetric opportunity identified</option>
+        <option>Price-only review · no action</option>
+      </select>
+    </label>
+    <label>Decision and evidence
+      <input data-log-note placeholder="What changed, and what did you decide?" />
+    </label>
+    <button type="button" data-add-log>Add dated entry</button>
+  </div>
+  <div class="decision-log" data-decision-log></div>
+
+  <details class="portfolio-markdown">
+    <summary>Generate dated Markdown decision record</summary>
+    <textarea data-markdown-output rows="18" readonly></textarea>
+    <button type="button" data-copy-markdown>Copy Markdown</button>
+  </details>
+</section>
+<script>
+  // @ts-nocheck
+  const VERSION = 'owner-mindset-portfolio-v1';
+  document.querySelectorAll('[data-portfolio-lab]').forEach((lab) => {
+    const data = JSON.parse(lab.querySelector('[data-portfolio-data]').textContent || '{}');
+    const byTicker = Object.fromEntries(data.candidates.map((candidate) => [candidate.ticker, candidate]));
+    const tbody = lab.querySelector('[data-holdings]');
+    const initial = {TOST:10, ADYEY:10, PDD:5, TTD:5, LEN:5, FOUR:5, 'BRK.B':10, CASH:50};
+    const pct = (value) => `${(value * 100).toFixed(1)}%`;
+    const state = JSON.parse(localStorage.getItem(VERSION) || 'null') || {weights: initial, policy: data.policyDefaults, logs: []};
+    state.logs ||= [];
+    const save = () => localStorage.setItem(VERSION, JSON.stringify(state));
+    const reviewText = (c) => c.price <= c.bearValue ? 'Below bear value · review' :
+      c.price >= c.bullValue ? 'Bull region · review' :
+      c.price >= c.baseValue ? 'At/above base · review' :
+      c.expectedFiveYearCagr < 0.09 ? 'Below hurdle · review' : 'No price-only trigger';
+    const positionCap = (c) => c.ticker === 'CASH' ? 100 :
+      c.asymmetryVerdict === 'Monitor' ? Number(state.policy.monitorMaximum) :
+      c.committeeVerdict === 'Watch with proof' ? Number(state.policy.watchMaximum) :
+      c.asymmetryVerdict === 'Stage candidate' ? Number(state.policy.staged) :
+      Number(state.policy.core);
+    const rowHtml = (c, weight=0) => `<tr data-ticker="${c.ticker}"><td><strong>${c.ticker}</strong><small>${c.company}</small></td><td><input aria-label="${c.ticker} weight" data-weight type="number" min="0" max="100" step="1" value="${weight}"/>%</td><td>${pct(c.expectedFiveYearCagr)}</td><td>${pct(c.bearFiveYearReturn)}</td><td><small>${c.themes.join(' · ')}</small></td><td><span class="review-trigger">${reviewText(c)}</span></td></tr>`;
+    const ensureRows = () => Object.entries(state.weights).forEach(([ticker, weight]) => {
+      if (!tbody.querySelector(`[data-ticker="${ticker}"]`) && byTicker[ticker]) tbody.insertAdjacentHTML('beforeend', rowHtml(byTicker[ticker], weight));
+    });
+    const weights = () => Object.fromEntries([...tbody.querySelectorAll('tr[data-ticker]')].map((row) => [row.dataset.ticker, Number(row.querySelector('[data-weight]').value || 0)]));
+    const calculate = () => {
+      Object.assign(state.weights, weights()); save();
+      const entries = Object.entries(state.weights).filter(([ticker,weight]) => weight > 0 && byTicker[ticker]);
+      tbody.querySelectorAll('tr[data-ticker]').forEach((row) => {
+        const c = byTicker[row.dataset.ticker];
+        const trigger = row.querySelector('.review-trigger');
+        if (c && trigger) trigger.textContent = reviewText(c);
+      });
+      const total = entries.reduce((sum,[,weight])=>sum+weight,0);
+      const weighted = (field) => total ? entries.reduce((sum,[ticker,weight])=>sum + weight/total * byTicker[ticker][field],0) : 0;
+      const bear = weighted('bearFiveYearReturn');
+      lab.querySelector('[data-total-weight]').textContent = `${total.toFixed(0)}%`;
+      lab.querySelector('[data-total-warning]').textContent = total === 100 ? 'Fully allocated' : 'Weights should total 100%';
+      lab.querySelector('[data-expected-cagr]').textContent = pct(weighted('expectedFiveYearCagr'));
+      lab.querySelector('[data-bear-outcome]').textContent = pct(bear);
+      lab.querySelector('[data-recovery]').textContent = bear < 0 ? pct((-bear)/(1+bear)) : 'No recovery required';
+      const budget = Number(state.policy.bearLossBudget || 20) / 100;
+      lab.querySelector('[data-bear-budget]').textContent = bear < -budget ? 'Exceeds bear-loss budget' : 'Within bear-loss budget';
+      const themeWeights = {};
+      entries.forEach(([ticker,weight]) => byTicker[ticker].themes.forEach((theme)=>themeWeights[theme]=(themeWeights[theme]||0)+weight));
+      lab.querySelector('[data-theme-exposure]').innerHTML = Object.entries(themeWeights).sort((a,b)=>b[1]-a[1]).map(([theme,weight])=>`<div><span>${theme}</span><strong>${weight.toFixed(0)}%</strong><i style="width:${Math.min(weight,100)}%"></i></div>`).join('');
+      const maxTheme = Math.max(0,...Object.entries(themeWeights)
+        .filter(([theme])=>theme !== 'Liquidity / opportunity cost')
+        .map(([,weight])=>weight));
+      const china = entries.reduce((sum,[ticker,weight])=>sum+(byTicker[ticker].isChina?weight:0),0);
+      const warning = lab.querySelector('[data-policy-warning]');
+      const messages = [];
+      if(maxTheme > Number(state.policy.themeMaximum)) messages.push(`Theme exposure ${maxTheme.toFixed(0)}% exceeds policy.`);
+      if(china > Number(state.policy.chinaMaximum)) messages.push(`China/VIE exposure ${china.toFixed(0)}% exceeds policy.`);
+      entries.forEach(([ticker, weight]) => {
+        const cap = positionCap(byTicker[ticker]);
+        if (weight > cap) messages.push(`${ticker} at ${weight}% exceeds its ${cap}% teaching cap.`);
+      });
+      warning.hidden = messages.length === 0; warning.textContent = messages.join(' ');
+      lab.querySelector('[data-bear-contribution]').innerHTML = entries
+        .map(([ticker,weight])=>[ticker, weight / 100 * byTicker[ticker].bearFiveYearReturn])
+        .sort((a,b)=>a[1]-b[1])
+        .map(([ticker,contribution])=>`<div><span>${ticker}</span><strong>${pct(contribution)}</strong><i class="${contribution < 0 ? 'is-loss' : 'is-gain'}" style="width:${Math.min(Math.abs(contribution) * 500,100)}%"></i></div>`)
+        .join('');
+      lab.querySelector('[data-decision-log]').innerHTML = state.logs.length
+        ? state.logs.map((entry)=>`<article><strong>${entry.date} · ${entry.ticker}</strong><span>${entry.reason}</span><p>${entry.note}</p></article>`).join('')
+        : '<p>No allocation changes recorded. Inactivity can be a valid decision.</p>';
+      const logMarkdown = state.logs.length
+        ? state.logs.map((entry)=>`| ${entry.date} | ${entry.ticker} | ${entry.reason} | ${entry.note} |`).join('\n')
+        : '| | | | |';
+      const markdown = `# Long-Term Portfolio Decision Record\n\nDate: ${new Date().toISOString().slice(0,10)}\n\n## Doctrine\nPrice-only valuation-band crossings trigger review, never automatic trading. Allocation changes require new evidence, changed forward asymmetry, or a risk-limit breach.\n\n## Model Portfolio\n\n| Holding | Weight | Primary risk themes |\n|---|---:|---|\n${entries.map(([ticker,weight])=>`| ${ticker} | ${weight}% | ${byTicker[ticker].themes.join(', ')} |`).join('\n')}\n\n## Portfolio Read\n- Weighted expected 5Y CAGR: ${pct(weighted('expectedFiveYearCagr'))}\n- Modeled portfolio bear outcome: ${pct(bear)}\n- Largest theme exposure: ${maxTheme.toFixed(0)}%\n\n## Dated Decision Log\n\n| Date | Holding | Primary reason | Decision and evidence |\n|---|---|---|---|\n${logMarkdown}\n`;
+      lab.querySelector('[data-markdown-output]').value = markdown;
+    };
+    const simulate = () => {
+      const random = (() => { let seed=20260610; return () => ((seed = (seed*1664525+1013904223)>>>0)/4294967296); })();
+      const active = Object.entries(state.weights).filter(([,w])=>w>0);
+      const total = active.reduce((s,[,w])=>s+w,0) || 1;
+      const correlated = lab.querySelector('[data-simulation-mode]').value === 'correlated';
+      const results=[];
+      for(let run=0;run<2000;run++){
+        const commonStress = correlated && random() < 0.25;
+        let result=0;
+        active.forEach(([ticker,weight])=>{
+          const c=byTicker[ticker]; const r=random();
+          const value = commonStress && ticker !== 'CASH' ? c.bearFiveYearReturn :
+            r<c.bearProbability ? c.bearFiveYearReturn :
+            r<c.bearProbability+c.baseProbability ? c.baseFiveYearReturn : c.bullFiveYearReturn;
+          result += weight/total*value;
+        }); results.push(result);
+      }
+      results.sort((a,b)=>a-b); const at=(q)=>results[Math.floor(q*(results.length-1))];
+      lab.querySelector('[data-loss-probability]').textContent=pct(results.filter(x=>x<0).length/results.length);
+      lab.querySelector('[data-p10]').textContent=pct(at(.1)); lab.querySelector('[data-median]').textContent=pct(at(.5)); lab.querySelector('[data-p90]').textContent=pct(at(.9));
+    };
+    ensureRows();
+    tbody.querySelectorAll('tr[data-ticker]').forEach((row)=>{
+      const savedWeight = state.weights[row.dataset.ticker];
+      if (savedWeight !== undefined) row.querySelector('[data-weight]').value = savedWeight;
+    });
+    tbody.querySelectorAll('[data-weight]').forEach((input)=>input.addEventListener('input',calculate));
+    lab.querySelectorAll('[data-policy]').forEach((input)=>{ input.value=state.policy[input.dataset.policy] ?? input.value; input.addEventListener('input',()=>{state.policy[input.dataset.policy]=Number(input.value);save();calculate();}); });
+    lab.querySelector('[data-add-candidate]').addEventListener('click',()=>{const ticker=lab.querySelector('[data-candidate-search]').value.trim().toUpperCase();if(byTicker[ticker]&&!tbody.querySelector(`[data-ticker="${ticker}"]`)){state.weights[ticker]=0;tbody.insertAdjacentHTML('beforeend',rowHtml(byTicker[ticker],0));tbody.querySelector(`[data-ticker="${ticker}"] [data-weight]`).addEventListener('input',calculate);calculate();}});
+    lab.querySelector('[data-reset-portfolio]').addEventListener('click',()=>{localStorage.removeItem(VERSION);location.reload();});
+    lab.querySelector('[data-run-simulation]').addEventListener('click',simulate);
+    lab.querySelector('[data-add-log]').addEventListener('click',()=>{
+      const ticker = lab.querySelector('[data-log-ticker]').value;
+      const reason = lab.querySelector('[data-log-reason]').value;
+      const noteInput = lab.querySelector('[data-log-note]');
+      const note = noteInput.value.trim();
+      if (!note) return;
+      state.logs.push({date:new Date().toISOString().slice(0,10), ticker, reason, note});
+      noteInput.value=''; save(); calculate();
+    });
+    lab.querySelector('[data-copy-markdown]').addEventListener('click',()=>navigator.clipboard.writeText(lab.querySelector('[data-markdown-output]').value));
+    calculate(); simulate();
+  });
+</script>

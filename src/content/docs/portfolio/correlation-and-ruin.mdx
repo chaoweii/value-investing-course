@@ -1,0 +1,41 @@
+---
+title: Correlation, Hidden Concentration, And Ruin
+description: Learn why different tickers can represent the same underlying bet.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Count failure mechanisms, not ticker symbols
+
+TOST, ADYEY, FOUR, PYPL, and TTD appear to serve different customers. They can still share
+valuation-duration, technology-spending, liquidity, or risk-appetite exposure. PDD, FUTU, JD,
+and TCOM can share a China-policy shock even when their operating models differ.
+
+Correlation is often lowest when it is least needed and highest during stress.
+
+## Hidden-concentration audit
+
+For every position, tag:
+
+- geography and policy regime;
+- customer demand cycle;
+- financing and interest-rate sensitivity;
+- valuation duration;
+- commodity, capacity, or supply-chain dependency;
+- governance and shareholder-rights risk;
+- common competitors and technology transitions.
+
+Then calculate the portfolio loss if each theme moves to its bear case simultaneously.
+
+<ChineseNote title="分散持股不等于分散风险">
+十只股票可能仍然是一笔宏观交易。真正的分散来自不同的现金流来源、失败机制和估值驱动。
+</ChineseNote>
+
+<ExerciseReveal prompt="A portfolio owns four different China internet companies at 5% each. Is its China exposure 5% or 20%?">
+For a shared policy, VIE, currency, or geopolitical shock, the relevant exposure is approximately
+20%. Company-level differences matter, but they do not eliminate the common failure mechanism.
+</ExerciseReveal>
+
+<ProgressTracker id="portfolio-correlation-and-ruin" />

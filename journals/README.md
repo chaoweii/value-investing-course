@@ -7,3 +7,4 @@ the full case analysis, then revisit them after completing the core lectures.
 - [ADYEY decision journal](ADYEY-decision-journal.md)
 - [BRK.B decision journal](BRK.B-decision-journal.md)
 - [Treasury-regime journal](treasury-regime-journal.md)
+- [Long-term portfolio allocation policy](long-term-portfolio-policy.md)

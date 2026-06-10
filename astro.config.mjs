@@ -38,6 +38,14 @@ export default defineConfig({
         { label: 'Phase 3 · Comparative Cases', items: [
           { label: 'Deep-Dive Case Library', slug: 'deep-dives' },
         ]},
+        { label: 'Phase 4 · Construct The Portfolio', items: [
+          { label: 'Portfolio Construction Overview', slug: 'portfolio' },
+          { label: 'Stacking Asymmetry', slug: 'portfolio/stacking-asymmetry' },
+          { label: 'Six Sizing Frameworks', slug: 'portfolio/sizing-frameworks' },
+          { label: 'Correlation And Ruin', slug: 'portfolio/correlation-and-ruin' },
+          { label: 'Long-Term Holding', slug: 'portfolio/long-term-holding' },
+          { label: 'Live Portfolio Lab', slug: 'portfolio/live-lab' },
+        ]},
         { label: 'Personal Journal', items: [
           { label: 'Decision Journal Guide', slug: 'journal' },
         ]},
