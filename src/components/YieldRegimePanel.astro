@@ -1,0 +1,53 @@
+---
+import macro from '../data/macro-snapshot.json';
+
+const curve = macro.treasury.curve;
+const indicators = Object.values(macro.indicators);
+const generatedDays = macro.generatedAt
+  ? Math.floor((Date.now() - new Date(macro.generatedAt).getTime()) / 86400000)
+  : null;
+const stale = generatedDays === null || generatedDays > 14;
+const maxYield = Math.max(6, ...curve.map((point) => point.yield));
+const pct = (value: number) => `${value.toFixed(2)}%`;
+---
+<section class="yield-panel">
+  <div class="yield-panel__head">
+    <div>
+      <p class="live-panel__eyebrow">Dated macro companion</p>
+      <h2>The current price-of-money regime</h2>
+      <p>Observe the curve. Do not let today’s curve become your permanent forecast.</p>
+    </div>
+    <span class:list={['freshness', { stale }]}>
+      {macro.treasury.asOf ? `Curve date ${macro.treasury.asOf}` : 'Snapshot unavailable'}
+    </span>
+  </div>
+
+  {macro.warnings.length > 0 && macro.warnings.map((warning) => <p class="stale-warning">{warning}</p>)}
+  {stale && <p class="stale-warning">This macro snapshot may be stale. Refresh it before using it for a current investment decision.</p>}
+
+  {curve.length > 0 ? (
+    <div class="yield-curve" aria-label="Treasury yield curve">
+      {curve.map((point) => (
+        <div class="yield-curve__point">
+          <strong>{pct(point.yield)}</strong>
+          <span class="yield-curve__bar" style={`height:${Math.max(8, point.yield / maxYield * 100)}%`}></span>
+          <em>{point.maturity}</em>
+        </div>
+      ))}
+    </div>
+  ) : <p>No curve is stored yet. Run <code>npm run refresh:macro</code>.</p>}
+
+  <div class="macro-indicators">
+    {indicators.map((indicator) => (
+      <div>
+        <span>{indicator.label}</span>
+        <strong>{pct(indicator.value)}</strong>
+        <em>{indicator.asOf}</em>
+      </div>
+    ))}
+  </div>
+  <p class="live-panel__meta">
+    Generated {macro.generatedAt || 'not yet'} · Sources:
+    <a href={macro.sources.treasury}> U.S. Treasury</a> and <a href={macro.sources.fred}>Federal Reserve/FRED</a>
+  </p>
+</section>

@@ -1,0 +1,81 @@
+{
+  "generatedAt": "2026-06-10T04:32:54+00:00",
+  "sources": {
+    "treasury": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+    "fred": "https://fred.stlouisfed.org/"
+  },
+  "warnings": [],
+  "treasury": {
+    "asOf": "2026-06-09",
+    "curve": [
+      {
+        "maturity": "1M",
+        "yield": 3.69
+      },
+      {
+        "maturity": "3M",
+        "yield": 3.79
+      },
+      {
+        "maturity": "6M",
+        "yield": 3.82
+      },
+      {
+        "maturity": "1Y",
+        "yield": 3.9
+      },
+      {
+        "maturity": "2Y",
+        "yield": 4.13
+      },
+      {
+        "maturity": "5Y",
+        "yield": 4.26
+      },
+      {
+        "maturity": "10Y",
+        "yield": 4.53
+      },
+      {
+        "maturity": "20Y",
+        "yield": 5.02
+      },
+      {
+        "maturity": "30Y",
+        "yield": 5.01
+      }
+    ]
+  },
+  "indicators": {
+    "DFF": {
+      "series": "DFF",
+      "label": "Effective federal funds rate",
+      "asOf": "2026-06-08",
+      "value": 3.62
+    },
+    "DFII10": {
+      "series": "DFII10",
+      "label": "10-year real Treasury yield",
+      "asOf": "2026-06-08",
+      "value": 2.21
+    },
+    "T10YIE": {
+      "series": "T10YIE",
+      "label": "10-year breakeven inflation",
+      "asOf": "2026-06-09",
+      "value": 2.33
+    },
+    "MORTGAGE30US": {
+      "series": "MORTGAGE30US",
+      "label": "30-year fixed mortgage rate",
+      "asOf": "2026-06-04",
+      "value": 6.48
+    },
+    "BAMLH0A0HYM2": {
+      "series": "BAMLH0A0HYM2",
+      "label": "US high-yield option-adjusted spread",
+      "asOf": "2026-06-08",
+      "value": 2.75
+    }
+  }
+}

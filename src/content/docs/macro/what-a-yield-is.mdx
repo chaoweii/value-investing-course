@@ -1,0 +1,69 @@
+---
+title: What A Treasury Yield Really Is
+description: Bond prices, yields, maturity, duration, real returns, and opportunity cost.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Begin with the contract
+
+A Treasury is a contract: you pay a price today and receive specified dollars later.
+The **yield** is the annualized return implied by that price and those promised cash flows.
+
+For a one-year zero-coupon bond:
+
+```text
+Price today = $100 / (1 + yield)
+```
+
+If the required yield rises from 4% to 5%, the same promised `$100` must be purchased for a
+lower price. **Bond prices and yields move in opposite directions because the future dollars
+do not change when the market’s required return changes.**
+
+## Maturity is time; duration is sensitivity
+
+Maturity tells you when principal is repaid. Duration estimates how sensitive price is to a
+change in yield:
+
+```text
+Approximate bond price change ≈ −duration × change in yield
+```
+
+An eight-duration bond loses roughly 8% when yields rise by one percentage point. A business
+whose value depends mostly on cash flows far in the future behaves like a long-duration asset,
+even when it has no debt.
+
+<ChineseNote title="常见误区">
+“公司没有债务，所以不怕加息”是不完整的。没有债务只降低经营融资风险；如果大部分价值来自遥远未来，估值仍然高度依赖利率。
+</ChineseNote>
+
+## Nominal yield versus real yield
+
+Nominal yield tells you how many dollars you expect to receive. Real yield asks how much
+purchasing power those dollars may retain:
+
+```text
+Approximate real yield ≈ nominal yield − expected inflation
+```
+
+A 5% nominal yield with 3% expected inflation offers roughly 2% expected real return. For an
+equity investor, this real return is a serious alternative: the stock should compensate you
+for uncertain cash flows, permanent-loss risk, and analytical effort.
+
+## Why Treasuries become opportunity cost
+
+Treasuries do not make equities unattractive mechanically. They change the hurdle.
+
+- When Treasury yields rise, investors can earn more without underwriting a company.
+- Equity valuations generally require either lower prices, stronger cash-flow growth, or both.
+- When yields fall, distant cash flows become more valuable, but the reason for the decline
+  matters. A recessionary yield collapse can harm the business while helping the valuation math.
+
+<ExerciseReveal prompt="A stock has no debt, produces little cash today, and may generate enormous cash flow in ten years. Is it rate-sensitive?">
+Yes. Its operating interest expense may be insensitive, but its valuation duration is high.
+Separate the financing channel from the discount-rate channel.
+</ExerciseReveal>
+
+<ProgressTracker id="macro-what-a-yield-is" />

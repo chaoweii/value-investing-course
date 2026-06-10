@@ -14,6 +14,7 @@ The site is deliberately separate from the valuation workbench:
 ```bash
 npm install
 npm run import:live
+npm run refresh:macro
 npm run dev
 ```
 
@@ -28,3 +29,19 @@ The importer reads:
 `/Users/chao86/Documents/Investment 2/tost_googl_sotp_dcf/outputs/data/master_portfolio_valuation.csv`
 
 It never writes to the valuation workbench.
+
+## Refresh the dated macro companion
+
+```bash
+npm run refresh:macro
+```
+
+This reads official U.S. Treasury and Federal Reserve/FRED sources and writes only
+`src/data/macro-snapshot.json` inside this course repository. Normal builds use the last stored
+snapshot and never require network access.
+
+Validate the stored snapshot without a network call:
+
+```bash
+npm run verify:macro
+```

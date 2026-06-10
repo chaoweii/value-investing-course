@@ -1,0 +1,60 @@
+---
+title: What Moves Treasury Yields
+description: Expected policy, inflation, real growth, term premium, fiscal supply, and risk.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import YieldRegimePanel from '../../../components/YieldRegimePanel.astro';
+
+## The decomposition
+
+A useful first-principles approximation is:
+
+```text
+Long-term nominal Treasury yield
+≈ expected path of real short rates
++ expected inflation
++ term premium
+```
+
+The **term premium** is the extra compensation investors demand for locking money away while
+inflation, policy, fiscal supply, and market conditions can change.
+
+## The Fed controls a point, not the entire curve
+
+The Federal Reserve strongly influences overnight rates. A ten-year yield reflects the expected
+average path of future short rates plus inflation and term-premium uncertainty. It can therefore
+rise after a Fed cut if investors simultaneously expect stronger growth, more inflation, or a
+larger term premium.
+
+| Force | Typical upward pressure on long yields | Important complication |
+|---|---|---|
+| Inflation | Higher expected loss of purchasing power | Credible disinflation can lower yields before actual inflation falls |
+| Real growth | Stronger demand for capital and a higher expected policy path | Productivity growth can improve corporate cash flows too |
+| Fiscal supply | More duration must be absorbed by investors | Supply matters through demand, maturity mix, and confidence |
+| QE / QT | Central-bank buying removes duration; QT returns it | Expectations often move yields before balance sheets change |
+| Global demand | Reserve managers, pensions, banks, and hedged buyers affect demand | Currency-hedging costs can reverse apparent yield advantages |
+| Risk appetite | Flight-to-safety demand can lower Treasury yields | Credit spreads may widen even as Treasury yields fall |
+
+<ChineseNote title="不要只问利率涨跌">
+先问“为什么”。由真实增长改善推动的高利率，和由通胀失控、财政风险推动的高利率，对企业利润与估值的含义完全不同。
+</ChineseNote>
+
+## Read the curve as a set of disagreements
+
+- The front end is heavily shaped by the expected near-term Fed path.
+- Intermediate maturities combine policy expectations with growth and inflation beliefs.
+- The long end carries more duration, inflation uncertainty, fiscal-supply risk, and term premium.
+- Credit and mortgage spreads reveal risks that the Treasury curve alone cannot show.
+
+<YieldRegimePanel />
+
+<ExerciseReveal prompt="The Fed cuts 25 bps, but the 10-year Treasury rises 20 bps. Name three plausible explanations.">
+The market may expect stronger real growth, higher future inflation, or a larger term premium
+because of fiscal supply or reduced demand for long-duration bonds. The cut changed the front
+end; it did not command the long end.
+</ExerciseReveal>
+
+<ProgressTracker id="macro-what-moves-yields" />

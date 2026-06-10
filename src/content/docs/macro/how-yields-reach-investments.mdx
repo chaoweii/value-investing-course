@@ -1,0 +1,61 @@
+---
+title: How Yields Reach Investments
+description: Trace rate changes into operations, valuation, financing, liquidity, and demand.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import YieldTransmissionMap from '../../../components/YieldTransmissionMap.astro';
+import RateShockLab from '../../../components/RateShockLab.astro';
+
+<YieldTransmissionMap />
+
+## Two channels must remain separate
+
+### 1. Operating-business sensitivity
+
+Rates can change actual revenue, costs, and cash flow:
+
+- mortgage rates alter housing affordability and demand;
+- refinancing rates alter interest expense and solvency;
+- higher cash yields benefit businesses holding large investable balances;
+- currencies alter translated revenue and competitive positioning;
+- tight credit can slow customer expansion and increase churn.
+
+### 2. Valuation-duration sensitivity
+
+Even if the business forecast is unchanged, the present value changes:
+
+```text
+Present value = future cash flow / (1 + required return)^time
+```
+
+The farther away the cash flow, the more powerful the exponent. A one-point increase in the
+required return can materially reprice a long-duration growth company without changing next
+quarter’s revenue.
+
+<ChineseNote title="双重冲击">
+最危险的情况是经营与估值同时受压：高利率既降低客户需求，又提高折现率。最有韧性的情况则可能是业务现金流受益，同时估值压力可控。
+</ChineseNote>
+
+## The full transmission checklist
+
+| Channel | Question for the investor |
+|---|---|
+| Discount rate | How much value sits in distant cash flows? |
+| Debt and refinancing | When must liabilities be repriced, and at what spread? |
+| Customer financing | Does the customer need affordable credit to buy? |
+| Cash and float | Does higher short-rate income accrue to shareholders? |
+| Currency | Does the rate differential move reported results or competitiveness? |
+| Liquidity and multiples | Does the market demand a larger equity-risk premium? |
+| Credit spreads | Is the risk-free rate falling while private financing still becomes more expensive? |
+
+<RateShockLab />
+
+<ExerciseReveal prompt="Treasury yields fall sharply during a recession. Should every stock receive a higher value?">
+No. Lower discount rates help present-value math, but weaker demand, wider credit spreads, and
+lower cash-flow forecasts may dominate. Recalculate both the numerator and the denominator.
+</ExerciseReveal>
+
+<ProgressTracker id="macro-how-yields-reach-investments" />

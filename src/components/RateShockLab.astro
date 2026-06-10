@@ -1,0 +1,57 @@
+<section class="rate-shock-lab" data-rate-shock-lab>
+  <div class="rate-shock-lab__head">
+    <div>
+      <p class="exercise__label">Interactive rate-shock lab</p>
+      <h2>Move the 10-year yield. Trace the consequences.</h2>
+    </div>
+    <output data-shock-output>0 bps</output>
+  </div>
+  <label>
+    Treasury-yield shock
+    <input data-shock-input type="range" min="-100" max="100" step="25" value="0" />
+  </label>
+  <div class="shock-results">
+    <article>
+      <span>10-year bond price</span>
+      <strong data-bond>0.0%</strong>
+      <small>Approximation: price change ≈ −duration × yield change; duration assumed 8.</small>
+    </article>
+    <article>
+      <span>Long-duration DCF value</span>
+      <strong data-dcf>0.0%</strong>
+      <small>Teaching sensitivity, assuming an effective equity duration of 12.</small>
+    </article>
+    <article>
+      <span>Indicative mortgage rate</span>
+      <strong data-mortgage>0 bps</strong>
+      <small>Assumes mortgage spreads remain unchanged. In stress, spreads can move too.</small>
+    </article>
+  </div>
+  <div class="company-transmission">
+    <article data-company="TOST"><strong>TOST</strong><span>Valuation pressure changes immediately; restaurant demand and financing effects arrive later.</span></article>
+    <article data-company="ADYEY"><strong>ADYEY</strong><span>A distant cash-flow stream is repriced even without meaningful debt.</span></article>
+    <article data-company="BRK.B"><strong>BRK.B</strong><span>Cash income benefits, while bond and equity holdings can reprice downward.</span></article>
+    <article data-company="LEN"><strong>LEN</strong><span>Mortgage affordability and buyer incentives transmit the shock into operating demand.</span></article>
+  </div>
+</section>
+<script>
+  document.querySelectorAll('[data-rate-shock-lab]').forEach((lab) => {
+    const input = lab.querySelector('[data-shock-input]');
+    const output = lab.querySelector('[data-shock-output]');
+    const bond = lab.querySelector('[data-bond]');
+    const dcf = lab.querySelector('[data-dcf]');
+    const mortgage = lab.querySelector('[data-mortgage]');
+    if (!(input instanceof HTMLInputElement) || !output || !bond || !dcf || !mortgage) return;
+    const render = () => {
+      const bps = Number(input.value);
+      const decimalShock = bps / 10000;
+      output.textContent = `${bps > 0 ? '+' : ''}${bps} bps`;
+      bond.textContent = `${(-8 * decimalShock * 100).toFixed(1)}%`;
+      dcf.textContent = `${(-12 * decimalShock * 100).toFixed(1)}%`;
+      mortgage.textContent = `${bps > 0 ? '+' : ''}${bps} bps`;
+      lab.setAttribute('data-direction', bps > 0 ? 'up' : bps < 0 ? 'down' : 'flat');
+    };
+    input.addEventListener('input', render);
+    render();
+  });
+</script>

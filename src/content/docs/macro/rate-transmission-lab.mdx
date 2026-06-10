@@ -1,0 +1,71 @@
+---
+title: Rate Transmission Decision Lab
+description: Compare how the same yield shock reaches TOST, ADYEY, BRK.B, and LEN.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EvidenceVsAssumption from '../../../components/EvidenceVsAssumption.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import RateShockLab from '../../../components/RateShockLab.astro';
+import YieldRegimePanel from '../../../components/YieldRegimePanel.astro';
+
+## Your decision
+
+Assume the 10-year Treasury rises by 100 bps and remains elevated for three years. Decide which
+of the four companies deserves the largest valuation revision, which deserves the largest
+operating revision, and which might partially benefit.
+
+<EvidenceVsAssumption
+  evidence={[
+    'TOST and ADYEY derive substantial value from future growth rather than current distributions.',
+    'BRK.B holds large balances of cash and Treasury bills alongside operating businesses and investments.',
+    'LEN demand is directly connected to mortgage affordability and housing incentives.',
+  ]}
+  assumptions={[
+    'The yield increase may come from healthy real growth or inflation and term-premium stress.',
+    'Mortgage and credit spreads may not remain constant.',
+    'Company management may adapt pricing, capital allocation, and investment.',
+  ]}
+  judgments={[
+    'A yield shock should not be applied as the same valuation haircut to every stock.',
+    'The cause of the shock determines whether operating forecasts should change.',
+    'Sizing should reflect both direct and hidden rate sensitivity.',
+  ]}
+/>
+
+<RateShockLab />
+
+## Company-by-company transmission
+
+| Company | Operating channel | Valuation channel | First conclusion to test |
+|---|---|---|---|
+| TOST | Restaurant formation, merchant health, financing, and consumer spend | High duration while owner FCF per share is still emerging | Multiple pressure can arrive before operating weakness |
+| ADYEY | Enterprise commerce volumes, FX, customer investment, and cash yields | High duration because much of the thesis rests on long reinvestment | A debt-light compounder can still be rate-sensitive |
+| BRK.B | Higher cash income; mixed effects across insurance, rail, energy, housing, and equities | Opportunity cost rises, but near-term earnings may benefit | It can become relatively more attractive without being immune |
+| LEN | Mortgage affordability, incentives, deliveries, ASP, and land decisions | Lower multiples often accompany housing-cycle fear | This is primarily an operating shock, then a valuation shock |
+
+<ChineseNote title="先拆原因，再改模型">
+同样是十年期利率上升100个基点：如果来自强劲增长，TOST 与 ADYEY 的收入可能仍健康；如果来自通胀和财政风险，利润率、需求与估值可能同时承压。LEN 对抵押贷款利率的传导最直接。
+</ChineseNote>
+
+## Record the decision before revealing the rubric
+
+1. Rank the four by **valuation-duration sensitivity**.
+2. Rank them by **operating sensitivity**.
+3. Identify one beneficiary and explain why the benefit might be temporary.
+4. State the one macro observation that would falsify your interpretation.
+
+<ExerciseReveal prompt="What is the disciplined answer structure?">
+Separate cause, operating transmission, valuation transmission, adaptation, and price. ADYEY and
+TOST usually rank high on valuation duration; LEN ranks highest on direct operating sensitivity;
+BRK.B can benefit through cash income but still faces opportunity-cost and asset-repricing effects.
+The rankings can change when the cause of the yield move changes.
+</ExerciseReveal>
+
+<YieldRegimePanel />
+
+Use the [Treasury-regime journal template](/journal/#treasury-regime-journal) to preserve your
+reasoning before the next yield move changes the story.
+
+<ProgressTracker id="macro-rate-transmission-lab" />

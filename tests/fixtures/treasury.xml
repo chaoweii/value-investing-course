@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+      xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+  <entry><content><m:properties>
+    <d:NEW_DATE>2026-06-08T00:00:00</d:NEW_DATE>
+    <d:BC_1MONTH>4.10</d:BC_1MONTH><d:BC_3MONTH>4.05</d:BC_3MONTH>
+    <d:BC_2YEAR>3.90</d:BC_2YEAR><d:BC_10YEAR>4.30</d:BC_10YEAR><d:BC_30YEAR>4.80</d:BC_30YEAR>
+  </m:properties></content></entry>
+  <entry><content><m:properties>
+    <d:NEW_DATE>2026-06-09T00:00:00</d:NEW_DATE>
+    <d:BC_1MONTH>4.11</d:BC_1MONTH><d:BC_3MONTH>4.06</d:BC_3MONTH>
+    <d:BC_2YEAR>3.91</d:BC_2YEAR><d:BC_10YEAR>4.31</d:BC_10YEAR><d:BC_30YEAR>4.81</d:BC_30YEAR>
+  </m:properties></content></entry>
+</feed>

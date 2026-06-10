@@ -23,6 +23,14 @@ export default defineConfig({
         { label: 'Phase 1 · Own The Business', items: [
           { label: 'Lecture Roadmap', slug: 'core/business-owner-roadmap' },
         ]},
+        { label: 'Macro Backbone · Price Of Money', items: [
+          { label: 'Macro Backbone Overview', slug: 'macro' },
+          { label: 'What A Treasury Yield Is', slug: 'macro/what-a-yield-is' },
+          { label: 'What Moves Treasury Yields', slug: 'macro/what-moves-yields' },
+          { label: 'How Yields Reach Investments', slug: 'macro/how-yields-reach-investments' },
+          { label: 'How Value Investors Use Yields', slug: 'macro/how-value-investors-use-yields' },
+          { label: 'Rate Transmission Decision Lab', slug: 'macro/rate-transmission-lab' },
+        ]},
         { label: 'Phase 2 · Underwrite Returns', items: [
           { label: 'Valuation Roadmap', slug: 'core/underwriting-roadmap' },
           { label: 'Revisit The Opening Decisions', slug: 'core/revisit-opening-decisions' },

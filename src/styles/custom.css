@@ -415,9 +415,210 @@ h3 {
   background: var(--sl-color-accent);
 }
 
+.yield-panel,
+.rate-shock-lab {
+  margin: 2.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--sl-color-black) 94%, var(--sl-color-accent-low));
+}
+
+.yield-panel__head,
+.rate-shock-lab__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.yield-panel__head h2,
+.rate-shock-lab__head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.yield-curve {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(2.5rem, 1fr));
+  align-items: end;
+  gap: 0.45rem;
+  min-height: 15rem;
+  margin: 1.5rem 0;
+  padding: 1rem 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--sl-color-gray-4);
+}
+
+.yield-curve__point {
+  display: grid;
+  grid-template-rows: auto 10rem auto;
+  justify-items: center;
+  align-items: end;
+  gap: 0.35rem;
+  height: 100%;
+}
+
+.yield-curve__point strong {
+  font-size: 0.73rem;
+}
+
+.yield-curve__point em {
+  color: var(--sl-color-gray-3);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 750;
+}
+
+.yield-curve__bar {
+  display: block;
+  width: min(2rem, 72%);
+  min-height: 0.5rem;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(to top, var(--sl-color-accent), var(--course-gold));
+}
+
+.macro-indicators,
+.shock-results {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+  background: var(--sl-color-gray-5);
+}
+
+.macro-indicators div,
+.shock-results article {
+  padding: 0.8rem;
+  background: var(--sl-color-black);
+}
+
+.macro-indicators span,
+.shock-results span,
+.transmission-map span {
+  display: block;
+  color: var(--sl-color-gray-3);
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.macro-indicators strong,
+.shock-results strong {
+  display: block;
+  margin: 0.35rem 0;
+  color: var(--course-gold);
+  font-size: 1.15rem;
+}
+
+.macro-indicators em,
+.shock-results small {
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+  font-style: normal;
+}
+
+.transmission-map {
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  align-items: center;
+  gap: 0.55rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.transmission-map section {
+  height: 100%;
+  padding: 0.9rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-top: 3px solid var(--sl-color-accent);
+  border-radius: 4px;
+}
+
+.transmission-map strong {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.transmission-map b {
+  color: var(--course-coral);
+}
+
+.rate-shock-lab output {
+  align-self: start;
+  min-width: 5.5rem;
+  padding: 0.45rem 0.65rem;
+  color: #fff;
+  font-weight: 850;
+  text-align: center;
+  border-radius: 3px;
+  background: var(--sl-color-accent);
+}
+
+.rate-shock-lab label {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1.5rem 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.rate-shock-lab input {
+  width: 100%;
+  accent-color: var(--sl-color-accent);
+}
+
+.shock-results {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.company-transmission {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.company-transmission article {
+  padding: 0.85rem;
+  border-left: 3px solid var(--course-gold);
+  background: color-mix(in srgb, var(--course-gold) 7%, var(--sl-color-black));
+}
+
+.company-transmission strong,
+.company-transmission span {
+  display: block;
+}
+
+.company-transmission span {
+  margin-top: 0.35rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.rate-shock-lab[data-direction='up'] output { background: var(--course-coral); }
+.rate-shock-lab[data-direction='down'] output { background: var(--sl-color-accent); }
+
 @media (max-width: 72rem) {
   .valuation-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .macro-indicators,
+  .company-transmission {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .transmission-map {
+    grid-template-columns: 1fr;
+  }
+
+  .transmission-map b {
+    transform: rotate(90deg);
+    justify-self: center;
   }
 }
 
@@ -442,12 +643,29 @@ h3 {
   }
 
   .live-panel__head,
-  .live-panel__decision {
+  .live-panel__decision,
+  .yield-panel__head,
+  .rate-shock-lab__head {
     display: grid;
   }
 
   .live-panel__decision > div:last-child {
     max-width: none;
     text-align: left;
+  }
+
+  .yield-curve {
+    grid-template-columns: repeat(5, minmax(2.2rem, 1fr));
+    min-height: auto;
+  }
+
+  .yield-curve__point {
+    grid-template-rows: auto 6rem auto;
+  }
+
+  .macro-indicators,
+  .shock-results,
+  .company-transmission {
+    grid-template-columns: 1fr;
   }
 }
