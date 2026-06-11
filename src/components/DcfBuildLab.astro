@@ -1,0 +1,194 @@
+---
+import snapshot from '../data/dcf-learning.json';
+const tost = snapshot.companies.TOST;
+const first = tost.baseForecast[0];
+const baseParameters = tost.scenarioParameters.base;
+const assumptions = [
+  { id: 'revenueGrowth', line: 'Revenue', label: 'Annual revenue growth', value: 15, min: 0, max: 30, step: 0.5, source: 'TOST dependency-aware operating model', mechanism: 'Net locations, GPV/location, take rate, and module attachment', falsifier: 'Net additions and recurring GP slow without ARPU compensation' },
+  { id: 'costOfRevenueRate', line: 'Cost of revenue', label: 'Mature cost of revenue as % of revenue', value: 64.3, min: 50, max: 85, step: 0.5, source: 'TOST base forecast mature cost ratio', mechanism: 'Payments pass-through and hardware remain the largest cost burden', falsifier: 'Fintech economics or hardware mix weakens structurally' },
+  { id: 'salesMarketingRate', line: 'Sales and marketing', label: 'Mature S&M as % of revenue', value: 7.9, min: 3, max: 18, step: 0.2, source: 'TOST base forecast mature cost ratio', mechanism: 'Installed-base expansion and sales productivity lower acquisition burden', falsifier: 'New locations require persistently high selling cost' },
+  { id: 'researchDevelopmentRate', line: 'R&D', label: 'Mature R&D as % of revenue', value: 5.2, min: 2, max: 15, step: 0.2, source: 'TOST base forecast mature cost ratio', mechanism: 'Shared platform investment scales across more merchants', falsifier: 'Product breadth requires proportional engineering growth' },
+  { id: 'generalAdminRate', line: 'G&A', label: 'Mature G&A as % of revenue', value: 4.6, min: 2, max: 12, step: 0.2, source: 'TOST base forecast mature cost ratio', mechanism: 'Corporate and compliance infrastructure scales with the platform', falsifier: 'Payments, credit, or international complexity prevents leverage' },
+  { id: 'taxRate', line: 'Cash taxes', label: 'Cash tax rate', value: 18, min: 0, max: 30, step: 1, source: 'Analyst normalization', mechanism: 'Cash taxes rise as GAAP profitability matures', falsifier: 'Cash taxes materially diverge from normalized profitability' },
+  { id: 'capexRate', line: 'Capex', label: 'Capex as % of revenue', value: 0.8, min: 0, max: 5, step: 0.1, source: 'TOST operating-model forecast', mechanism: 'Asset-light software/payments economics offset hardware needs', falsifier: 'Hardware, infrastructure, or implementation needs rise structurally' },
+  { id: 'workingCapitalRate', line: 'Working capital', label: 'Working-capital use as % of revenue', value: 0.5, min: -3, max: 5, step: 0.1, source: 'Normalized teaching assumption', mechanism: 'Inventory and settlement timing consume or release cash', falsifier: 'Reported FCF repeatedly depends on favorable timing' },
+  { id: 'noncashAddbackRate', line: 'Cash-flow bridge', label: 'D&A and other noncash add-backs as % of revenue', value: 7.2, min: 0, max: 15, step: 0.1, source: 'TOST operating-income to owner-FCF reconciliation', mechanism: 'D&A, SBC add-back, and other noncash items reconcile accounting profit to operating cash', falsifier: 'Add-backs do not recur or require equivalent economic reinvestment' },
+  { id: 'sbcOffsetRate', line: 'Required SBC offset', label: 'SBC offset as % of revenue', value: 3.7, min: 0, max: 10, step: 0.1, source: 'TOST required SBC-offset bridge', mechanism: 'Cash required to neutralize employee-share dilution', falsifier: 'Diluted shares rise despite repurchases' },
+  { id: 'discountRate', line: 'Present value', label: 'Discount rate / required return', value: (baseParameters.discountRate * 100), min: 7, max: 16, step: 0.1, source: 'TOST base DCF', mechanism: 'Treasury opportunity cost plus business and estimation risk', falsifier: 'Risk or opportunity cost changes materially' },
+  { id: 'terminalGrowth', line: 'Terminal value', label: 'Terminal growth', value: (baseParameters.terminalGrowth * 100), min: 0, max: 5, step: 0.1, source: 'TOST base DCF', mechanism: 'Long-run nominal growth after reinvestment and competition', falsifier: 'Mature growth requires implausible market share or reinvestment' },
+];
+---
+<section class="dcf-lab" data-dcf-lab>
+  <script is:inline type="application/json" data-dcf-source set:html={JSON.stringify({snapshot, assumptions})}></script>
+  <div class="dcf-lab__head">
+    <div>
+      <p class="live-panel__eyebrow">Progressive build-along · read-only source data</p>
+      <h2>Build Toast from operating drivers to value per share</h2>
+      <p>The workbench is the comparison anchor. Your learner model is deliberately simpler so every dependency stays visible.</p>
+    </div>
+    <span class="freshness">Source date {tost.sourceDate}</span>
+  </div>
+
+  <div class="dcf-layer-tabs" role="tablist" aria-label="DCF model layers">
+    <button type="button" data-layer-button="1">1 · Operations</button>
+    <button type="button" data-layer-button="2">2 · Owner FCF</button>
+    <button type="button" data-layer-button="3">3 · Per share</button>
+    <button type="button" data-layer-button="4">4 · Present value</button>
+  </div>
+
+  <h3>Historical-to-forecast bridge</h3>
+  <div class="dcf-history-strip">
+    {tost.historical.slice(-3).map((row) => (
+      <article><span>{row.period}</span><strong>{row.revenue_m == null ? '—' : `$${Math.round(row.revenue_m).toLocaleString()}M revenue`}</strong><small>{row.free_cash_flow_m == null ? 'FCF unavailable' : `$${Math.round(row.free_cash_flow_m).toLocaleString()}M reported FCF`}</small></article>
+    ))}
+    <article><span>{first.period} model</span><strong>${Math.round(first.revenue_m).toLocaleString()}M revenue</strong><small>${Math.round(first.valuation_fcf_m).toLocaleString()}M valuation FCF</small></article>
+  </div>
+
+  <div class="dcf-assumption-controls">
+    {assumptions.map((assumption, index) => (
+      <label data-assumption-control data-min-layer={index < 5 ? 1 : index < 10 ? 2 : 4}>
+        <span>{assumption.label}</span>
+        <input data-dcf-input={assumption.id} type="number" value={assumption.value} min={assumption.min} max={assumption.max} step={assumption.step} />
+        <small>{assumption.source}</small>
+      </label>
+    ))}
+    <label data-assumption-control data-min-layer="3">
+      <span>Underwriteable owner cash ($M)</span>
+      <input data-dcf-input="ownerCash" type="number" value={baseParameters.netCashM} min="0" max="5000" step="50" />
+      <small>TOST owner-cash waterfall</small>
+    </label>
+    <label data-assumption-control data-min-layer="3">
+      <span>Diluted shares (M)</span>
+      <input data-dcf-input="shares" type="number" value={first.share_count_m} min="300" max="900" step="1" />
+      <small>Current model share basis</small>
+    </label>
+  </div>
+
+  <div class="dcf-model-strip">
+    <article><span>Year 1 revenue</span><strong data-model-revenue>—</strong><small>Operations layer</small></article>
+    <article><span>Year 1 owner FCF</span><strong data-model-fcf>—</strong><small>After SBC offset</small></article>
+    <article><span>Equity value</span><strong data-model-equity>—</strong><small>Operations plus owner cash</small></article>
+    <article><span>Value / share</span><strong data-model-share>—</strong><small>Compared with workbench base</small></article>
+  </div>
+
+  <div class="dcf-bridge" data-dcf-bridge></div>
+  <div class="dcf-warning" data-dcf-warning hidden></div>
+
+  <h3>Ten-year forecast and present-value bridge</h3>
+  <div class="dcf-forecast-wrap">
+    <table class="dcf-forecast-table">
+      <thead><tr><th>Year</th><th>Revenue</th><th>Op. margin</th><th>Operating income</th><th>Owner FCF</th><th>PV of FCF</th></tr></thead>
+      <tbody data-dcf-forecast></tbody>
+    </table>
+  </div>
+
+  <div class="dcf-value-decomposition">
+    <article><span>Explicit FCF PV</span><strong data-explicit-pv>—</strong></article>
+    <article><span>Terminal-value PV</span><strong data-terminal-pv>—</strong></article>
+    <article><span>Terminal share of EV</span><strong data-terminal-share>—</strong></article>
+    <article><span>Workbench base DCF</span><strong>{new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0}).format(tost.baseValue)}</strong></article>
+  </div>
+
+  <div class="dcf-scenario-values">
+    <article><span>Workbench bear DCF</span><strong>${tost.bearValue.toFixed(2)}</strong></article>
+    <article><span>Workbench base DCF</span><strong>${tost.baseValue.toFixed(2)}</strong></article>
+    <article><span>Workbench bull DCF</span><strong>${tost.bullValue.toFixed(2)}</strong></article>
+    <article><span>Learner model</span><strong data-scenario-learner>—</strong></article>
+  </div>
+
+  <h3>Assumption sensitivity</h3>
+  <div class="dcf-sensitivity" data-dcf-sensitivity></div>
+
+  <h3>Reverse DCF</h3>
+  <p data-reverse-dcf></p>
+
+  <h3>Editable assumption evidence ledger</h3>
+  <div class="assumption-ledger">
+    {assumptions.map((assumption) => (
+      <details data-ledger-entry={assumption.id}>
+        <summary><strong>{assumption.label}</strong><span>{assumption.line}</span></summary>
+        <div class="assumption-ledger__grid">
+          <label>Source / historical range<textarea data-ledger-field="evidence">{assumption.source}</textarea></label>
+          <label>Causal mechanism<textarea data-ledger-field="mechanism">{assumption.mechanism}</textarea></label>
+          <label>Scenario range and confidence<textarea data-ledger-field="range">Bear / base / bull range still requires my judgment.</textarea></label>
+          <label>Falsifier / next checkpoint<textarea data-ledger-field="falsifier">{assumption.falsifier}</textarea></label>
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <div class="dcf-lab__actions">
+    <button type="button" data-dcf-reset>Reset learner model</button>
+    <button type="button" data-dcf-copy>Copy DCF journal Markdown</button>
+  </div>
+  <textarea data-dcf-markdown rows="20" readonly></textarea>
+</section>
+
+<script>
+  // @ts-nocheck
+  const STORAGE_KEY = 'owner-mindset-dcf-lab-v1';
+  document.querySelectorAll('[data-dcf-lab]').forEach((lab) => {
+    const source = JSON.parse(lab.querySelector('[data-dcf-source]').textContent || '{}');
+    const tost = source.snapshot.companies.TOST;
+    const baseForecast = tost.baseForecast;
+    const defaults = Object.fromEntries(source.assumptions.map((a) => [a.id, Number(a.value)]));
+    Object.assign(defaults, {ownerCash: tost.scenarioParameters.base.netCashM, shares: baseForecast[0].share_count_m});
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {layer:1, inputs:defaults, ledger:{}};
+    state.inputs = {...defaults, ...state.inputs}; state.ledger ||= {};
+    const money = (v) => `$${Math.round(v).toLocaleString()}M`;
+    const pct = (v) => `${(v * 100).toFixed(1)}%`;
+    const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const inputs = () => Object.fromEntries([...lab.querySelectorAll('[data-dcf-input]')].map((el)=>[el.dataset.dcfInput,Number(el.value)]));
+
+    const calculateModel = (override={}) => {
+      const x={...inputs(),...override}; const rows=[]; let explicit=0;
+      const startRevenue=baseForecast[0].revenue_m;
+      for(let i=0;i<10;i++){
+        const revenue=startRevenue*((1+x.revenueGrowth/100)**i);
+        const initialCostRate=(baseForecast[0].cost_of_revenue_m+baseForecast[0].sales_marketing_m+baseForecast[0].research_development_m+baseForecast[0].general_admin_m)/baseForecast[0].revenue_m;
+        const matureCostRate=(x.costOfRevenueRate+x.salesMarketingRate+x.researchDevelopmentRate+x.generalAdminRate)/100;
+        const margin=1-(initialCostRate+(matureCostRate-initialCostRate)*(i/9));
+        const operatingIncome=revenue*margin;
+        const afterTax=operatingIncome*(1-x.taxRate/100);
+        const ownerFcf=afterTax+revenue*x.noncashAddbackRate/100-revenue*x.capexRate/100-revenue*x.workingCapitalRate/100-revenue*x.sbcOffsetRate/100;
+        const pv=ownerFcf/((1+x.discountRate/100)**(i+1)); explicit+=pv;
+        rows.push({year:2026+i,revenue,margin,operatingIncome,ownerFcf,pv});
+      }
+      const r=x.discountRate/100,g=x.terminalGrowth/100;
+      const terminal=r>g?rows[9].ownerFcf*(1+g)/(r-g):Infinity;
+      const terminalPv=terminal/((1+r)**10);
+      const ev=explicit+terminalPv, equity=ev+x.ownerCash, perShare=equity/x.shares;
+      return {x,rows,explicit,terminalPv,ev,equity,perShare};
+    };
+
+    const render = () => {
+      const model=calculateModel(); Object.assign(state.inputs,model.x); save();
+      lab.querySelectorAll('[data-assumption-control]').forEach((el)=>el.hidden=Number(el.dataset.minLayer)>state.layer);
+      lab.querySelectorAll('[data-layer-button]').forEach((el)=>el.classList.toggle('active',Number(el.dataset.layerButton)===state.layer));
+      lab.querySelector('[data-model-revenue]').textContent=money(model.rows[0].revenue);
+      lab.querySelector('[data-model-fcf]').textContent=money(model.rows[0].ownerFcf);
+      lab.querySelector('[data-model-equity]').textContent=money(model.equity);
+      lab.querySelector('[data-model-share]').textContent=`$${model.perShare.toFixed(2)}`;
+      lab.querySelector('[data-scenario-learner]').textContent=`$${model.perShare.toFixed(2)}`;
+      lab.querySelector('[data-dcf-bridge]').innerHTML=`<span>Revenue ${money(model.rows[0].revenue)}</span><b>−</b><span>Operating and reinvestment costs</span><b>=</b><span>Owner FCF ${money(model.rows[0].ownerFcf)}</span><b>→</b><span>Discounted equity value ${money(model.equity)}</span>`;
+      lab.querySelector('[data-dcf-forecast]').innerHTML=model.rows.map(r=>`<tr><td>${r.year}</td><td>${money(r.revenue)}</td><td>${pct(r.margin)}</td><td>${money(r.operatingIncome)}</td><td>${money(r.ownerFcf)}</td><td>${money(r.pv)}</td></tr>`).join('');
+      lab.querySelector('[data-explicit-pv]').textContent=money(model.explicit);
+      lab.querySelector('[data-terminal-pv]').textContent=money(model.terminalPv);
+      lab.querySelector('[data-terminal-share]').textContent=pct(model.terminalPv/model.ev);
+      const warning=[]; if(model.x.terminalGrowth>=model.x.discountRate)warning.push('Terminal growth must remain below the discount rate.'); if(model.terminalPv/model.ev>.75)warning.push('More than 75% of operating value comes from terminal value.'); if(model.rows[9].margin>.25)warning.push('Derived mature operating margin above 25% requires exceptional evidence.'); if(model.rows[0].ownerFcf<0)warning.push('The starting owner-FCF bridge is negative.');
+      const warningEl=lab.querySelector('[data-dcf-warning]'); warningEl.hidden=!warning.length; warningEl.textContent=warning.join(' ');
+      const sensitivity=source.assumptions.map(a=>{const shock=a.id==='discountRate'||a.id==='terminalGrowth'?1:2;const changed=calculateModel({[a.id]:model.x[a.id]+shock});return {label:a.label,delta:changed.perShare-model.perShare};}).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta));
+      lab.querySelector('[data-dcf-sensitivity]').innerHTML=sensitivity.map(s=>`<div><span>${s.label}</span><strong>${s.delta>=0?'+':''}$${s.delta.toFixed(2)}/share</strong><i style="width:${Math.min(Math.abs(s.delta)*8,100)}%"></i></div>`).join('');
+      const market=tost.price; let implied=null; for(let growth=-5;growth<=40;growth+=0.1){const value=calculateModel({revenueGrowth:growth}).perShare;if(value>=market){implied=growth;break;}}
+      lab.querySelector('[data-reverse-dcf]').textContent=implied===null?'The current price is above this model even at 40% revenue growth.':`Holding every other learner assumption constant, the current price of $${market.toFixed(2)} implies roughly ${implied.toFixed(1)}% annual revenue growth in this simplified model. This is a diagnostic, not a forecast.`;
+      const ledgerRows=source.assumptions.map(a=>`| ${a.label} | ${model.x[a.id]} | ${(state.ledger[a.id]?.mechanism||a.mechanism).replaceAll('|','/')} | ${(state.ledger[a.id]?.falsifier||a.falsifier).replaceAll('|','/')} |`).join('\n');
+      lab.querySelector('[data-dcf-markdown]').value=`# TOST DCF Underwriting Journal\n\nDate: ${new Date().toISOString().slice(0,10)}\n\n## Valuation Read\n- Learner-model value per share: $${model.perShare.toFixed(2)}\n- Workbench base DCF: $${tost.baseValue.toFixed(2)}\n- Current price: $${tost.price.toFixed(2)}\n- Explicit FCF PV: ${money(model.explicit)}\n- Terminal-value PV: ${money(model.terminalPv)}\n\n## Assumption Ledger\n\n| Assumption | Base input | Mechanism | Falsifier |\n|---|---:|---|---|\n${ledgerRows}\n\n## Audit\n- What could be double-counted?\n- Which assumption is carrying the valuation?\n- What evidence would make me reduce value?\n- Why is DCF or SOTP the better primary method?\n`;
+    };
+    lab.querySelectorAll('[data-dcf-input]').forEach(el=>{el.value=state.inputs[el.dataset.dcfInput]??el.value;el.addEventListener('input',render);});
+    lab.querySelectorAll('[data-layer-button]').forEach(el=>el.addEventListener('click',()=>{state.layer=Number(el.dataset.layerButton);render();}));
+    lab.querySelectorAll('[data-ledger-entry]').forEach(entry=>entry.querySelectorAll('[data-ledger-field]').forEach(field=>{const id=entry.dataset.ledgerEntry,key=field.dataset.ledgerField;field.value=state.ledger[id]?.[key]??field.value;field.addEventListener('input',()=>{state.ledger[id]||={};state.ledger[id][key]=field.value;save();render();});}));
+    lab.querySelector('[data-dcf-reset]').addEventListener('click',()=>{localStorage.removeItem(STORAGE_KEY);location.reload();});
+    lab.querySelector('[data-dcf-copy]').addEventListener('click',()=>navigator.clipboard.writeText(lab.querySelector('[data-dcf-markdown]').value));
+    render();
+  });
+</script>

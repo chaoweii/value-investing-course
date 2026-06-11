@@ -1,0 +1,24 @@
+---
+title: Full TOST DCF Build Lab
+description: Build, challenge, and document a Toast valuation from operating drivers.
+---
+import ChineseNote from '../../../components/ChineseNote.astro';
+import DcfBuildLab from '../../../components/DcfBuildLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<ChineseNote title="使用方法">
+逐层打开模型。每调整一个数字，先写下经济机制和反证条件，再观察估值变化。目标不是逼近工作台目标价，而是理解差异来自哪里。
+</ChineseNote>
+
+<DcfBuildLab />
+
+## Audit before concluding
+
+1. Which assumption contributes most to value?
+2. Is the Year 1 owner-FCF anchor normalized or merely annualized?
+3. Does mature margin require weaker service or reinvestment?
+4. Is SBC paid through dilution or repurchase cash?
+5. Is owner cash counted only once?
+6. Does the reverse DCF imply an achievable operating path?
+
+<ProgressTracker id="dcf-tost-build-lab" />

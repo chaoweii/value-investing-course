@@ -1,0 +1,26 @@
+---
+title: Discount Rates And The Price Of Money
+description: Use both market-implied WACC and the investor's required-return hurdle.
+---
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Two useful questions
+
+**WACC asks:** what return does the market require from the company’s capital providers?
+
+**Personal hurdle asks:** what return must this uncertain investment offer versus Treasury bills,
+the S&P 500, BRK.B, and your best alternatives?
+
+Use WACC to estimate market-consistent operating value. Use a required-return hurdle to decide
+whether the resulting opportunity deserves your capital. Do not add an arbitrary discount-rate
+penalty for every uncertainty already modeled in the cash-flow scenarios.
+
+```text
+Required equity return ≈ Treasury yield + equity-risk premium + company-specific risk judgment
+```
+
+<ChineseNote title="折现率不是惩罚按钮">
+能在现金流中建模的风险，应进入情景和假设；折现率主要表达资金机会成本和无法精确建模的系统性风险。
+</ChineseNote>
+<ProgressTracker id="dcf-discount-rates" />

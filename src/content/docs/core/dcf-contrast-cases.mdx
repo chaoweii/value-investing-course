@@ -1,0 +1,31 @@
+---
+title: Contrast Cases · ADYEY And BRK.B
+description: Learn when to adapt a DCF and when to prefer another valuation method.
+---
+import dcf from '../../../data/dcf-learning.json';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Adyen: same logic, additional translation layers
+
+Adyen requires segment growth, merchant-adjusted cash, EUR operating forecasts, EUR/USD
+translation, and the `100 ADS = 1 ordinary share` bridge. Management guidance constrains
+near-term growth and margin assumptions, but does not eliminate execution risk.
+
+## Berkshire: model selection is part of valuation
+
+Berkshire has a yearly DCF output but no canonical dependency-aware operating model in the
+current workbench. That is a warning, not a missing cosmetic feature. Float, insurance,
+operating subsidiaries, securities, and liquidity often make SOTP and per-share intrinsic-value
+growth more informative than forcing one consolidated FCF path.
+
+| Case | Operating model available | Primary teaching warning |
+|---|---:|---|
+| TOST | {String(dcf.companies.TOST.operatingModelAvailable)} | Do not let FCF outgrow operating drivers or ignore SBC. |
+| ADYEY | {String(dcf.companies.ADYEY.operatingModelAvailable)} | Do not mix currencies, merchant cash, or ADR shares. |
+| BRK.B | {String(dcf.companies['BRK.B'].operatingModelAvailable)} | Do not force a single DCF onto allocator economics. |
+
+<ChineseNote title="选择模型也是判断">
+不是每家公司都应该用同一套 DCF。模型必须匹配现金流来源、资本结构和股东真正能获得的价值。
+</ChineseNote>
+<ProgressTracker id="dcf-contrast-cases" />

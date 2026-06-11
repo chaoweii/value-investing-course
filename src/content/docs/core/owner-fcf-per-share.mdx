@@ -1,0 +1,26 @@
+---
+title: Bridge To Owner FCF Per Share
+description: Treat SBC, buybacks, cash, and share count as real owner-economics variables.
+---
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Company cash flow is not shareholder cash flow
+
+```text
+Operating cash generation
+− maintenance and required growth capex
+− structural working-capital needs and leases
+= pre-capital-return owner FCF
+− cash required to offset SBC dilution
+= dilution-adjusted valuation FCF
+```
+
+Buybacks are capital allocation. Cash leaves first; shares decline only after repurchases exceed
+SBC dilution. The same cash dollar cannot remain in net cash and also retire shares. Use current
+diluted shares for current value; use a cash-funded share bridge for forward targets.
+
+<ChineseNote title="每股才是最终单位">
+公司自由现金流增长 20%，若股数也增长 10%，股东获得的复利远低于标题数字。回购不是免费魔法，它先消耗现金。
+</ChineseNote>
+<ProgressTracker id="dcf-owner-fcf-share" />

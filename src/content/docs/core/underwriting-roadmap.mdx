@@ -1,23 +1,40 @@
 ---
 title: Phase 2 · Underwrite Value And Returns
-description: The upcoming core lectures on drivers, scenarios, valuation, and sizing.
+description: Build cash flows from business mechanisms, audit assumptions, and convert them into a price-dependent decision.
 ---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import AssumptionEvidenceLadder from '../../../components/AssumptionEvidenceLadder.astro';
 
 ## Purpose
 
-Phase 2 turns business understanding into a price-dependent investment decision.
-Margins become outputs of revenue and cost drivers, not optimistic assumptions.
+Phase 2 turns business understanding into a price-dependent investment decision. A DCF is not
+a formula for producing a target price. It is a structured argument about how customers, costs,
+reinvestment, risk, and capital allocation become owner value per share.
 
-| Lecture | Central question | Practical output |
-|---|---|---|
-| Revenue-and-cost drivers | What causes each line to change? | Dependency-aware forecast |
-| ROIC and reinvestment | How fast can intrinsic value compound? | Reinvestment runway |
-| DCF, SOTP, and assets | Which valuation method matches the economics? | Valuation triangulation |
-| Scenarios and IRR | What is priced in, and what return follows? | Bear/base/bull return map |
-| Audit and sizing | How much capital does the uncertainty deserve? | Add/hold/trim/exit rules |
+<AssumptionEvidenceLadder />
 
-## The governing discipline
+<ChineseNote title="DCF 是一套依赖关系，不是一条增长率">
+收入、成本、再投资、SBC、现金和股数必须相互约束。若现金流可以脱离收入与成本独立增长，模型只是愿望清单。
+</ChineseNote>
 
-The base case must be plausible without requiring every favorable assumption to
-occur simultaneously. The bear case must describe a real failure mechanism. The
-bull case must identify evidence required before receiving capital.
+## Apprenticeship sequence
+
+| Lesson | Practical output |
+|---|---|
+| [DCF Anatomy](/core/dcf-anatomy/) | Enterprise-to-equity-value map |
+| [Normalize The Historical Business](/core/normalize-history/) | Defensible starting owner FCF |
+| [Build Revenue From Drivers](/core/revenue-drivers/) | Revenue dependency tree |
+| [Model Costs And Reinvestment](/core/costs-and-reinvestment/) | Derived margin path |
+| [Bridge To Owner FCF Per Share](/core/owner-fcf-per-share/) | Cash, SBC, buyback, and share bridge |
+| [Discount Rates And Required Returns](/core/discount-rates/) | WACC and opportunity-cost rationale |
+| [Terminal Value And Mature Economics](/core/terminal-value/) | Internally consistent mature case |
+| [Scenarios, Sensitivities, And Reverse DCF](/core/scenarios-and-reverse-dcf/) | Market-implied expectations |
+| [Full TOST DCF Build Lab](/core/tost-dcf-lab/) | Audited learner model and journal |
+| [ADYEY And BRK.B Contrast Cases](/core/dcf-contrast-cases/) | Model-selection judgment |
+
+## Governing discipline
+
+The base case must be plausible without requiring every favorable assumption simultaneously.
+The bear case must describe a real failure mechanism. The bull case must identify evidence
+required before receiving capital. Margins are outputs, and terminal value is never a hiding place.

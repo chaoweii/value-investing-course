@@ -1,0 +1,35 @@
+---
+title: DCF Anatomy · What Are We Actually Valuing?
+description: Separate operating cash flows, enterprise value, equity value, and per-share value.
+---
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## The complete bridge
+
+```text
+Customer and unit economics
+→ revenue − operating costs − reinvestment
+→ owner FCF
+→ present value of operating cash flows
+= enterprise value
++ underwriteable owner cash − debt and other claims
+= equity value
+÷ diluted shares
+= value per share
+```
+
+Accounting earnings measure economic activity under accounting rules. Reported FCF measures a
+period’s cash movement. Owner FCF asks how much cash can belong to shareholders without weakening
+the business. DCF values that future owner cash today.
+
+<ChineseNote title="先问你在估值什么">
+企业价值属于所有资本提供者；股权价值属于股东；每股价值还要经过稀释股数。把三者混在一起，是 DCF 最常见的基础错误。
+</ChineseNote>
+
+<ExerciseReveal prompt="A company has a wonderful business DCF but expensive debt and heavy dilution. Can the stock still be unattractive?">
+Yes. Operating value can be excellent while debt claims, employee dilution, or an excessive
+share price prevent public shareholders from capturing enough value per share.
+</ExerciseReveal>
+<ProgressTracker id="dcf-anatomy" />

@@ -33,6 +33,16 @@ export default defineConfig({
         ]},
         { label: 'Phase 2 · Underwrite Returns', items: [
           { label: 'Valuation Roadmap', slug: 'core/underwriting-roadmap' },
+          { label: 'DCF Anatomy', slug: 'core/dcf-anatomy' },
+          { label: 'Normalize History', slug: 'core/normalize-history' },
+          { label: 'Revenue Drivers', slug: 'core/revenue-drivers' },
+          { label: 'Costs And Reinvestment', slug: 'core/costs-and-reinvestment' },
+          { label: 'Owner FCF Per Share', slug: 'core/owner-fcf-per-share' },
+          { label: 'Discount Rates', slug: 'core/discount-rates' },
+          { label: 'Terminal Value', slug: 'core/terminal-value' },
+          { label: 'Scenarios And Reverse DCF', slug: 'core/scenarios-and-reverse-dcf' },
+          { label: 'Full TOST DCF Build Lab', slug: 'core/tost-dcf-lab' },
+          { label: 'ADYEY And BRK.B Contrasts', slug: 'core/dcf-contrast-cases' },
           { label: 'Revisit The Opening Decisions', slug: 'core/revisit-opening-decisions' },
         ]},
         { label: 'Phase 3 · Comparative Cases', items: [

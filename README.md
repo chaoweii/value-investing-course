@@ -15,6 +15,7 @@ The site is deliberately separate from the valuation workbench:
 npm install
 npm run import:live
 npm run import:portfolio
+npm run import:dcf-learning
 npm run refresh:macro
 npm run dev
 ```
@@ -34,6 +35,9 @@ It never writes to the valuation workbench.
 The portfolio importer also reads the workbench's probability-weighted scenarios and writes only
 `src/data/portfolio-candidates.json` inside the course repository.
 
+The DCF learning importer reads TOST, ADYEY, and BRK.B operating-model, yearly-DCF, target-price,
+and master-valuation outputs and writes only `src/data/dcf-learning.json`.
+
 ## Refresh the dated macro companion
 
 ```bash
@@ -48,4 +52,5 @@ Validate the stored snapshot without a network call:
 
 ```bash
 npm run verify:macro
+npm run verify:dcf-learning
 ```

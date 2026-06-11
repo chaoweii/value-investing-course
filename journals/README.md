@@ -8,3 +8,4 @@ the full case analysis, then revisit them after completing the core lectures.
 - [BRK.B decision journal](BRK.B-decision-journal.md)
 - [Treasury-regime journal](treasury-regime-journal.md)
 - [Long-term portfolio allocation policy](long-term-portfolio-policy.md)
+- [DCF underwriting journal](dcf-underwriting-journal.md)

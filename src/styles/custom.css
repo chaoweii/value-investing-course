@@ -1029,3 +1029,240 @@ h3 {
     padding-inline: 0.2rem;
   }
 }
+
+.assumption-ladder,
+.dcf-bridge {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+.assumption-ladder span,
+.dcf-bridge span {
+  min-width: 7.5rem;
+  padding: 0.55rem;
+  color: var(--sl-color-gray-2);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-align: center;
+  border-bottom: 2px solid var(--course-gold);
+}
+
+.assumption-ladder b,
+.dcf-bridge b {
+  color: var(--course-gold);
+}
+
+.dcf-lab {
+  margin: 2rem 0;
+}
+
+.dcf-lab__head,
+.dcf-lab__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.dcf-lab__head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.dcf-layer-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.5rem 0;
+  background: var(--sl-color-gray-5);
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+.dcf-layer-tabs button,
+.dcf-lab button,
+.dcf-lab input,
+.dcf-lab textarea {
+  padding: 0.55rem;
+  color: var(--sl-color-gray-1);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 2px;
+  background: var(--sl-color-black);
+}
+
+.dcf-layer-tabs button {
+  border: 0;
+  cursor: pointer;
+}
+
+.dcf-layer-tabs button.active {
+  color: var(--sl-color-black);
+  background: var(--course-gold);
+}
+
+.dcf-assumption-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.dcf-assumption-controls label,
+.assumption-ledger label {
+  display: grid;
+  gap: 0.3rem;
+  color: var(--sl-color-gray-2);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.dcf-assumption-controls small {
+  color: var(--sl-color-gray-3);
+  font-size: 0.65rem;
+}
+
+.dcf-model-strip,
+.dcf-value-decomposition,
+.dcf-history-strip,
+.dcf-scenario-values {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.25rem 0;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-gray-5);
+}
+
+.dcf-model-strip article,
+.dcf-value-decomposition article,
+.dcf-history-strip article,
+.dcf-scenario-values article {
+  padding: 0.8rem;
+  background: var(--sl-color-black);
+}
+
+.dcf-model-strip span,
+.dcf-model-strip small,
+.dcf-value-decomposition span,
+.dcf-history-strip span,
+.dcf-history-strip small,
+.dcf-scenario-values span {
+  display: block;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+}
+
+.dcf-model-strip strong,
+.dcf-value-decomposition strong,
+.dcf-history-strip strong,
+.dcf-scenario-values strong {
+  display: block;
+  margin: 0.25rem 0;
+  color: var(--course-gold);
+  font-size: 1.15rem;
+}
+
+.dcf-warning {
+  padding: 0.8rem;
+  color: var(--course-coral);
+  border-left: 3px solid var(--course-coral);
+  background: color-mix(in srgb, var(--course-coral) 9%, transparent);
+}
+
+.dcf-forecast-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+.dcf-forecast-table {
+  min-width: 48rem;
+  margin: 0;
+}
+
+.dcf-forecast-table td,
+.dcf-forecast-table th {
+  padding: 0.48rem;
+  font-size: 0.72rem;
+}
+
+.dcf-sensitivity {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.dcf-sensitivity div {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  padding-bottom: 0.45rem;
+  overflow: hidden;
+}
+
+.dcf-sensitivity i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--course-gold);
+}
+
+.assumption-ledger details {
+  margin: 0;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--sl-color-gray-5);
+}
+
+.assumption-ledger summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.assumption-ledger summary span {
+  color: var(--sl-color-gray-3);
+  font-size: 0.75rem;
+}
+
+.assumption-ledger__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.assumption-ledger textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+}
+
+.dcf-lab__actions {
+  justify-content: flex-start;
+  margin: 1rem 0;
+}
+
+.dcf-lab > textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+@media (max-width: 50rem) {
+  .dcf-lab__head,
+  .dcf-lab__actions {
+    display: grid;
+  }
+
+  .dcf-layer-tabs,
+  .dcf-assumption-controls,
+  .dcf-model-strip,
+  .dcf-value-decomposition,
+  .dcf-history-strip,
+  .dcf-scenario-values,
+  .assumption-ledger__grid {
+    grid-template-columns: 1fr;
+  }
+}
