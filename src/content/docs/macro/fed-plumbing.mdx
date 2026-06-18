@@ -1,138 +1,270 @@
 ---
 title: Fed Plumbing · Rates, Reserves, And The Balance Sheet
-description: Understand how the Fed can manage short-term rates while expanding or shrinking its balance sheet.
+description: Understand how the Fed creates reserves, pulls liquidity back, and controls overnight rates.
 ---
 
 import ChineseNote from '../../../components/ChineseNote.astro';
 import ExerciseReveal from '../../../components/ExerciseReveal.astro';
 import ProgressTracker from '../../../components/ProgressTracker.astro';
 import YieldRegimePanel from '../../../components/YieldRegimePanel.astro';
+import FedMoneyFlowMap from '../../../components/FedMoneyFlowMap.astro';
 
-## Start with the two knobs
+## Start with the simplest question
 
-The **Federal Reserve**, usually called the **Fed**, is the central bank of the United States.
-It influences the economy through two related but different knobs:
+When people say the **Federal Reserve**, or **Fed**, “prints money,” they usually do not mean a
+printing press making paper bills. They usually mean the Fed creates **bank reserves**.
+
+A **bank reserve** is an electronic deposit that a bank holds at the Fed. It is money for banks.
+It is not the same as your checking-account deposit. You cannot directly spend bank reserves at a
+restaurant, but banks use reserves to settle payments with each other.
+
+A **bank deposit** is your claim on a bank. If your brokerage account or checking account shows
+cash, that is usually a deposit or money-market claim. A deposit is your asset, but it is the
+bank's liability.
+
+That distinction is the first key:
 
 ```text
-Price knob: what overnight money earns or costs
-Quantity knob: how many reserves and securities sit in the financial system
+Bank reserves = money between banks and the Fed.
+Bank deposits = money customers see in bank and brokerage accounts.
 ```
 
-The **FOMC**, or Federal Open Market Committee, is the Fed committee that announces the target
-range for the **federal funds rate**. The federal funds rate is the overnight rate at which banks
-lend reserve balances to each other.
-
-**Reserves** are deposits that banks hold at the Fed. Think of them as the banking system's
-settlement cash. Banks use reserves to settle payments, manage liquidity, and satisfy regulatory
-needs.
-
-<ChineseNote title="两个旋钮">
-利率是“价格旋钮”，资产负债表和准备金是“数量旋钮”。现代美联储可以先调价格，再让数量慢慢变化，只要银行体系的准备金仍然充足。
+<ChineseNote title="准备金不是你的银行存款">
+准备金只存在于银行和美联储之间。普通人看到的是银行存款、现金、货币基金份额或证券，不是准备金本身。
 </ChineseNote>
 
-## Why balance-sheet size is not the same as the policy rate
+## The two knobs
 
-Before 2008, the Fed usually controlled the federal funds rate by making reserves scarce or
-abundant in small daily operations. Today the system is closer to an **ample-reserves** framework:
-there are enough reserves that the Fed can control short rates mainly by setting administered
-rates.
+The Fed has two different policy knobs.
 
-An **administered rate** is a rate the Fed sets directly rather than a price discovered only in
-the market. The two most important administered rates are:
+**The price knob** controls the price of overnight money. The Fed directly sets administered rates
+such as **IORB**, the interest paid to banks on reserve balances, and **ON RRP**, the overnight
+reverse repo rate available to eligible money-market investors.
 
-- **IORB**, or interest on reserve balances: the rate the Fed pays banks on reserves.
-- **ON RRP**, or overnight reverse repurchase agreement facility: a Fed facility where eligible
-  money-market funds and other institutions can place cash overnight and receive a Fed-set rate.
+**The quantity knob** controls the size and composition of the Fed's own assets. The Fed can own
+more or fewer Treasury securities and agency mortgage-backed securities, called **MBS**. When it
+buys securities, its balance sheet expands. When it lets securities mature without replacement,
+its balance sheet shrinks.
 
-If a bank can earn IORB safely at the Fed, it usually will not lend reserves to another private
-counterparty at a much lower rate. If a money-market fund can use ON RRP, that facility gives it
-a safer alternative to accepting very low private-market rates.
-
-That is how the Fed can say:
-
-```text
-We want the overnight rate near this range,
-even while our bond portfolio slowly shrinks.
-```
-
-## The balance sheet identity
-
-The Fed's balance sheet has assets and liabilities.
-
-**Assets** are what the Fed owns, mainly Treasury securities and agency mortgage-backed securities.
-**Liabilities** are claims against the Fed, including bank reserves, paper currency, the Treasury's
-account, and ON RRP balances.
-
-A simplified identity is:
+The nuance: the Fed can directly choose how many securities it buys or lets run off. It does not
+perfectly choose the exact level of bank reserves every day. Reserves are the residual after other
+Fed liabilities move.
 
 ```text
 Fed assets
-= bank reserves
+≈ bank reserves
 + currency in circulation
 + Treasury General Account
 + ON RRP
-+ other liabilities and capital
++ other Fed liabilities and capital
 ```
 
 The **Treasury General Account**, or **TGA**, is the U.S. Treasury's checking account at the Fed.
-When the Treasury builds up this account, cash leaves the private banking system and bank reserves
-can fall.
+When the Treasury builds that account, cash leaves the private banking system. **Currency in
+circulation** is paper cash held outside the Fed. Paper currency enters circulation when banks
+request physical cash from the Fed for customers.
 
-The important reserve-change shortcut is:
+## The map before the mechanics
+
+Read the diagrams left to right. Do not memorize the terms first. Watch what moves: reserves,
+deposits, securities, collateral, and cash-like claims.
+
+<FedMoneyFlowMap />
+
+## How the Fed injects liquidity
+
+**Liquidity** means the ability to pay, borrow, or trade without large damage. The Fed can inject
+liquidity mainly through asset purchases or temporary lending.
+
+### QE: permanent-ish reserve creation
+
+**QE**, or quantitative easing, means the Fed buys Treasury securities or agency MBS.
+
+```text
+Fed buys Treasury/MBS from a dealer or investor
+→ Fed credits the reserve account of the seller's bank
+→ seller receives a bank deposit
+→ Fed assets rise
+→ banking-system reserves usually rise
+```
+
+Example:
+
+| Step | Fed balance sheet | Banking system |
+|---|---|---|
+| Fed buys `$100B` of Treasuries | Assets `+$100B` securities | Seller's bank reserves `+$100B` |
+| Seller receives payment | Liabilities `+$100B` reserves | Seller deposit `+$100B` |
+
+This is why QE is called “money printing,” but the exact words matter. The Fed created reserves;
+the seller received a deposit because the banking system credited the seller's account.
+
+### Repo: temporary reserve injection
+
+A **repo**, short for repurchase agreement, is a cash loan secured by collateral. In a Fed repo
+operation:
+
+```text
+Fed lends cash/reserves overnight
+→ dealer pledges Treasury collateral
+→ reserves rise temporarily
+→ trade reverses when the repo matures
+```
+
+Repo is more like a short-term liquidity bridge than a permanent QE purchase. The Fed gets its
+cash back when the repo unwinds.
+
+## How the Fed pulls liquidity back
+
+The Fed can pull liquidity back through balance-sheet runoff or reverse repo facilities.
+
+### QT: securities run off
+
+**QT**, or quantitative tightening, means the Fed lets securities mature without fully replacing
+them.
+
+```text
+Fed-owned bond matures
+→ Treasury repays the Fed
+→ Fed does not reinvest
+→ Fed asset disappears
+→ a matching liability, often reserves or ON RRP, declines
+```
+
+QT is usually not the Fed dumping bonds into the market. It is more often passive runoff. But QT
+does not always drain bank reserves one-for-one because other Fed liabilities also move.
+
+Simplified reserve shortcut:
 
 ```text
 Change in reserves
-≈ change in Fed assets
-- change in currency
+≈ change in Fed securities
 - change in TGA
+- change in currency
 - change in ON RRP
-- other liability changes
 ```
 
-## Numeric example: QT does not always drain reserves one-for-one
-
-**QT**, or quantitative tightening, means the Fed lets securities mature or run off without fully
-replacing them. This shrinks Fed assets.
-
-Suppose one month looks like this:
-
-| Item | Change | What it does to reserves |
-|---|---:|---|
-| Fed securities runoff | `-$60B` | drains reserves |
-| ON RRP balance falls | `-$40B` | adds reserves back |
-| TGA rises | `+$30B` | drains reserves |
-| currency rises | `+$10B` | drains reserves |
-
-The rough reserve change is:
+If the Fed securities portfolio falls by `$60B`, ON RRP falls by `$40B`, TGA rises by `$30B`, and
+currency rises by `$10B`, then:
 
 ```text
--$60B runoff
-+ $40B ON RRP decline
+-$60B securities runoff
 - $30B TGA increase
 - $10B currency increase
-= -$60B reserves
+- (-$40B ON RRP decline)
+= -$60B reserve change
 ```
 
-So the Fed balance sheet shrank by `$60B`, but the reserve effect depended on other liability
-movements. If ON RRP had fallen by `$80B` instead of `$40B`, reserves might have fallen much less.
+The Fed balance sheet shrank by `$60B`, but the reserve effect depended on the other plumbing.
 
-## How can rates stay controlled during QT?
+### ON RRP: temporary cash drain from nonbanks
 
-The answer is: QT changes the **quantity** of reserves, while IORB and ON RRP help set the
-**price** of overnight money.
+**ON RRP**, the overnight reverse repurchase agreement facility, lets eligible money-market funds
+and other counterparties place cash at the Fed overnight.
 
-This works as long as reserves remain **ample**. Ample does not mean infinite. It means banks have
-enough settlement cash that overnight funding markets do not need to bid aggressively for scarce
-reserves.
+```text
+Money-market fund places cash at Fed
+→ private-market cash is parked at the Fed overnight
+→ Fed provides Treasury collateral
+→ liquidity returns when the trade unwinds
+```
 
-Watch for signs that reserves are becoming less ample:
+ON RRP is important because money-market funds cannot earn IORB. They need their own safe overnight
+floor. When ON RRP balances fall, that can offset some of QT's reserve drain because cash leaves
+the Fed facility and returns to private markets.
 
-- **SOFR**, the Secured Overnight Financing Rate, rises meaningfully relative to the Fed's target
-  range. SOFR is an overnight borrowing rate backed by Treasury collateral.
-- repo rates become volatile near quarter-end or tax-payment dates;
-- the effective federal funds rate trades persistently high in the target range;
-- banks and dealers show funding stress;
-- the Fed slows QT or increases reserve-management operations.
+## Why the price knob works
+
+Before 2008, reserves were scarce. Banks held very few excess reserves. Small changes in reserve
+supply could move the **federal funds rate**, the overnight rate at which banks lend reserves to
+each other.
+
+After 2008, QE made reserves abundant. In January 2019, the FOMC said it would continue using a
+regime with an **ample supply of reserves**, where short-rate control is exercised mainly by
+administered rates rather than active daily reserve scarcity management.
+
+The logic is simple:
+
+```text
+If a bank can earn IORB safely at the Fed,
+it usually will not lend reserves to another private party at a much lower rate.
+```
+
+IORB becomes a floor for banks. ON RRP becomes a similar floor for eligible nonbanks such as
+money-market funds. Together they help keep the federal funds rate, SOFR, repo rates, and T-bill
+yields anchored near the Fed's short-rate stance.
+
+**SOFR**, the Secured Overnight Financing Rate, is a broad overnight borrowing rate backed by
+Treasury collateral. It is not the same as fed funds, but both are short-term funding rates.
+
+<ChineseNote title="价格地板">
+IORB 像银行的无风险停车收益。如果银行能在 Fed 安全拿到这个收益，就不会轻易用更低利率把准备金借给别人。
+</ChineseNote>
+
+## Where the separation breaks
+
+The Fed can lower short rates while QT continues because price and quantity are separate knobs in
+an ample-reserves system. But the separation has a boundary.
+
+If QT drains reserves too far:
+
+- banks become less comfortable with their settlement cash;
+- repo and SOFR can jump;
+- banks and dealers may scramble for overnight funding;
+- the Fed may need to slow QT, stop QT, or inject reserves.
+
+That is why “ample” does not mean “infinite.” It means enough reserves that the system does not
+need to bid aggressively for them.
+
+In October 2025, the FOMC said it would conclude reduction of aggregate securities holdings on
+December 1. In December 2025, the FOMC said reserve balances had declined to levels consistent
+with ample reserves and that it would initiate purchases of shorter-term Treasuries as needed to
+maintain an ample supply of reserves.
+
+## Why control the flow?
+
+The Fed is trying to keep the financial system liquid enough to work, but not so loose that money
+loses purchasing power or leverage becomes reckless.
+
+Too little liquidity can break:
+
+- payment settlement;
+- repo funding;
+- bank funding;
+- credit availability;
+- market-making capacity.
+
+Too much liquidity can:
+
+- compress risk premiums;
+- encourage leverage;
+- inflate asset prices;
+- make inflation harder to control;
+- reduce discipline in lending and investing.
+
+The easiest analogy is a bathtub:
+
+```text
+Faucet = QE, repo, reserve injection
+Drain = QT, ON RRP, TGA, currency demand
+Water level = reserves and market liquidity
+Thermostat = IORB and ON RRP policy rates
+```
+
+The analogy has a limit. Not all water reaches households or stocks directly. QE can make the
+financial system more liquid, but it does not force banks to lend, households to spend, or stocks
+to rise.
+
+## Short rates and long rates are different machines
+
+IORB and ON RRP strongly influence the short end: overnight rates, money-market yields, T-bills,
+and floating-rate instruments.
+
+The 10-year and 30-year Treasury yields are different. They reflect expected future short rates,
+inflation, growth, Treasury supply, global demand, and **term premium**, which is the extra return
+investors may require for holding long bonds instead of rolling short bills.
+
+That is why a Fed cut does not guarantee mortgage rates fall. Mortgage rates usually care more
+about the 10-year Treasury yield plus mortgage spreads than about today's fed funds rate.
 
 ## Current stored snapshot
 
@@ -150,10 +282,21 @@ rates remain important for valuation:
 
 These numbers are not forecasts. They are the market's current price of money.
 
+## Official source anchors
+
+- Federal Reserve policy tools page: [Policy Tools](https://www.federalreserve.gov/monetarypolicy/policytools.htm).
+- January 30, 2019 FOMC implementation statement: [ample-reserves regime](https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130c.htm).
+- October 29, 2025 FOMC statement: [concluding securities runoff on December 1](https://www.federalreserve.gov/newsevents/pressreleases/monetary20251029a.htm).
+- December 10, 2025 FOMC statement: [maintaining ample reserves](https://www.federalreserve.gov/newsevents/pressreleases/monetary20251210a.htm).
+
+<ExerciseReveal prompt="The Fed buys $100B of Treasuries. Did it put $100B directly into every household's checking account?">
+No. The Fed creates reserves for the seller's bank. The seller receives a bank deposit. That can
+increase market liquidity, but it does not automatically create household spending or stock gains.
+</ExerciseReveal>
+
 <ExerciseReveal prompt="The Fed cuts the target range, but QT continues. Is that contradictory?">
-No. The Fed can lower the price knob by cutting administered rates while still letting the
-quantity knob shrink through QT. The combination becomes risky if reserves move from ample toward
-scarce and funding markets begin to show stress.
+No. The Fed can lower the price knob by cutting administered rates while still letting the quantity
+knob shrink through QT. The combination becomes risky if reserves move from ample toward scarce.
 </ExerciseReveal>
 
 <YieldRegimePanel />

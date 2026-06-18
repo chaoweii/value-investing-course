@@ -1,0 +1,143 @@
+---
+const glossary = [
+  ['Bank reserve', 'Asset for a bank; liability of the Fed', 'Banks', 'Settlement cash banks hold at the Fed. Ordinary households cannot hold reserves directly.'],
+  ['Bank deposit', 'Asset for a customer; liability of a bank', 'Households, companies, investors', 'Your checking or brokerage sweep cash. It can be created when a bank credits your account.'],
+  ['Liquidity', 'Ability to pay or trade without damage', 'Everyone', 'Enough ready cash or cash-like assets to settle obligations without forced selling.'],
+  ['Collateral', 'Asset pledged against a loan', 'Dealers, banks, money funds', 'Treasury securities often serve as high-quality collateral in repo markets.'],
+  ['Treasury security', 'Government debt contract', 'Fed, banks, funds, investors', 'A promise by the U.S. Treasury to pay specified dollars later.'],
+  ['MBS', 'Mortgage-backed security', 'Fed, banks, investors', 'A bond backed by pools of mortgages, often agency-guaranteed in Fed operations.'],
+  ['Dealer', 'Market intermediary', 'Banks and securities firms', 'Buys, sells, finances, and makes markets in securities. Primary dealers transact directly with the New York Fed.'],
+  ['Repo', 'Collateralized overnight loan market', 'Fed, dealers, banks, funds', 'One party lends cash and receives securities as collateral; the trade reverses later.'],
+  ['Reverse repo', 'Cash-draining repo from the Fed view', 'Fed and eligible counterparties', 'A money fund places cash with the Fed and receives securities collateral overnight.'],
+  ['Federal funds', 'Unsecured overnight reserve lending', 'Banks and some institutions', 'Banks lend reserve balances to each other overnight.'],
+  ['SOFR', 'Secured overnight financing rate', 'Repo market users', 'A broad Treasury-collateral repo rate used as a short-rate benchmark.'],
+  ['IORB', 'Administered interest rate', 'Banks', 'Interest the Fed pays banks on reserve balances. It helps form a floor under overnight rates.'],
+  ['ON RRP', 'Fed overnight reverse repo facility', 'Money-market funds and others', 'A facility letting eligible nonbanks place cash at the Fed overnight at an administered rate.'],
+  ['TGA', 'Treasury account at the Fed', 'U.S. Treasury', 'The Treasury General Account is the government’s checking account at the Fed.'],
+  ['QE', 'Balance-sheet expansion', 'Fed', 'The Fed buys securities and pays by creating reserves.'],
+  ['QT', 'Balance-sheet runoff', 'Fed', 'The Fed lets securities mature without full reinvestment, shrinking its assets.'],
+  ['Settlement', 'Final payment completion', 'Banks and payment systems', 'The moment obligations are actually paid, often using reserves between banks.'],
+];
+---
+
+<section class="fed-flow" data-fed-flow>
+  <div class="fed-flow__head">
+    <p class="live-panel__eyebrow">Fed plumbing map</p>
+    <h2>What moves when the Fed “prints money”?</h2>
+    <p>The Fed mostly creates electronic bank reserves, not paper cash. Those reserves live between banks and the Fed.</p>
+  </div>
+
+  <div class="fed-glossary">
+    {glossary.map(([term, kind, users, why]) => (
+      <article>
+        <strong>{term}</strong>
+        <span>{kind}</span>
+        <em>{users}</em>
+        <p>{why}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="fed-diagram-grid">
+    <article class="fed-diagram">
+      <h3>QE purchase flow</h3>
+      <div class="fed-flowline">
+        <span>Fed buys Treasury or MBS</span>
+        <b>+</b>
+        <span>Seller's bank receives reserves</span>
+        <b>+</b>
+        <span>Seller receives bank deposit</span>
+        <b>=</b>
+        <span>Fed assets and bank reserves rise</span>
+      </div>
+      <p>QE changes both sides of the Fed balance sheet: the Fed owns more securities and creates more reserve liabilities.</p>
+    </article>
+
+    <article class="fed-diagram">
+      <h3>QT runoff flow</h3>
+      <div class="fed-flowline">
+        <span>Fed-owned bond matures</span>
+        <b>−</b>
+        <span>Fed does not reinvest</span>
+        <b>−</b>
+        <span>Fed asset disappears</span>
+        <b>=</b>
+        <span>Reserves or another Fed liability falls</span>
+      </div>
+      <p>QT is usually passive runoff, not a fire sale. The reserve effect can be offset by ON RRP, TGA, currency, and other liability changes.</p>
+    </article>
+
+    <article class="fed-diagram">
+      <h3>Repo vs reverse repo</h3>
+      <div class="fed-split">
+        <div><strong>Repo</strong><span>Fed lends cash against Treasury collateral.</span><em>Temporary liquidity injection.</em></div>
+        <div><strong>Reverse repo / ON RRP</strong><span>Money fund places cash at Fed and receives collateral.</span><em>Temporary liquidity drain.</em></div>
+      </div>
+    </article>
+
+    <article class="fed-diagram">
+      <h3>IORB floor</h3>
+      <div class="fed-flowline">
+        <span>Bank can earn IORB at Fed</span>
+        <b>→</b>
+        <span>Bank refuses much lower private lending rate</span>
+        <b>→</b>
+        <span>Overnight rates stay near the administered floor</span>
+      </div>
+      <p>This is why the Fed can control short rates while the balance sheet changes slowly.</p>
+    </article>
+  </div>
+
+  <div class="fed-network">
+    <h3>Broad market money-flow map</h3>
+    <div class="fed-network__map">
+      <span>Fed<br/><small>creates reserves, holds securities</small></span>
+      <b>reserves / collateral</b>
+      <span>Banks<br/><small>hold reserves, create deposits</small></span>
+      <b>deposits / loans</b>
+      <span>Households & companies<br/><small>spend, save, borrow, invest</small></span>
+      <b>orders / capital</b>
+      <span>Markets<br/><small>stocks, bonds, mortgages, credit</small></span>
+      <b>repo / securities</b>
+      <span>Dealers & money funds<br/><small>finance collateral, absorb cash</small></span>
+      <b>T-bills / TGA</b>
+      <span>Treasury<br/><small>issues debt, spends from TGA</small></span>
+    </div>
+    <p>Reserves are not the same thing as household deposits, but reserves help banks settle the deposit payments that households and companies create.</p>
+  </div>
+
+  <div class="fed-reserve-lab">
+    <h3>Reserve-flow lab</h3>
+    <p>Use a simplified identity. Positive numbers add reserves; negative numbers drain reserves.</p>
+    <div class="fed-reserve-lab__controls">
+      <label>Fed securities change ($B)<input data-fed-input="assets" type="number" value="-60" /></label>
+      <label>ON RRP change ($B)<input data-fed-input="rrp" type="number" value="-40" /></label>
+      <label>TGA change ($B)<input data-fed-input="tga" type="number" value="30" /></label>
+      <label>Currency change ($B)<input data-fed-input="currency" type="number" value="10" /></label>
+    </div>
+    <output data-fed-output></output>
+    <p class="fed-reserve-lab__formula">
+      Reserve change ≈ Fed securities change − TGA change − currency change − ON RRP change.
+    </p>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-fed-flow]').forEach((lab) => {
+    const inputs = Object.fromEntries([...lab.querySelectorAll('[data-fed-input]')].map((input) => [input.dataset.fedInput, input]));
+    const output = lab.querySelector('[data-fed-output]');
+    const render = () => {
+      const assets = Number(inputs.assets.value || 0);
+      const rrp = Number(inputs.rrp.value || 0);
+      const tga = Number(inputs.tga.value || 0);
+      const currency = Number(inputs.currency.value || 0);
+      const reserveChange = assets - tga - currency - rrp;
+      const direction = reserveChange > 0 ? 'adds reserves' : reserveChange < 0 ? 'drains reserves' : 'leaves reserves unchanged';
+      output.textContent = `${reserveChange >= 0 ? '+' : ''}${reserveChange.toFixed(0)}B: this ${direction}.`;
+      output.dataset.direction = reserveChange > 0 ? 'add' : reserveChange < 0 ? 'drain' : 'flat';
+    };
+    Object.values(inputs).forEach((input) => input.addEventListener('input', render));
+    render();
+  });
+</script>

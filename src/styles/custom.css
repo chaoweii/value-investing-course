@@ -1266,6 +1266,187 @@ h3 {
   font-style: normal;
 }
 
+.fed-flow {
+  margin: 2rem 0;
+  padding: 1.1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--sl-color-black) 95%, var(--sl-color-accent-low));
+}
+
+.fed-flow__head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fed-glossary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 1.25rem 0;
+}
+
+.fed-glossary article,
+.fed-diagram,
+.fed-network,
+.fed-reserve-lab {
+  padding: 0.8rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--sl-color-black) 96%, var(--sl-color-gray-6));
+}
+
+.fed-glossary strong,
+.fed-glossary span,
+.fed-glossary em {
+  display: block;
+}
+
+.fed-glossary strong {
+  color: var(--course-gold);
+}
+
+.fed-glossary span,
+.fed-glossary em,
+.fed-glossary p,
+.fed-diagram p,
+.fed-network p,
+.fed-reserve-lab p {
+  color: var(--sl-color-gray-3);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.fed-glossary em {
+  font-style: normal;
+}
+
+.fed-diagram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.25rem 0;
+}
+
+.fed-diagram h3,
+.fed-network h3,
+.fed-reserve-lab h3 {
+  margin: 0 0 0.65rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.05rem;
+}
+
+.fed-flowline {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.fed-flowline span,
+.fed-split div,
+.fed-network__map span {
+  padding: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--sl-color-accent) 45%, var(--sl-color-gray-5));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--sl-color-accent) 7%, transparent);
+}
+
+.fed-flowline b,
+.fed-network__map b {
+  color: var(--course-gold);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.fed-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.fed-split strong,
+.fed-split span,
+.fed-split em {
+  display: block;
+}
+
+.fed-split em {
+  margin-top: 0.4rem;
+  color: var(--course-gold);
+  font-size: 0.76rem;
+  font-style: normal;
+}
+
+.fed-network {
+  margin: 1.25rem 0;
+}
+
+.fed-network__map {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+}
+
+.fed-network__map span {
+  min-width: 8rem;
+  min-height: 5.8rem;
+  display: grid;
+  align-content: center;
+  font-weight: 800;
+}
+
+.fed-network__map small {
+  margin-top: 0.25rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.fed-reserve-lab__controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.fed-reserve-lab label {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.fed-reserve-lab input {
+  padding: 0.5rem;
+  color: var(--sl-color-gray-1);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 3px;
+  background: var(--sl-color-black);
+}
+
+.fed-reserve-lab output {
+  display: block;
+  margin: 0.9rem 0 0.5rem;
+  padding: 0.75rem;
+  color: #fff;
+  font-weight: 850;
+  border-radius: 4px;
+  background: var(--sl-color-accent);
+}
+
+.fed-reserve-lab output[data-direction='drain'] {
+  background: var(--course-coral);
+}
+
+.fed-reserve-lab output[data-direction='flat'] {
+  background: var(--course-gold);
+}
+
 @media (max-width: 72rem) {
   .valuation-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1294,8 +1475,18 @@ h3 {
   }
 
   .cycle-metrics,
-  .cycle-cases {
+  .cycle-cases,
+  .fed-glossary,
+  .fed-reserve-lab__controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fed-flowline {
+    grid-template-columns: 1fr;
+  }
+
+  .fed-flowline b {
+    transform: rotate(90deg);
   }
 }
 
@@ -1313,6 +1504,10 @@ h3 {
   .cycle-metrics,
   .cycle-chart-grid,
   .cycle-cases,
+  .fed-glossary,
+  .fed-diagram-grid,
+  .fed-split,
+  .fed-reserve-lab__controls,
   .portfolio-metrics,
   .decision-log-controls,
   .decision-log article {
