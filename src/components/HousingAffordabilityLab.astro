@@ -1,0 +1,108 @@
+---
+const defaultPrice = 600000;
+const defaultDownPayment = 20;
+const defaultOldRate = 5.5;
+const defaultNewRate = 6.5;
+---
+<section class="housing-lab" data-housing-lab>
+  <div class="housing-lab__head">
+    <div>
+      <p class="exercise__label">Housing affordability mini-lab</p>
+      <h2>Mortgage rates change the payment before they change the headline price.</h2>
+    </div>
+  </div>
+  <div class="housing-lab__controls">
+    <label>
+      Home price
+      <input data-price type="number" min="100000" max="3000000" step="25000" value={defaultPrice} />
+    </label>
+    <label>
+      Down payment %
+      <input data-down type="number" min="0" max="80" step="5" value={defaultDownPayment} />
+    </label>
+    <label>
+      Starting mortgage rate %
+      <input data-old-rate type="number" min="1" max="15" step="0.25" value={defaultOldRate} />
+    </label>
+    <label>
+      New mortgage rate %
+      <input data-new-rate type="number" min="1" max="15" step="0.25" value={defaultNewRate} />
+    </label>
+  </div>
+  <div class="housing-lab__results">
+    <article>
+      <span>Starting monthly principal + interest</span>
+      <strong data-old-payment>$0</strong>
+    </article>
+    <article>
+      <span>New monthly principal + interest</span>
+      <strong data-new-payment>$0</strong>
+    </article>
+    <article>
+      <span>Monthly change</span>
+      <strong data-payment-change>$0</strong>
+    </article>
+    <article>
+      <span>Price cut needed to keep old payment</span>
+      <strong data-price-cut>0%</strong>
+    </article>
+  </div>
+  <div class="housing-lab__compare">
+    <article>
+      <strong>New house</strong>
+      <span>A builder can reduce price, buy down the buyer's mortgage rate, offer upgrades, or slow new starts.</span>
+    </article>
+    <article>
+      <strong>Used house</strong>
+      <span>An existing owner with a low mortgage can simply choose not to sell, which reduces supply and transaction volume.</span>
+    </article>
+  </div>
+</section>
+<script>
+  const mortgagePayment = (principal: number, annualRate: number, years = 30): number => {
+    const months = years * 12;
+    const monthlyRate = annualRate / 100 / 12;
+    if (monthlyRate === 0) return principal / months;
+    return principal * monthlyRate / (1 - (1 + monthlyRate) ** -months);
+  };
+
+  document.querySelectorAll('[data-housing-lab]').forEach((lab) => {
+    const price = lab.querySelector('[data-price]');
+    const down = lab.querySelector('[data-down]');
+    const oldRate = lab.querySelector('[data-old-rate]');
+    const newRate = lab.querySelector('[data-new-rate]');
+    const oldPayment = lab.querySelector('[data-old-payment]');
+    const newPayment = lab.querySelector('[data-new-payment]');
+    const paymentChange = lab.querySelector('[data-payment-change]');
+    const priceCut = lab.querySelector('[data-price-cut]');
+    if (
+      !(price instanceof HTMLInputElement) ||
+      !(down instanceof HTMLInputElement) ||
+      !(oldRate instanceof HTMLInputElement) ||
+      !(newRate instanceof HTMLInputElement) ||
+      !oldPayment ||
+      !newPayment ||
+      !paymentChange ||
+      !priceCut
+    ) return;
+
+    const inputs = [price, down, oldRate, newRate];
+    const dollars = (value: number): string => value.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const render = () => {
+      const homePrice = Number(price.value);
+      const downPct = Number(down.value) / 100;
+      const principal = homePrice * (1 - downPct);
+      const oldMonthly = mortgagePayment(principal, Number(oldRate.value));
+      const newMonthly = mortgagePayment(principal, Number(newRate.value));
+      const affordablePrincipal = oldMonthly * (1 - (1 + Number(newRate.value) / 100 / 12) ** -360) / (Number(newRate.value) / 100 / 12);
+      const affordablePrice = affordablePrincipal / (1 - downPct);
+      const cutPct = Math.max(0, (1 - affordablePrice / homePrice) * 100);
+      oldPayment.textContent = dollars(oldMonthly);
+      newPayment.textContent = dollars(newMonthly);
+      paymentChange.textContent = `${newMonthly >= oldMonthly ? '+' : ''}${dollars(newMonthly - oldMonthly)}`;
+      priceCut.textContent = `${cutPct.toFixed(1)}%`;
+    };
+    inputs.forEach((input) => input.addEventListener('input', render));
+    render();
+  });
+</script>

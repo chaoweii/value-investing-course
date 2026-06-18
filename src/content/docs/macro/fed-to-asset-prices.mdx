@@ -1,0 +1,151 @@
+---
+title: From Fed Plumbing To Asset Prices
+description: Trace Fed rates, balance-sheet liquidity, oil shocks, and Treasury yields into stocks, bonds, credit, housing, commodities, and currencies.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import AssetShockLab from '../../../components/AssetShockLab.astro';
+import HousingAffordabilityLab from '../../../components/HousingAffordabilityLab.astro';
+import MacroTransmissionMatrix from '../../../components/MacroTransmissionMatrix.astro';
+
+## The point is transmission, not prediction
+
+The Fed does not directly set the price of every stock, bond, house, or currency. It changes the
+price and availability of money. Investors then reprice assets through several channels.
+
+The job of a value investor is not to guess the next macro headline. It is to ask:
+
+```text
+Which part of this asset's value is exposed to rates, liquidity, inflation, or financing?
+```
+
+## Five transmission channels
+
+**Discount-rate channel.** A discount rate is the required return used to convert future cash flows
+into today's value. Higher required returns lower the present value of distant cash flows.
+
+**Financing-cost channel.** Financing cost is what households, companies, and investors pay to
+borrow. Mortgages, corporate debt, margin loans, construction loans, and refinancing all transmit
+rate changes into real decisions.
+
+**Liquidity channel.** Liquidity means the ability to raise cash or trade without large price
+damage. Reserves, repo markets, and credit availability influence risk appetite and forced selling.
+
+**Inflation/cost channel.** Inflation means broad purchasing-power erosion. Energy, wages,
+insurance, materials, and rents can change company margins and household budgets.
+
+**Portfolio-allocation channel.** When cash and T-bills pay more, risky assets must justify why
+they deserve capital. When safe yields fall, investors may accept lower prospective returns
+elsewhere.
+
+<ChineseNote title="利率不只影响估值">
+利率不是只改变DCF分母。它也会改变真实需求、融资成本、成交量、利润率和投资者愿意承担风险的程度。
+</ChineseNote>
+
+## Define the asset classes before comparing them
+
+**Cash / T-bills** are short-term lending to the U.S. government. They are usually the opportunity
+cost baseline: what you can earn while waiting.
+
+**Treasury bonds** are longer-term lending to the U.S. government. Their prices move opposite to
+yields. A 10-year bond with duration around `8` loses roughly `8%` if yields rise `1%`.
+
+**Corporate bonds / credit** are loans to companies. Their yield equals a Treasury yield plus a
+**credit spread**, which is extra compensation for default and liquidity risk.
+
+**Stocks** are residual ownership claims. Stock owners are paid after employees, suppliers, taxes,
+lenders, and preferred claims. Stock value depends on business cash flows and the return investors
+require.
+
+**Growth stocks** are stocks where more value sits in distant future cash flows. That makes them
+more sensitive to discount-rate changes.
+
+**Value or cyclical stocks** often have more near-term earnings but more operating sensitivity to
+recessions, commodity cycles, or credit conditions.
+
+**Banks and insurers** are financial companies whose economics depend on the yield curve, deposit
+costs, credit losses, and investment income. For insurers, **float** is money held before claims
+are paid.
+
+**REITs** are real-estate investment trusts: companies that own income-producing real estate and
+trade like stocks. They are sensitive to rent growth, debt costs, and **cap rates**, which are
+property income yields.
+
+**New homes** are newly built houses sold by builders. Demand depends on mortgage affordability,
+builder incentives, construction financing, land costs, and supply.
+
+**Used homes** are existing homes sold by owners. A seller with a low old mortgage can refuse to
+sell, so high rates may freeze supply before prices fully adjust.
+
+**Commodities / oil** are physical inputs. Oil shocks can raise inflation and help energy producers
+while hurting consumers and rate-sensitive assets.
+
+**Currencies** are relative prices between money systems. Rate differentials, inflation, trade
+balances, and capital flows affect exchange rates.
+
+<MacroTransmissionMatrix />
+
+## Housing is where rates become painfully concrete
+
+A 30-year mortgage is a long loan secured by a house. When the mortgage rate rises from `5.5%` to
+`6.5%`, the same house price requires a higher monthly payment. If income does not rise too, the
+buyer can afford less house.
+
+This is why new homes and used homes must be separated:
+
+- A **builder** can cut price, buy down the buyer's rate, offer upgrades, or slow construction.
+- A **used-home owner** can keep the old low-rate mortgage and not sell.
+
+High rates can therefore reduce transaction volume before they reduce reported home prices.
+
+<HousingAffordabilityLab />
+
+<ChineseNote title="新房和二手房不是一个机制">
+Builder 是主动卖方，可以降价、补贴利率、送升级；二手房业主可能有低利率贷款，不想卖。高利率先打击成交量，不一定立刻打击挂牌价格。
+</ChineseNote>
+
+## Run the shock through multiple assets
+
+<AssetShockLab />
+
+## Connect this to the 1970s oil shock
+
+The 1970s are useful because they show why the numerator and denominator can both move against
+investors.
+
+In the 1973 oil shock, oil moved from roughly `$3` per barrel to nearly `$12` by 1974. In the
+1979/1980 shock, oil moved above `$35` and near `$40` per barrel. Energy became a cost shock for
+households and businesses. Inflation expectations rose. The Fed eventually tightened severely;
+the Volcker-era federal funds rate reached roughly `20%` in 1981.
+
+That combination hurt many assets through both sides of valuation:
+
+```text
+Numerator pressure: weaker real demand, higher costs, lower margins
+Denominator pressure: higher required returns and tighter money
+```
+
+Today does not have to replay the 1970s. The U.S. economy is less oil-intensive, the Fed has an
+explicit inflation-fighting framework, and the monetary system now uses an ample-reserves
+operating regime. But oil shocks still matter because they can squeeze consumers, raise headline
+inflation, and force investors to question whether current yields compensate them enough.
+
+## Practical investor checklist
+
+When a macro shock appears, do not ask only "bullish or bearish?" Ask:
+
+1. Does it change the company's cash flows?
+2. Does it change the discount rate or market multiple?
+3. Does it change customer financing or demand?
+4. Does it change credit spreads or refinancing risk?
+5. Does it change safe cash yields enough to raise the opportunity-cost hurdle?
+6. Does it create a temporary price move or a permanent impairment?
+
+<ExerciseReveal prompt="A recession lowers the 10-year Treasury yield. Should a growth stock automatically be worth more?">
+Not automatically. The lower discount rate helps present-value math, but the cash-flow forecast
+may fall and credit spreads may widen. Recalculate both business cash flows and required return.
+</ExerciseReveal>
+
+<ProgressTracker id="macro-fed-to-asset-prices" />

@@ -35,6 +35,8 @@ export default defineConfig({
           { label: 'Macro Backbone Overview', slug: 'macro' },
           { label: 'What A Treasury Yield Is', slug: 'macro/what-a-yield-is' },
           { label: 'What Moves Treasury Yields', slug: 'macro/what-moves-yields' },
+          { label: 'Fed Plumbing', slug: 'macro/fed-plumbing' },
+          { label: 'Fed Plumbing To Asset Prices', slug: 'macro/fed-to-asset-prices' },
           { label: 'How Yields Reach Investments', slug: 'macro/how-yields-reach-investments' },
           { label: 'How Value Investors Use Yields', slug: 'macro/how-value-investors-use-yields' },
           { label: 'Rate Transmission Decision Lab', slug: 'macro/rate-transmission-lab' },

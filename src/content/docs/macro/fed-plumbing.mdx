@@ -1,0 +1,161 @@
+---
+title: Fed Plumbing · Rates, Reserves, And The Balance Sheet
+description: Understand how the Fed can manage short-term rates while expanding or shrinking its balance sheet.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import YieldRegimePanel from '../../../components/YieldRegimePanel.astro';
+
+## Start with the two knobs
+
+The **Federal Reserve**, usually called the **Fed**, is the central bank of the United States.
+It influences the economy through two related but different knobs:
+
+```text
+Price knob: what overnight money earns or costs
+Quantity knob: how many reserves and securities sit in the financial system
+```
+
+The **FOMC**, or Federal Open Market Committee, is the Fed committee that announces the target
+range for the **federal funds rate**. The federal funds rate is the overnight rate at which banks
+lend reserve balances to each other.
+
+**Reserves** are deposits that banks hold at the Fed. Think of them as the banking system's
+settlement cash. Banks use reserves to settle payments, manage liquidity, and satisfy regulatory
+needs.
+
+<ChineseNote title="两个旋钮">
+利率是“价格旋钮”，资产负债表和准备金是“数量旋钮”。现代美联储可以先调价格，再让数量慢慢变化，只要银行体系的准备金仍然充足。
+</ChineseNote>
+
+## Why balance-sheet size is not the same as the policy rate
+
+Before 2008, the Fed usually controlled the federal funds rate by making reserves scarce or
+abundant in small daily operations. Today the system is closer to an **ample-reserves** framework:
+there are enough reserves that the Fed can control short rates mainly by setting administered
+rates.
+
+An **administered rate** is a rate the Fed sets directly rather than a price discovered only in
+the market. The two most important administered rates are:
+
+- **IORB**, or interest on reserve balances: the rate the Fed pays banks on reserves.
+- **ON RRP**, or overnight reverse repurchase agreement facility: a Fed facility where eligible
+  money-market funds and other institutions can place cash overnight and receive a Fed-set rate.
+
+If a bank can earn IORB safely at the Fed, it usually will not lend reserves to another private
+counterparty at a much lower rate. If a money-market fund can use ON RRP, that facility gives it
+a safer alternative to accepting very low private-market rates.
+
+That is how the Fed can say:
+
+```text
+We want the overnight rate near this range,
+even while our bond portfolio slowly shrinks.
+```
+
+## The balance sheet identity
+
+The Fed's balance sheet has assets and liabilities.
+
+**Assets** are what the Fed owns, mainly Treasury securities and agency mortgage-backed securities.
+**Liabilities** are claims against the Fed, including bank reserves, paper currency, the Treasury's
+account, and ON RRP balances.
+
+A simplified identity is:
+
+```text
+Fed assets
+= bank reserves
++ currency in circulation
++ Treasury General Account
++ ON RRP
++ other liabilities and capital
+```
+
+The **Treasury General Account**, or **TGA**, is the U.S. Treasury's checking account at the Fed.
+When the Treasury builds up this account, cash leaves the private banking system and bank reserves
+can fall.
+
+The important reserve-change shortcut is:
+
+```text
+Change in reserves
+≈ change in Fed assets
+- change in currency
+- change in TGA
+- change in ON RRP
+- other liability changes
+```
+
+## Numeric example: QT does not always drain reserves one-for-one
+
+**QT**, or quantitative tightening, means the Fed lets securities mature or run off without fully
+replacing them. This shrinks Fed assets.
+
+Suppose one month looks like this:
+
+| Item | Change | What it does to reserves |
+|---|---:|---|
+| Fed securities runoff | `-$60B` | drains reserves |
+| ON RRP balance falls | `-$40B` | adds reserves back |
+| TGA rises | `+$30B` | drains reserves |
+| currency rises | `+$10B` | drains reserves |
+
+The rough reserve change is:
+
+```text
+-$60B runoff
++ $40B ON RRP decline
+- $30B TGA increase
+- $10B currency increase
+= -$60B reserves
+```
+
+So the Fed balance sheet shrank by `$60B`, but the reserve effect depended on other liability
+movements. If ON RRP had fallen by `$80B` instead of `$40B`, reserves might have fallen much less.
+
+## How can rates stay controlled during QT?
+
+The answer is: QT changes the **quantity** of reserves, while IORB and ON RRP help set the
+**price** of overnight money.
+
+This works as long as reserves remain **ample**. Ample does not mean infinite. It means banks have
+enough settlement cash that overnight funding markets do not need to bid aggressively for scarce
+reserves.
+
+Watch for signs that reserves are becoming less ample:
+
+- **SOFR**, the Secured Overnight Financing Rate, rises meaningfully relative to the Fed's target
+  range. SOFR is an overnight borrowing rate backed by Treasury collateral.
+- repo rates become volatile near quarter-end or tax-payment dates;
+- the effective federal funds rate trades persistently high in the target range;
+- banks and dealers show funding stress;
+- the Fed slows QT or increases reserve-management operations.
+
+## Current stored snapshot
+
+The course's current macro snapshot shows a world where short rates are still meaningful and long
+rates remain important for valuation:
+
+| Indicator | Stored value |
+|---|---:|
+| Effective federal funds rate | `3.62%` |
+| 10-year Treasury yield | `4.53%` |
+| 30-year Treasury yield | `5.01%` |
+| 30-year fixed mortgage rate | `6.48%` |
+| 10-year breakeven inflation | `2.33%` |
+| High-yield credit spread | `2.75%` |
+
+These numbers are not forecasts. They are the market's current price of money.
+
+<ExerciseReveal prompt="The Fed cuts the target range, but QT continues. Is that contradictory?">
+No. The Fed can lower the price knob by cutting administered rates while still letting the
+quantity knob shrink through QT. The combination becomes risky if reserves move from ample toward
+scarce and funding markets begin to show stress.
+</ExerciseReveal>
+
+<YieldRegimePanel />
+
+<ProgressTracker id="macro-fed-plumbing" />

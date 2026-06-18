@@ -1,0 +1,134 @@
+---
+const scenarios = [
+  {
+    id: 'cut-long-up',
+    label: 'Fed cuts, long yields rise',
+    summary: 'Short rates ease, but the bond market prices stronger inflation, growth, or term premium.',
+    outputs: {
+      multiples: 'Mixed to negative: long-duration stocks may still derate.',
+      earnings: 'Cyclical demand may hold up if growth is the reason; inflation stress is worse.',
+      bonds: 'Long Treasury prices fall because long yields rise.',
+      mortgages: 'Affordability may worsen even though the Fed cut.',
+      newHomes: 'Builders may need incentives if mortgage rates follow the long end.',
+      usedHomes: 'Inventory can stay tight because owners keep old low-rate mortgages.',
+      reits: 'Cap-rate pressure if long yields and real rates rise.',
+      cash: 'Short cash yield starts falling, but remains an opportunity-cost benchmark.',
+    },
+  },
+  {
+    id: 'qt-pause',
+    label: 'Fed pauses while QT continues',
+    summary: 'The policy-rate knob is steady while the balance-sheet quantity knob keeps draining liquidity.',
+    outputs: {
+      multiples: 'Depends on reserves: stable if ample, pressured if liquidity tightens.',
+      earnings: 'Little immediate effect unless credit availability weakens.',
+      bonds: 'More duration supply can pressure term premium.',
+      mortgages: 'Mortgage spreads can widen if liquidity worsens.',
+      newHomes: 'Construction finance and buyer credit matter more than the headline pause.',
+      usedHomes: 'Transactions can remain slow if mortgage rates stay elevated.',
+      reits: 'Debt refinancing and cap rates remain the key channels.',
+      cash: 'Still earns the policy-rate level while QT changes liquidity.',
+    },
+  },
+  {
+    id: 'oil-shock',
+    label: 'Oil shock raises inflation',
+    summary: 'Energy prices lift headline inflation and squeeze household real income.',
+    outputs: {
+      multiples: 'Negative if inflation expectations and required returns rise.',
+      earnings: 'Margins suffer unless the company has pricing power.',
+      bonds: 'Nominal yields may rise; real returns depend on inflation protection.',
+      mortgages: 'Rates can rise if inflation expectations move.',
+      newHomes: 'Materials, transport, and affordability can all worsen.',
+      usedHomes: 'Demand weakens, but owners may still refuse to sell.',
+      reits: 'Mixed: rent escalators help some, cap rates hurt many.',
+      cash: 'Nominal yield may rise, but real purchasing power is the question.',
+    },
+  },
+  {
+    id: 'recession-spreads',
+    label: 'Recession: Treasuries fall, credit spreads widen',
+    summary: 'Safe yields fall because investors seek safety, while private borrowing becomes harder.',
+    outputs: {
+      multiples: 'Lower risk-free rates help math, but earnings cuts can dominate.',
+      earnings: 'Demand and credit losses become the main issue.',
+      bonds: 'Treasuries rally; risky credit can fall.',
+      mortgages: 'Treasury rates fall, but mortgage spreads may not fully cooperate.',
+      newHomes: 'Lower rates help only if jobs and confidence hold.',
+      usedHomes: 'Volume can stay weak if job fear rises.',
+      reits: 'High-quality leases hold up better than leveraged weak assets.',
+      cash: 'Yield falls, but liquidity becomes valuable.',
+    },
+  },
+  {
+    id: 'mortgage-up',
+    label: 'Mortgage rates rise 100 bps',
+    summary: 'Housing affordability changes before home prices necessarily adjust.',
+    outputs: {
+      multiples: 'Housing-linked equities and REITs face pressure.',
+      earnings: 'Homebuilders, brokers, furniture, and renovation demand can slow.',
+      bonds: 'MBS and duration assets reprice.',
+      mortgages: 'Monthly payments jump for the same house price.',
+      newHomes: 'Builders can buy down rates, cut prices, or slow starts.',
+      usedHomes: 'Supply can freeze because sellers keep existing low-rate loans.',
+      reits: 'Cap rates and refinancing costs rise.',
+      cash: 'Cash becomes more competitive with leveraged real estate.',
+    },
+  },
+  {
+    id: 'scarce-reserves',
+    label: 'Reserves become scarce',
+    summary: 'Repo and funding markets signal that liquidity is no longer comfortably ample.',
+    outputs: {
+      multiples: 'Risk appetite can fall quickly.',
+      earnings: 'Credit-sensitive customers and leveraged firms feel it first.',
+      bonds: 'Treasury bills may be favored; funding stress can distort spreads.',
+      mortgages: 'Mortgage spreads can widen through funding pressure.',
+      newHomes: 'Construction lending and buyer credit tighten.',
+      usedHomes: 'Financing friction worsens already-thin activity.',
+      reits: 'Leveraged REITs and floating-rate debt are exposed.',
+      cash: 'Cash optionality becomes more valuable.',
+    },
+  },
+];
+---
+<section class="asset-shock-lab" data-asset-shock-lab data-scenarios={JSON.stringify(scenarios)}>
+  <div class="asset-shock-lab__head">
+    <div>
+      <p class="exercise__label">Asset shock lab</p>
+      <h2>Choose a macro shock. Trace the pressure points.</h2>
+    </div>
+    <select data-scenario-select aria-label="Choose macro shock scenario">
+      {scenarios.map((scenario) => <option value={scenario.id}>{scenario.label}</option>)}
+    </select>
+  </div>
+  <p data-scenario-summary>{scenarios[0].summary}</p>
+  <div class="asset-shock-grid">
+    {Object.entries(scenarios[0].outputs).map(([key, value]) => (
+      <article data-output={key}>
+        <span>{key.replace(/([A-Z])/g, ' $1')}</span>
+        <strong>{value}</strong>
+      </article>
+    ))}
+  </div>
+</section>
+<script>
+  type AssetScenario = { id: string; label: string; summary: string; outputs: Record<string, string> };
+  document.querySelectorAll('[data-asset-shock-lab]').forEach((lab) => {
+    const select = lab.querySelector('[data-scenario-select]');
+    const summary = lab.querySelector('[data-scenario-summary]');
+    if (!(select instanceof HTMLSelectElement) || !summary) return;
+    const scenarios = JSON.parse(lab.getAttribute('data-scenarios') || '[]') as AssetScenario[];
+    const scenarioMap = new Map<string, AssetScenario>(scenarios.map((scenario) => [scenario.id, scenario]));
+    const render = () => {
+      const scenario = scenarioMap.get(select.value) || scenarios[0];
+      summary.textContent = scenario.summary;
+      Object.entries(scenario.outputs).forEach(([key, value]) => {
+        const target = lab.querySelector(`[data-output="${key}"] strong`);
+        if (target) target.textContent = value;
+      });
+    };
+    select.addEventListener('change', render);
+    render();
+  });
+</script>

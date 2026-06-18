@@ -1,0 +1,66 @@
+---
+const rows = [
+  {
+    force: 'Fed funds / IORB',
+    meaning: 'The overnight policy-rate floor for banks.',
+    cells: ['More attractive', 'Front-end reprices', 'Multiple pressure', 'Mixed', 'Deposit and loan repricing', 'Affordability pressure', 'Transactions slow', 'Cap-rate pressure', 'Usually indirect', 'Rate support'],
+  },
+  {
+    force: 'QT / QE',
+    meaning: 'The Fed changes asset holdings and reserve supply.',
+    cells: ['Liquidity competition', 'Duration supply changes', 'Risk appetite changes', 'Credit cycle matters', 'Funding conditions', 'Construction credit', 'Mortgage liquidity', 'Debt market access', 'Financial conditions', 'Liquidity signal'],
+  },
+  {
+    force: '10-year Treasury',
+    meaning: 'Core benchmark for long-duration discounting and mortgages.',
+    cells: ['Opportunity cost', 'Duration effect', 'High sensitivity', 'Lower sensitivity', 'Curve effect', 'Mortgage anchor', 'Lock-in effect', 'Cap-rate anchor', 'Real-rate pressure', 'Rate differential'],
+  },
+  {
+    force: 'Mortgage spread',
+    meaning: 'Extra mortgage rate above Treasury yields.',
+    cells: ['Little direct', 'MBS repricing', 'Housing-linked demand', 'Housing-linked demand', 'Credit signal', 'Direct hit', 'Direct hit', 'Residential exposure', 'Indirect', 'Usually indirect'],
+  },
+  {
+    force: 'Credit spread',
+    meaning: 'Extra yield demanded to lend to companies.',
+    cells: ['Safety bid', 'Risk bonds fall', 'Financing pressure', 'Cycle pressure', 'Loan-loss signal', 'Buyer credit tightens', 'Demand softens', 'Refinancing pressure', 'Stress hedge possible', 'Risk-off support'],
+  },
+  {
+    force: 'Oil shock',
+    meaning: 'Energy supply shock that can raise inflation and cut real income.',
+    cells: ['Inflation hedge? no', 'Inflation risk', 'Margin pressure', 'Demand pressure', 'Credit risk', 'Materials and buyer strain', 'Consumer strain', 'Utility/transport costs', 'Direct beneficiary', 'Terms-of-trade'],
+  },
+  {
+    force: 'Inflation expectations',
+    meaning: 'Market belief about future purchasing-power erosion.',
+    cells: ['Nominal yield up', 'Real return risk', 'Discount pressure', 'Pricing-power test', 'Curve and credit', 'Affordability pressure', 'Rent/wage stress', 'Rent vs cap rate', 'Possible hedge', 'Policy path'],
+  },
+];
+
+const columns = ['Cash', 'Bonds', 'Growth stocks', 'Value stocks', 'Banks', 'New homes', 'Used homes', 'REITs', 'Commodities', 'USD'];
+---
+<section class="macro-matrix" aria-label="Macro transmission matrix">
+  <div class="macro-matrix__head">
+    <p class="exercise__label">Transmission matrix</p>
+    <h2>Same macro shock, different asset reaction</h2>
+    <p>Each cell gives a first-order pressure point, not a guaranteed price move.</p>
+  </div>
+  <div class="macro-matrix__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Macro force</th>
+          {columns.map((column) => <th>{column}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr>
+            <th scope="row"><strong>{row.force}</strong><span>{row.meaning}</span></th>
+            {row.cells.map((cell) => <td>{cell}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

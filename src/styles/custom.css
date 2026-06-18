@@ -603,6 +603,175 @@ h3 {
 .rate-shock-lab[data-direction='up'] output { background: var(--course-coral); }
 .rate-shock-lab[data-direction='down'] output { background: var(--sl-color-accent); }
 
+.macro-matrix,
+.asset-shock-lab,
+.housing-lab {
+  margin: 2.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--sl-color-black) 94%, var(--sl-color-accent-low));
+}
+
+.macro-matrix__head h2,
+.asset-shock-lab__head h2,
+.housing-lab__head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.macro-matrix__head p:last-child,
+.asset-shock-lab > p {
+  color: var(--sl-color-gray-3);
+}
+
+.macro-matrix__scroll {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+}
+
+.macro-matrix table {
+  min-width: 62rem;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+.macro-matrix th,
+.macro-matrix td {
+  padding: 0.7rem;
+  vertical-align: top;
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+.macro-matrix thead th {
+  color: var(--course-gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--course-gold) 8%, var(--sl-color-black));
+}
+
+.macro-matrix tbody th {
+  width: 13rem;
+  text-align: left;
+  background: color-mix(in srgb, var(--sl-color-accent) 8%, var(--sl-color-black));
+}
+
+.macro-matrix tbody th strong,
+.macro-matrix tbody th span {
+  display: block;
+}
+
+.macro-matrix tbody th span {
+  margin-top: 0.35rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.macro-matrix td {
+  color: var(--sl-color-gray-2);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.asset-shock-lab__head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.asset-shock-lab select,
+.housing-lab input {
+  padding: 0.5rem;
+  color: var(--sl-color-gray-1);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 3px;
+  background: var(--sl-color-black);
+}
+
+.asset-shock-grid,
+.housing-lab__results,
+.housing-lab__compare {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.asset-shock-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.asset-shock-grid article,
+.housing-lab__results article,
+.housing-lab__compare article {
+  padding: 0.85rem;
+  border-left: 3px solid var(--course-gold);
+  background: color-mix(in srgb, var(--course-gold) 7%, var(--sl-color-black));
+}
+
+.asset-shock-grid span,
+.housing-lab__results span {
+  display: block;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.asset-shock-grid strong,
+.housing-lab__results strong,
+.housing-lab__compare strong,
+.housing-lab__compare span {
+  display: block;
+}
+
+.asset-shock-grid strong {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.housing-lab__controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+
+.housing-lab__controls label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.housing-lab__results {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.housing-lab__results strong {
+  margin-top: 0.35rem;
+  color: var(--course-gold);
+  font-size: 1.05rem;
+}
+
+.housing-lab__compare {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.75rem;
+}
+
+.housing-lab__compare span {
+  margin-top: 0.35rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .framework-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2174,8 +2343,16 @@ h3 {
   .dcf-scenario-values,
   .assumption-ledger__grid,
   .mos-lab__controls,
-  .mos-lab__results {
+  .mos-lab__results,
+  .asset-shock-grid,
+  .housing-lab__controls,
+  .housing-lab__results,
+  .housing-lab__compare {
     grid-template-columns: 1fr;
+  }
+
+  .asset-shock-lab__head {
+    display: grid;
   }
 
   .mos-lab label {
