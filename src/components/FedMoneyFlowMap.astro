@@ -40,6 +40,34 @@ const glossary = [
 
   <div class="fed-diagram-grid">
     <article class="fed-diagram">
+      <h3>Payment settlement map</h3>
+      <div class="fed-flowline">
+        <span>Alice at Bank A pays Bob</span>
+        <b>→</b>
+        <span>Bank A lowers Alice's deposit</span>
+        <b>→</b>
+        <span>Bank B raises Bob's deposit</span>
+        <b>→</b>
+        <span>Bank A sends reserves to Bank B</span>
+      </div>
+      <p>The customer sees deposits move. The banks settle with reserves. Total system reserves do not change; reserves move from one bank to another.</p>
+    </article>
+
+    <article class="fed-diagram">
+      <h3>Private repo financing map</h3>
+      <div class="fed-flowline">
+        <span>Dealer owns Treasuries</span>
+        <b>↔</b>
+        <span>Money fund has cash</span>
+        <b>→</b>
+        <span>Dealer borrows cash and pledges collateral</span>
+        <b>→</b>
+        <span>Trade reverses tomorrow</span>
+      </div>
+      <p>Private repo helps finance securities inventories. It changes who holds cash and collateral; it does not itself create new Fed reserves.</p>
+    </article>
+
+    <article class="fed-diagram">
       <h3>QE purchase flow</h3>
       <div class="fed-flowline">
         <span>Fed buys Treasury or MBS</span>

@@ -64,6 +64,79 @@ When the Treasury builds that account, cash leaves the private banking system. *
 circulation** is paper cash held outside the Fed. Paper currency enters circulation when banks
 request physical cash from the Fed for customers.
 
+## Why banks need reserves
+
+Banks do not only keep score inside their own apps. They must settle payments with other banks.
+
+Suppose Alice banks at Bank A and Bob banks at Bank B. Alice pays Bob `$100`.
+
+```text
+Alice's deposit at Bank A falls by $100
+Bob's deposit at Bank B rises by $100
+Bank A transfers $100 of reserves to Bank B
+```
+
+From Alice and Bob's perspective, deposits moved. From the banking system's perspective, reserves
+moved between banks. Total banking-system reserves did not change; Bank A has fewer reserves and
+Bank B has more.
+
+Banks therefore need reserves for four practical reasons:
+
+| Reason | Plain-English meaning |
+|---|---|
+| Daily payments | Banks must settle customer transfers, card flows, securities payments, and corporate payments. |
+| Liquidity comfort | A bank wants enough settlement cash so it does not need emergency borrowing every day. |
+| Regulation and supervision | Banks are expected to hold enough high-quality liquid assets to survive stress. |
+| Confidence | Other banks, depositors, and markets trust a bank more when it is not scrambling for cash. |
+
+This is why reserve scarcity matters. If many banks suddenly want more reserves than they hold,
+overnight funding rates can jump. The problem may start as plumbing, but it can become a market
+stress event.
+
+<ChineseNote title="银行为什么要准备金">
+你的转账看起来只是 App 里的数字变化，但银行之间要最终结算。跨银行付款时，客户存款变化的背后，是银行准备金在银行之间移动。
+</ChineseNote>
+
+## Why repo exists
+
+Repo exists because the financial system constantly needs to turn high-quality securities into
+cash without permanently selling them.
+
+A **dealer** may hold a large inventory of Treasury securities so it can make markets for clients.
+But the dealer may not want to pay for all that inventory with its own permanent cash. It can use
+repo:
+
+```text
+Dealer has Treasury collateral
+Money-market fund has cash
+Dealer borrows cash overnight
+Money-market fund receives Treasury collateral
+Tomorrow the trade reverses with interest
+```
+
+Both sides get something useful:
+
+- the securities holder gets cash without selling the security;
+- the cash holder earns a secured overnight return;
+- dealers can finance Treasury inventories;
+- money-market funds get a short-term investment backed by high-quality collateral;
+- the Fed can use repo or reverse repo facilities to add or remove temporary liquidity.
+
+Repo is not the same as federal funds. Federal funds are mostly unsecured overnight reserve loans
+between banks and related institutions. Repo is secured lending against collateral and is used by
+dealers, banks, funds, and the Fed.
+
+| Tool or market | What it is | Who mainly uses it | Why it matters |
+|---|---|---|---|
+| Federal funds | Unsecured overnight lending of reserves | Banks and related institutions | Shows the price of bank reserve borrowing. |
+| Repo | Secured cash loan against collateral | Dealers, banks, money funds, Fed | Finances securities and anchors SOFR. |
+| IORB | Fed-paid rate on bank reserves | Banks | Gives banks a safe alternative to lending too cheaply. |
+| ON RRP | Fed facility for overnight nonbank cash | Money-market funds and others | Gives nonbanks a safe floor for cash. |
+
+For investors, repo stress matters because it can raise SOFR, force securities holders to sell,
+tighten credit, and reduce risk appetite. Stable repo markets and ample reserves help markets
+function quietly in the background.
+
 ## The map before the mechanics
 
 Read the diagrams left to right. Do not memorize the terms first. Watch what moves: reserves,
