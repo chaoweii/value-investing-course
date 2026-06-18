@@ -20,6 +20,51 @@ npm run refresh:macro
 npm run dev
 ```
 
+## Publish with GitHub + Vercel
+
+This course is designed to publish as a static Astro site. Use GitHub as the source of truth and
+Vercel as the automatic publisher.
+
+Recommended Vercel settings:
+
+- Framework preset: `Astro`
+- Build command: `npm run build:deploy`
+- Output directory: `dist`
+- Production branch: `main`
+
+The deploy command intentionally skips the local workbench importers. Vercel should build only from
+the website-local snapshots already committed under `src/data/`, so it never needs access to:
+
+`/Users/chao86/Documents/Investment 2/tost_googl_sotp_dcf`
+
+### Update workflow
+
+For content-only updates:
+
+```bash
+npm run check:deploy
+git add .
+git commit -m "Update course"
+git push
+```
+
+For valuation, portfolio, DCF, or macro snapshot updates:
+
+```bash
+npm run import:live
+npm run import:portfolio
+npm run import:dcf-learning
+npm run refresh:macro
+npm run check:deploy
+git add src/data
+git add .
+git commit -m "Refresh course snapshots"
+git push
+```
+
+Vercel will publish every push to `main`. Branch pushes can be used for preview deployments before
+merging larger lesson changes.
+
 ## Refresh live companions
 
 ```bash

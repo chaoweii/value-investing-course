@@ -1,0 +1,110 @@
+---
+title: Structures That Change The Rules
+description: Contrast ordinary common shares with ADRs, VIEs, dual-class shares, preferred stock, and tracking stocks.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Read the security, not only the company name
+
+| Structure | What changes | Question to ask |
+|---|---|---|
+| Voting and non-voting shares | Economic exposure may be similar while one class has no ordinary vote. | Am I deliberately accepting economics without a governance voice? |
+| Dual-class shares | One class may have one vote, fewer votes, or many more votes per share. | Who controls the board despite owning less of the economics? |
+| ADR or ADS | A depositary receipt represents a stated number or fraction of foreign ordinary shares. | What are the ratio, fees, FX exposure, custody rights, and cancellation risks? |
+| VIE exposure | Investors may own an offshore contractual claim rather than direct equity in operating assets. | Are contracts enforceable and can value reach the listed security? |
+| Preferred stock | Priority, dividends, and conversion terms differ from common equity. | What is senior, fixed, callable, or convertible? |
+| Tracking stock | Economics track a business or group without necessarily owning its assets directly. | Which liabilities, governance rights, and capital-allocation powers sit elsewhere? |
+
+<ChineseNote title="股票代码相同，不代表权利结构简单">
+分析公司之前，先读清你实际买入的证券。ADR、VIE、双重股权和追踪股都可能让“拥有公司”这句话变得更间接。
+</ChineseNote>
+
+## Economic ownership and voting control are different
+
+Two share classes can participate similarly in the company's economic results while carrying
+radically different voting power. Always calculate both:
+
+```text
+Economic ownership = your economic shares ÷ total economic shares
+Voting control = votes attached to your shares ÷ total votes outstanding
+```
+
+Dual-class structures are not automatically bad. They can protect a capable founder from
+short-term pressure. They can also leave public shareholders unable to replace poor leadership,
+oppose self-interested transactions, or influence capital allocation.
+
+The correct question is not merely “Do I have a vote?” It is:
+
+> If management stops deserving trust, can outside shareholders meaningfully change anything?
+
+## Berkshire: unequal votes without founder super-voting
+
+| Berkshire security | Approximate economic relationship | Approximate voting relationship | Conversion |
+|---|---:|---:|---|
+| `BRK.A` | One Class A share | One Class A vote unit | Holder may convert one A into 1,500 B shares |
+| `BRK.B` | 1/1,500 of one Class A share | 1/10,000 of one Class A vote | Cannot convert B into A |
+
+BRK.B therefore receives substantially less voting power than its proportional economic interest.
+For example, 1,500 BRK.B shares approximate the economics of one BRK.A share, but together carry
+only about 15% of one BRK.A share's voting power.
+
+This structure matters, but Berkshire's investment case has historically relied heavily on
+management trust and capital-allocation culture rather than minority voting influence.
+
+## Alphabet: public voting, public non-voting, and insider super-voting
+
+| Alphabet security | Publicly traded? | Votes per share | Practical meaning |
+|---|---:|---:|---|
+| `GOOGL`, Class A | Yes | 1 | Public investors receive an ordinary voting voice |
+| Class B | No; primarily insiders | 10 | Super-voting shares concentrate control with founders and insiders |
+| `GOOG`, Class C | Yes | 0 | Public investors receive economic exposure without an ordinary vote |
+
+GOOG and GOOGL may have similar economic exposure, but they are not the same governance security.
+The founders' Class B votes mean that even GOOGL holders collectively may have limited ability to
+change control.
+
+<ChineseNote title="经济权利相似，投票权可以完全不同">
+BRK.B 的经济份额与投票份额并不同比例；Alphabet 的 GOOGL 每股一票，GOOG 没有普通投票权，而内部 Class B 每股十票。买入前要同时计算经济所有权和投票控制权。
+</ChineseNote>
+
+## Do most technology stocks have no voting rights?
+
+No. Many listed technology companies still issue ordinary one-vote common shares. However,
+founder-led technology companies disproportionately use dual-class structures, and some offer
+public non-voting shares. The important habit is to inspect the exact ticker and share class
+rather than generalize from the industry.
+
+<ExerciseReveal prompt="GOOG and GOOGL provide similar exposure to Alphabet's business. Are they the same security?">
+No. GOOGL Class A normally carries one vote per share. GOOG Class C normally carries no ordinary
+vote. Alphabet insiders also hold Class B super-voting shares with ten votes each, so buying
+GOOGL provides a vote without necessarily providing meaningful control.
+</ExerciseReveal>
+
+## Opening-case contrasts
+
+### TOST
+
+TOST common shareholders own a residual claim after operating obligations. SBC can issue new
+claims, while buybacks spend company cash to retire claims. Balance-sheet cash remains corporate
+property until capital allocation makes it available to owners.
+
+### ADYEY
+
+ADYEY is an ADR. Each ADS represents a fraction of an Adyen ordinary share, so valuation must
+respect the ADS ratio, EUR operating economics, USD market price, FX, and depositary structure.
+
+### BRK.B
+
+BRK.B and BRK.A differ in price, voting power, and conversion mechanics. One BRK.B share represents
+approximately 1/1,500 of a BRK.A share's economic interest but only 1/10,000 of its voting power.
+Similar exposure to Berkshire's economics does not mean identical governance rights.
+
+### Future contrast cases
+
+PDD's VIE exposure and FWONK's tracking-stock structure are reminders that a listed security can
+be economically related to a business without giving direct ownership of its operating assets.
+
+<ProgressTracker id="ownership-structures" />

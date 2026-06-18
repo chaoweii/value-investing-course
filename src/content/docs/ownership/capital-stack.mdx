@@ -1,0 +1,148 @@
+---
+title: Who Gets Paid First?
+description: Learn the capital stack and test the common shareholder's residual claim.
+---
+
+import CapitalStackLab from '../../../components/CapitalStackLab.astro';
+import ClaimMatchingValuationLab from '../../../components/ClaimMatchingValuationLab.astro';
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## The payment waterfall
+
+When a company is liquidated, common shareholders are generally last. A simplified ordering is:
+
+```text
+Asset value
+− liquidation costs
+− employees, suppliers, and taxes
+− secured lenders and other debt claims
+− preferred-stock claims
+= residual value available to common shareholders
+```
+
+Contract terms and applicable law can change the exact ordering. The durable idea is that
+**enterprise assets support many claims; common equity receives only the remainder**.
+
+<ChineseNote title="有资产，不代表普通股一定有价值">
+企业可能拥有大量资产，但如果债权和其他优先索取权更大，普通股仍可能归零。普通股是最后一层缓冲。
+</ChineseNote>
+
+<CapitalStackLab />
+
+## Connect this to valuation
+
+An operating-business valuation often starts with enterprise value. To reach common-equity value,
+the analyst must account for debt, non-controlling interests, preferred claims, and genuinely
+excess owner cash. To reach per-share value, divide by the correct diluted share count.
+
+```text
+Market capitalization
++ debt
++ preferred stock and non-controlling interests
+− genuinely excess cash
+= approximate enterprise value
+```
+
+This is why “the company has cash” is incomplete analysis. Ask who controls it, what obligations
+it supports, whether it is excess, and how many claims share the remainder.
+
+## Why markets normally quote market cap
+
+**Market capitalization** is the market value of the common equity:
+
+```text
+Current share price × common shares outstanding = market capitalization
+```
+
+It is normally reported because common shares are what public-market investors directly trade.
+Market cap tells you:
+
+- what all common shareholders' claims cost together;
+- how large your position is relative to the listed equity;
+- how the company is weighted in many stock indexes;
+- and the starting value for per-share returns.
+
+**Enterprise value** is not another traded security. It is an analytical estimate of the operating
+business value available to all capital providers. It must be calculated, and analysts can disagree
+about which cash is excess, which liabilities resemble debt, and which non-controlling claims to
+include.
+
+<ChineseNote title="市值是你买的股权价格，EV 是整个经营资产的估值视角">
+股票投资者直接买卖普通股，所以市场最常显示市值。EV 用来比较企业经营价值，并把债务、优先权和超额现金纳入考虑。两者回答的问题不同，不能互相替代。
+</ChineseNote>
+
+## When market cap misleads
+
+Imagine two restaurant corporations with identical `$500` market caps:
+
+|  | Restaurant A | Restaurant B |
+|---|---:|---:|
+| Market cap | `$500` | `$500` |
+| Debt | `$0` | `$700` |
+| Excess cash | `$200` | `$0` |
+| Approximate EV | `$300` | `$1,200` |
+
+Their shares have the same quoted market value, but investors are not assigning the same value to
+the operating businesses. Restaurant B's operations must support both the `$500` common-equity
+claim and `$700` debt claim. Restaurant A's shareholders also have `$200` of excess cash behind
+their claim.
+
+This leads to the matching rule:
+
+| Valuation question | Appropriate value | Match with |
+|---|---|---|
+| What do common shareholders collectively pay? | Market cap or equity value | Net income, equity FCF, per-share earnings |
+| What is the operating business worth before financing? | Enterprise value | Revenue, EBITDA, operating cash flow before debt claims |
+
+Do not divide enterprise value by net income, or compare market cap with EBITDA, without carefully
+reconciling who owns the numerator and who receives the denominator.
+
+## Two valid intrinsic-value paths
+
+The correct path depends on whose cash flow you forecast:
+
+```text
+Equity owner FCF
+→ discount at the required equity return
+= operating equity value attributable to common shareholders
++ separately excluded owner cash, if applicable
+= intrinsic equity value
+÷ diluted shares
+= intrinsic value per share
+```
+
+```text
+FCFF available to debt and equity
+→ discount at WACC
+= intrinsic enterprise value
+− debt, preferred claims, and NCI
++ genuinely excess owner cash
+= intrinsic equity value
+÷ diluted shares
+= intrinsic value per share
+```
+
+Never subtract debt again after valuing cash flow that already belongs only to common shareholders.
+Never add cash twice if it already generates forecast cash flow.
+
+<ClaimMatchingValuationLab />
+
+## Examples that choose different paths
+
+| Company type | Primary lens | Why |
+|---|---|---|
+| Cash-rich, debt-light TOST | Equity owner FCF | The common-share claim is the main valuation question; EV is a useful operating cross-check. |
+| Leveraged restaurant | FCFF-to-EV plus equity reconciliation | Debt holders own a material part of operating value. |
+| Cash-rich mature company | Both equity value and ex-cash EV | Market cap may look expensive while the operating business is reasonably priced. |
+| Debt-heavy company | EV and debt-service analysis | A low market cap can hide an expensive or fragile operating business. |
+| Bank, insurer, or Berkshire | Equity valuation or SOTP | Cash and debt may be operating raw materials rather than simple excess cash and financing. |
+| Acquisition target | EV | A buyer acquires operations and assumes, repays, or refinances capital claims. |
+
+<ExerciseReveal prompt="Two companies have identical revenue, EBITDA, and market caps. One has no debt; the other has substantial debt. Are their operating businesses valued equally?">
+No. The debt-heavy company's enterprise value is higher because debt holders also have a claim on
+the operating business. Market cap compares only the common-equity claims and hides that difference.
+</ExerciseReveal>
+
+<ProgressTracker id="ownership-capital-stack" />

@@ -1,0 +1,37 @@
+<div class="market-plumbing-map" aria-label="Market plumbing network">
+  <section class="market-node market-node--issuer">
+    <span>Creates securities</span>
+    <strong>Company / issuer</strong>
+    <small>Raises capital only in primary-market transactions.</small>
+  </section>
+  <b>→</b>
+  <section class="market-node">
+    <span>Distributes new shares</span>
+    <strong>Underwriter</strong>
+    <small>Builds the order book, allocates shares, and supports the offering.</small>
+  </section>
+  <b>→</b>
+  <section class="market-node market-node--market">
+    <span>Matches orders</span>
+    <strong>Exchange + market makers</strong>
+    <small>Discover a clearing price; they cannot create willing sellers at an old price.</small>
+  </section>
+  <b>↔</b>
+  <section class="market-node">
+    <span>Routes and holds</span>
+    <strong>Brokers + custodians</strong>
+    <small>Connect beneficial owners to trading, custody, and settlement.</small>
+  </section>
+  <b>↔</b>
+  <section class="market-node market-node--investor">
+    <span>Owns the claim</span>
+    <strong>Investors and funds</strong>
+    <small>Choose prices unless their mandate forces exposure or tracking.</small>
+  </section>
+
+  <div class="market-plumbing-map__support">
+    <article><strong>Index provider</strong><span>Publishes rules and weights. It does not trade.</span></article>
+    <article><strong>Authorized participant</strong><span>Creates or redeems ETF shares against baskets or cash.</span></article>
+    <article><strong>Clearinghouse</strong><span>Novates and manages settlement obligations after a trade.</span></article>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+---
+title: The Market's Operating Network
+description: Understand who routes, matches, clears, settles, and owns a securities trade.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import MarketPlumbingMap from '../../../components/MarketPlumbingMap.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+<MarketPlumbingMap />
+
+## Different actors solve different problems
+
+| Actor | Primary job | What it does not guarantee |
+|---|---|---|
+| Broker | Routes orders and maintains customer accounts | Best future investment result |
+| Exchange | Matches orders under published rules | A seller at your preferred price |
+| Market maker | Quotes prices and manages inventory | Unlimited inventory or a fixed spread |
+| Clearinghouse | Manages obligations between trading firms | Protection from investment loss |
+| Custodian | Safekeeps assets and records ownership | Direct control of the issuer |
+| Index provider | Defines membership and weights | Trading or valuation judgment |
+
+Settlement completes the exchange of cash and securities after execution. A trade can be valid
+economically yet create operational risk if a participant cannot deliver cash, collateral, or
+shares on time.
+
+<ChineseNote title="市场不是一个人，而是一张依赖网络">
+交易所负责撮合，券商负责路由，做市商提供报价，清算机构管理履约，托管人保存资产。理解每个节点的责任，才能知道风险在哪里累积。
+</ChineseNote>
+
+<ProgressTracker id="market-operating-network" />

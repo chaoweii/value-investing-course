@@ -12,13 +12,19 @@ import ProgressTracker from '../../../components/ProgressTracker.astro';
 **Personal hurdle asks:** what return must this uncertain investment offer versus Treasury bills,
 the S&P 500, BRK.B, and your best alternatives?
 
-Use WACC to estimate market-consistent operating value. Use a required-return hurdle to decide
-whether the resulting opportunity deserves your capital. Do not add an arbitrary discount-rate
-penalty for every uncertainty already modeled in the cash-flow scenarios.
+Use WACC only to discount FCFF available to debt and equity providers. Use the required equity
+return to discount equity owner FCF available only to common shareholders. The personal hurdle
+also decides whether the resulting opportunity deserves your capital. Do not add an arbitrary
+discount-rate penalty for every uncertainty already modeled in the cash-flow scenarios.
 
 ```text
 Required equity return ≈ Treasury yield + equity-risk premium + company-specific risk judgment
 ```
+
+Margin of safety is not a substitute for this required return. Use scenarios to model specific
+business disappointments, and use the required return to express opportunity cost and broad equity
+risk. If you both slash the cash flows and add a large unexplained discount-rate penalty, you may
+be counting the same risk twice.
 
 <ChineseNote title="折现率不是惩罚按钮">
 能在现金流中建模的风险，应进入情景和假设；折现率主要表达资金机会成本和无法精确建模的系统性风险。

@@ -1,0 +1,145 @@
+<section class="capital-stack-lab" data-capital-stack-lab>
+  <header class="capital-stack-lab__head">
+    <div>
+      <p class="exercise__label">Interactive ownership lab</p>
+      <h2>Who receives the restaurant's value?</h2>
+      <p>Change the facts. The corporation owns the restaurant assets; your shares own only a residual claim.</p>
+    </div>
+    <button type="button" data-reset>Reset example</button>
+  </header>
+
+  <div class="capital-stack-lab__layout">
+    <form class="capital-stack-lab__controls">
+      <fieldset>
+        <legend>Company and capital stack</legend>
+        <label>Asset value <span><b>$</b><input data-input="assets" type="number" min="0" step="50" value="1000" /></span></label>
+        <label>Liquidation costs <span><b>$</b><input data-input="liquidationCosts" type="number" min="0" step="10" value="50" /></span></label>
+        <label>Employees, suppliers, and taxes <span><b>$</b><input data-input="operatingClaims" type="number" min="0" step="10" value="150" /></span></label>
+        <label>Secured debt and bonds <span><b>$</b><input data-input="debt" type="number" min="0" step="25" value="400" /></span></label>
+        <label>Preferred-stock claim <span><b>$</b><input data-input="preferred" type="number" min="0" step="10" value="100" /></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your common shares</legend>
+        <label>Common shares outstanding <span><input data-input="shares" type="number" min="1" step="10" value="100" /></span></label>
+        <label>Shares you own <span><input data-input="ownedShares" type="number" min="0" step="1" value="10" /></span></label>
+        <label>What you paid <span><b>$</b><input data-input="purchaseCost" type="number" min="0" step="10" value="100" /></span></label>
+        <label>New compensation shares issued <span><input data-input="newShares" type="number" min="0" step="5" value="0" /></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Optional capital allocation</legend>
+        <label>Cash dividend paid <span><b>$</b><input data-input="dividend" type="number" min="0" step="10" value="0" /></span></label>
+        <label>Cash spent on buybacks <span><b>$</b><input data-input="buybackCash" type="number" min="0" step="10" value="0" /></span></label>
+        <label>Buyback price per share <span><b>$</b><input data-input="buybackPrice" type="number" min="0.1" step="0.5" value="5" /></span></label>
+      </fieldset>
+    </form>
+
+    <div class="capital-stack-lab__results">
+      <div class="claim-waterfall" aria-label="Liquidation claim waterfall">
+        <article><span>Asset value after capital returns</span><strong data-output="adjustedAssets">$1,000</strong></article>
+        <article><span>Less liquidation and operating claims</span><strong data-output="priorityClaims">−$200</strong></article>
+        <article><span>Less debt and preferred claims</span><strong data-output="capitalClaims">−$500</strong></article>
+        <article class="claim-waterfall__residual"><span>Residual for all common shareholders</span><strong data-output="commonResidual">$300</strong></article>
+      </div>
+
+      <div class="ownership-results">
+        <article><span>Your ownership percentage</span><strong data-output="ownershipPct">10.0%</strong><small data-output="dilutionNote">No new dilution.</small></article>
+        <article><span>Your residual claim</span><strong data-output="yourClaim">$30</strong><small>Not a right to remove assets from the restaurant.</small></article>
+        <article><span>Your declared dividend</span><strong data-output="yourDividend">$0</strong><small>A dividend exists only after the board declares it.</small></article>
+        <article><span>Your maximum ordinary loss</span><strong data-output="maxLoss">$100</strong><small>Limited liability normally caps loss at what you invested.</small></article>
+      </div>
+
+      <div class="capital-stack-lab__explanation" data-explanation></div>
+      <p class="capital-stack-lab__caution">
+        Teaching model only. Actual priority and shareholder rights depend on applicable law,
+        contracts, charter documents, share class, and jurisdiction.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-capital-stack-lab]').forEach((lab) => {
+    const defaults = {
+      assets: 1000,
+      liquidationCosts: 50,
+      operatingClaims: 150,
+      debt: 400,
+      preferred: 100,
+      shares: 100,
+      ownedShares: 10,
+      purchaseCost: 100,
+      newShares: 0,
+      dividend: 0,
+      buybackCash: 0,
+      buybackPrice: 5,
+    };
+    const inputs = [...lab.querySelectorAll('[data-input]')];
+    const output = (name: string): HTMLElement => {
+      const element = lab.querySelector(`[data-output="${name}"]`);
+      if (!(element instanceof HTMLElement)) throw new Error(`Missing capital-stack output: ${name}`);
+      return element;
+    };
+    const money = (value: number) => `$${Math.max(0, value).toLocaleString(undefined, { maximumFractionDigits: 1 })}`;
+    const number = (name: string) => {
+      const input = lab.querySelector(`[data-input="${name}"]`);
+      return input instanceof HTMLInputElement ? Math.max(0, Number(input.value) || 0) : 0;
+    };
+
+    const render = () => {
+      const assets = number('assets');
+      const dividend = Math.min(number('dividend'), assets);
+      const buybackCash = Math.min(number('buybackCash'), Math.max(0, assets - dividend));
+      const adjustedAssets = assets - dividend - buybackCash;
+      const priorityClaims = number('liquidationCosts') + number('operatingClaims');
+      const capitalClaims = number('debt') + number('preferred');
+      const residual = Math.max(0, adjustedAssets - priorityClaims - capitalClaims);
+      const startingShares = Math.max(1, number('shares'));
+      const issuedShares = number('newShares');
+      const buybackPrice = Math.max(0.1, number('buybackPrice'));
+      const repurchasedShares = Math.min(buybackCash / buybackPrice, Math.max(0, startingShares + issuedShares - 1));
+      const endingShares = Math.max(1, startingShares + issuedShares - repurchasedShares);
+      const ownedShares = Math.min(number('ownedShares'), startingShares);
+      const ownershipPct = ownedShares / endingShares;
+      const yourClaim = residual * ownershipPct;
+      const yourDividend = dividend * (ownedShares / startingShares);
+      const purchaseCost = number('purchaseCost');
+
+      output('adjustedAssets').textContent = money(adjustedAssets);
+      output('priorityClaims').textContent = `−${money(priorityClaims)}`;
+      output('capitalClaims').textContent = `−${money(capitalClaims)}`;
+      output('commonResidual').textContent = money(residual);
+      output('ownershipPct').textContent = `${(ownershipPct * 100).toFixed(1)}%`;
+      output('yourClaim').textContent = money(yourClaim);
+      output('yourDividend').textContent = money(yourDividend);
+      output('maxLoss').textContent = money(purchaseCost);
+
+      const dilutionNote = output('dilutionNote');
+      if (dilutionNote) {
+        dilutionNote.textContent = issuedShares > repurchasedShares
+          ? `${issuedShares.toFixed(1)} shares issued exceeds ${repurchasedShares.toFixed(1)} repurchased.`
+          : repurchasedShares > issuedShares
+            ? `${repurchasedShares.toFixed(1)} shares repurchased after spending company cash.`
+            : 'No net share-count change.';
+      }
+
+      const explanation = lab.querySelector('[data-explanation]');
+      if (explanation) {
+        explanation.innerHTML = residual === 0
+          ? '<strong>Common shareholders receive nothing in this scenario.</strong><span>The company can still own assets, but higher-priority claims consume all remaining value.</span>'
+          : `<strong>Common shareholders divide only the ${money(residual)} residual.</strong><span>Your ${ownedShares.toFixed(1)} shares represent ${(ownershipPct * 100).toFixed(1)}% after issuance and buybacks. The company spent ${money(dividend + buybackCash)} before liquidation.</span>`;
+      }
+    };
+
+    inputs.forEach((input) => input.addEventListener('input', render));
+    lab.querySelector('[data-reset]')?.addEventListener('click', () => {
+      Object.entries(defaults).forEach(([name, value]) => {
+        const input = lab.querySelector(`[data-input="${name}"]`);
+        if (input instanceof HTMLInputElement) input.value = String(value);
+      });
+      render();
+    });
+    render();
+  });
+</script>

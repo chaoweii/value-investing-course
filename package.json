@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "npm run import:live && npm run import:portfolio && npm run import:dcf-learning && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "build:deploy": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "import:live": "python3 scripts/import_live_companions.py",
     "import:portfolio": "python3 scripts/import_portfolio_candidates.py",
@@ -17,7 +18,8 @@
     "verify:portfolio": "python3 scripts/verify_portfolio_candidates.py",
     "verify:dcf-learning": "python3 scripts/verify_dcf_learning.py",
     "test:portfolio": "python3 -m unittest discover -s tests -p 'test_portfolio_*.py'",
-    "check": "npm run import:live && npm run import:portfolio && npm run import:dcf-learning && ASTRO_TELEMETRY_DISABLED=1 astro check"
+    "check": "npm run import:live && npm run import:portfolio && npm run import:dcf-learning && ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "check:deploy": "ASTRO_TELEMETRY_DISABLED=1 astro check"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.35.0",

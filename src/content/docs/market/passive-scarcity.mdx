@@ -1,0 +1,40 @@
+---
+title: When Passive Funds Cannot Find Enough Shares
+description: Understand free-float scarcity, marginal price setters, and tracking error.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import PriceDiscoveryLab from '../../../components/PriceDiscoveryLab.astro';
+import IndexRebalanceLab from '../../../components/IndexRebalanceLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Passive funds cannot collectively own more than available float
+
+If required exposure approaches available free float, the market does not produce extra shares by
+wish. Instead, one or more adjustments occur:
+
+1. prices rise until existing owners sell;
+2. spreads and execution costs widen;
+3. funds use futures, swaps, or other substitutes where permitted;
+4. issuers or existing owners sell more shares;
+5. trackers accept temporary tracking error.
+
+<IndexRebalanceLab />
+
+## Does passive investing destroy price discovery?
+
+Passive holders generally do not choose individual-company prices. Yet every quoted price is set
+at the margin by shares that do trade. As passive ownership rises, a smaller active slice may
+become more influential in determining price.
+
+That can produce less price-sensitive mechanical demand around index events, but it does not make
+valuation irrelevant. New information, issuance, active capital, arbitrage, and eventual cash-flow
+delivery still discipline prices.
+
+<PriceDiscoveryLab />
+
+<ChineseNote title="被动资金越多，边际主动交易者可能越重要">
+大多数股份可以长期不交易，但最后一小部分成交仍决定全公司的报价。被动化可能放大短期机械波动，却不会永久取消基本面约束。
+</ChineseNote>
+
+<ProgressTracker id="market-passive-scarcity" />

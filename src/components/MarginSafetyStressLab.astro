@@ -1,0 +1,131 @@
+<section class="mos-lab" data-mos-lab>
+  <header class="mos-lab__head">
+    <div>
+      <p class="exercise__label">Interactive margin-of-safety stress lab</p>
+      <h2>Test whether the price survives imperfect forecasts</h2>
+      <p>
+        Margin of safety is not a promise that the market will recognize value on schedule.
+        It is a way to ask whether the downside is survivable, the base case clears the
+        benchmark, and the upside is worth the uncertainty.
+      </p>
+    </div>
+    <button type="button" data-mos-reset>Reset example</button>
+  </header>
+
+  <div class="mos-lab__layout">
+    <form class="mos-lab__controls">
+      <fieldset>
+        <legend>Price and future values</legend>
+        <label>Current price <span><b>$</b><input data-mos-input="price" type="number" min="1" step="1" value="70" /></span></label>
+        <label>Bear outcome value <span><b>$</b><input data-mos-input="bearValue" type="number" min="0" step="1" value="75" /></span></label>
+        <label>Base outcome value <span><b>$</b><input data-mos-input="baseValue" type="number" min="0" step="1" value="135" /></span></label>
+        <label>Bull outcome value <span><b>$</b><input data-mos-input="bullValue" type="number" min="0" step="1" value="220" /></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Probabilities and hurdle</legend>
+        <label>Bear probability <span><input data-mos-input="bearProb" type="number" min="0" max="100" step="5" value="25" /><b>%</b></span></label>
+        <label>Base probability <span><input data-mos-input="baseProb" type="number" min="0" max="100" step="5" value="55" /><b>%</b></span></label>
+        <label>Holding period <span><input data-mos-input="years" type="number" min="1" max="15" step="1" value="5" /><b>yr</b></span></label>
+        <label>Benchmark return <span><input data-mos-input="benchmark" type="number" min="0" max="20" step="0.5" value="8" /><b>%</b></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Recognition and terminal risk</legend>
+        <label>Recognition delay <span><input data-mos-input="delay" type="number" min="0" max="10" step="1" value="1" /><b>yr</b></span></label>
+        <label>Terminal / multiple dependence <span><input data-mos-input="terminalShare" type="number" min="0" max="100" step="5" value="55" /><b>%</b></span></label>
+      </fieldset>
+    </form>
+
+    <div class="mos-lab__results">
+      <article><span>Downside to bear value</span><strong data-mos-output="downside">—</strong><small>Not a stop loss; a scenario loss.</small></article>
+      <article><span>Base-case IRR</span><strong data-mos-output="baseIrr">—</strong><small data-mos-output="baseSpread">—</small></article>
+      <article><span>Probability-weighted IRR</span><strong data-mos-output="weightedIrr">—</strong><small data-mos-output="weightedSpread">—</small></article>
+      <article><span>Recognition-adjusted base IRR</span><strong data-mos-output="delayedIrr">—</strong><small>Same value, slower market recognition.</small></article>
+    </div>
+
+    <div class="mos-lab__flags" data-mos-flags></div>
+    <div class="mos-lab__story" data-mos-story></div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-mos-lab]').forEach((lab) => {
+    const defaults = {
+      price: 70,
+      bearValue: 75,
+      baseValue: 135,
+      bullValue: 220,
+      bearProb: 25,
+      baseProb: 55,
+      years: 5,
+      benchmark: 8,
+      delay: 1,
+      terminalShare: 55,
+    };
+    const read = (name) => {
+      const input = lab.querySelector(`[data-mos-input="${name}"]`);
+      return input instanceof HTMLInputElement ? Number(input.value) || 0 : 0;
+    };
+    const output = (name) => lab.querySelector(`[data-mos-output="${name}"]`);
+    const pct = (value) => `${(value * 100).toFixed(1)}%`;
+    const irr = (future, price, years) => {
+      if (price <= 0 || future <= 0 || years <= 0) return -1;
+      return (future / price) ** (1 / years) - 1;
+    };
+
+    const render = () => {
+      const x = Object.fromEntries(Object.keys(defaults).map((name) => [name, read(name)]));
+      const price = Math.max(0.01, x.price);
+      const years = Math.max(1, x.years);
+      const bearProb = Math.min(Math.max(x.bearProb, 0), 100) / 100;
+      const baseProb = Math.min(Math.max(x.baseProb, 0), 100) / 100;
+      const bullProb = Math.max(0, 1 - bearProb - baseProb);
+      const normalizedTotal = bearProb + baseProb + bullProb || 1;
+      const bp = bearProb / normalizedTotal;
+      const sp = baseProb / normalizedTotal;
+      const up = bullProb / normalizedTotal;
+      const weightedFuture = x.bearValue * bp + x.baseValue * sp + x.bullValue * up;
+      const benchmark = x.benchmark / 100;
+      const baseIrr = irr(x.baseValue, price, years);
+      const weightedIrr = irr(weightedFuture, price, years);
+      const delayedIrr = irr(x.baseValue, price, years + Math.max(0, x.delay));
+      const downside = (x.bearValue - price) / price;
+
+      output('downside').textContent = pct(downside);
+      output('baseIrr').textContent = pct(baseIrr);
+      output('baseSpread').textContent = `${pct(baseIrr - benchmark)} versus benchmark`;
+      output('weightedIrr').textContent = pct(weightedIrr);
+      output('weightedSpread').textContent = `${pct(weightedIrr - benchmark)} versus benchmark`;
+      output('delayedIrr').textContent = pct(delayedIrr);
+
+      const flags = [];
+      if (baseIrr < benchmark && irr(x.bullValue, price, years) > benchmark) flags.push('Requires bull case to beat benchmark.');
+      if (downside < -0.25) flags.push('Bear case creates material permanent-loss risk.');
+      if (x.terminalShare > 65) flags.push('Terminal multiple or distant value carries most of the return.');
+      if (delayedIrr + 0.01 < baseIrr) flags.push('Value may compound, but market recognition may lag.');
+      if (bp + sp > 1.001) flags.push('Probabilities were normalized because bear plus base exceeded 100%.');
+
+      lab.querySelector('[data-mos-flags]').innerHTML = flags.length
+        ? flags.map((flag) => `<span>${flag}</span>`).join('')
+        : '<span>Stress read is coherent: base clears the benchmark and downside appears controlled.</span>';
+
+      lab.querySelector('[data-mos-story]').innerHTML = `
+        <strong>Interpretation</strong>
+        <p>At $${price.toFixed(0)}, you are paying ${pct((price - x.bearValue) / Math.max(1, x.bearValue))} relative to the bear value and ${pct((x.baseValue - price) / Math.max(1, x.baseValue))} below the base value. The base case ${baseIrr >= benchmark ? 'clears' : 'does not clear'} the benchmark before considering position sizing.</p>
+        <p>Margin of safety is strongest when the bear case is survivable, the base case beats alternatives, and the bull case is upside rather than the only way to justify the purchase.</p>
+      `;
+    };
+
+    lab.querySelectorAll('[data-mos-input]').forEach((input) => input.addEventListener('input', render));
+    lab.querySelector('[data-mos-reset]')?.addEventListener('click', () => {
+      Object.entries(defaults).forEach(([name, value]) => {
+        const input = lab.querySelector(`[data-mos-input="${name}"]`);
+        if (input instanceof HTMLInputElement) input.value = String(value);
+      });
+      render();
+    });
+    render();
+  });
+</script>

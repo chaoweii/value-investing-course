@@ -1,0 +1,67 @@
+<section class="market-lab" data-price-discovery-lab>
+  <header class="market-lab__head">
+    <div>
+      <p class="exercise__label">Interactive price-discovery lab</p>
+      <h2>How high must the buyer bid before somebody sells?</h2>
+      <p>Demand is an intention. A trade exists only where a willing buyer meets a willing seller.</p>
+    </div>
+    <button type="button" data-price-reset>Reset example</button>
+  </header>
+
+  <div class="market-lab__layout">
+    <form class="market-lab__controls">
+      <label>Buyer wants shares <input data-price-input="demand" type="number" min="0" step="100" value="1000" /></label>
+      <label>Maximum bid <span><b>$</b><input data-price-input="maxBid" type="number" min="0" step="1" value="105" /></span></label>
+      <fieldset>
+        <legend>Seller supply schedule</legend>
+        <label>Shares offered at $100 <input data-price-input="supply100" type="number" min="0" step="100" value="200" /></label>
+        <label>Shares offered at $102 <input data-price-input="supply102" type="number" min="0" step="100" value="300" /></label>
+        <label>Shares offered at $105 <input data-price-input="supply105" type="number" min="0" step="100" value="700" /></label>
+        <label>Shares offered at $110 <input data-price-input="supply110" type="number" min="0" step="100" value="1500" /></label>
+      </fieldset>
+    </form>
+
+    <div class="market-lab__results">
+      <div class="market-metrics">
+        <article><span>Shares executed</span><strong data-price-output="executed">—</strong></article>
+        <article><span>Unfilled demand</span><strong data-price-output="unfilled">—</strong></article>
+        <article><span>Highest execution price</span><strong data-price-output="clearing">—</strong></article>
+        <article><span>Average execution price</span><strong data-price-output="average">—</strong></article>
+      </div>
+      <div class="supply-ladder" data-supply-ladder></div>
+      <div class="market-lab__explanation" data-price-explanation></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-price-discovery-lab]').forEach((lab) => {
+    const defaults = { demand:1000, maxBid:105, supply100:200, supply102:300, supply105:700, supply110:1500 };
+    const read = (name) => Number(lab.querySelector(`[data-price-input="${name}"]`)?.value) || 0;
+    const output = (name) => lab.querySelector(`[data-price-output="${name}"]`);
+    const levels = [[100,'supply100'],[102,'supply102'],[105,'supply105'],[110,'supply110']];
+    const render = () => {
+      const demand = Math.max(0, read('demand')); const maxBid = Math.max(0, read('maxBid'));
+      let remaining = demand, executed = 0, cost = 0, clearing = null;
+      const fills = levels.map(([price,key]) => {
+        const supply = Math.max(0, read(key)); const fill = price <= maxBid ? Math.min(supply, remaining) : 0;
+        remaining -= fill; executed += fill; cost += fill * price; if (fill > 0) clearing = price;
+        return {price,supply,fill};
+      });
+      output('executed').textContent = executed.toLocaleString();
+      output('unfilled').textContent = remaining.toLocaleString();
+      output('clearing').textContent = clearing == null ? 'No trade' : `$${clearing}`;
+      output('average').textContent = executed ? `$${(cost/executed).toFixed(2)}` : 'No trade';
+      lab.querySelector('[data-supply-ladder]').innerHTML = fills.map(row => `<div><span>$${row.price} sellers</span><i style="width:${Math.min(100,row.supply/20)}%"></i><strong>${row.fill.toLocaleString()} / ${row.supply.toLocaleString()} filled</strong></div>`).join('');
+      lab.querySelector('[data-price-explanation]').textContent = executed === 0
+        ? 'No willing seller exists at or below the maximum bid. Zero shares trade. The buyer must raise the bid, wait, use a substitute, or remain underinvested.'
+        : remaining > 0
+          ? `The buyer found ${executed.toLocaleString()} shares, but ${remaining.toLocaleString()} remain unfilled. Scarce supply creates price impact and tracking risk.`
+          : `The order is fully executed only because the bid reached sellers asking up to $${clearing}.`;
+    };
+    lab.querySelectorAll('[data-price-input]').forEach(input => input.addEventListener('input', render));
+    lab.querySelector('[data-price-reset]')?.addEventListener('click', () => { Object.entries(defaults).forEach(([key,value]) => { lab.querySelector(`[data-price-input="${key}"]`).value=String(value); }); render(); });
+    render();
+  });
+</script>

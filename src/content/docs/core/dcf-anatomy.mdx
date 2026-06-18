@@ -3,30 +3,88 @@ title: DCF Anatomy · What Are We Actually Valuing?
 description: Separate operating cash flows, enterprise value, equity value, and per-share value.
 ---
 import ChineseNote from '../../../components/ChineseNote.astro';
+import ClaimMatchingValuationLab from '../../../components/ClaimMatchingValuationLab.astro';
 import ExerciseReveal from '../../../components/ExerciseReveal.astro';
 import ProgressTracker from '../../../components/ProgressTracker.astro';
 
-## The complete bridge
+## First identify the claimant
 
 ```text
-Customer and unit economics
-→ revenue − operating costs − reinvestment
-→ owner FCF
-→ present value of operating cash flows
-= enterprise value
-+ underwriteable owner cash − debt and other claims
-= equity value
-÷ diluted shares
-= value per share
+Cash flow available only to common shareholders
+→ discount at required equity return
+= intrinsic equity value directly
+```
+
+```text
+Cash flow available to debt and equity providers
+→ discount at WACC
+= intrinsic enterprise value
+→ bridge through debt, other claims, and excess cash
+= intrinsic equity value
 ```
 
 Accounting earnings measure economic activity under accounting rules. Reported FCF measures a
 period’s cash movement. Owner FCF asks how much cash can belong to shareholders without weakening
-the business. DCF values that future owner cash today.
+the business. In this course, **equity owner FCF** means cash available to common shareholders
+after operating needs, taxes, cash interest, required debt changes, capex, working capital, and
+dilution offset. Its discounted value is equity value, not enterprise value.
+
+## Equity owner FCF is the primary course method
+
+```text
+Revenue − operating costs
+− taxes and cash interest
+− capex, working capital, and required debt repayment
++ sustainable net borrowing
+− cash required to offset dilution
+= equity owner FCF
+→ discount at required equity return
+= operating equity value attributable to common shareholders
++ separately excluded owner cash, if applicable
+= intrinsic common-equity value
+÷ diluted shares
+= intrinsic value per share
+```
+
+FCFF-to-EV remains a mandatory comparison method:
+
+```text
+FCFF available to debt and equity
+→ discount at WACC
+= enterprise value
+− debt, preferred claims, and NCI
++ genuinely excess owner cash
+= intrinsic common-equity value
+÷ diluted shares
+= intrinsic value per share
+```
 
 <ChineseNote title="先问你在估值什么">
 企业价值属于所有资本提供者；股权价值属于股东；每股价值还要经过稀释股数。把三者混在一起，是 DCF 最常见的基础错误。
 </ChineseNote>
+
+## Market cap is the market's offer, not a value to ignore
+
+Market cap is essential after and around the intrinsic-value calculation:
+
+- compare intrinsic equity value with market cap for margin of safety;
+- compare intrinsic per-share value with the listed price;
+- reverse the market cap to reveal implied assumptions;
+- calculate market-implied multiples and opportunity cost;
+- and size the position.
+
+Market cap normally does not determine standalone intrinsic value. The important exception is
+reverse DCF, where the purpose is to discover what the current market offer assumes.
+
+<ClaimMatchingValuationLab />
+
+## Five claim-matching warnings
+
+1. Do not subtract debt twice.
+2. Do not add owner cash twice.
+3. Do not discount FCFF at the required equity return.
+4. Do not match EV with net income or equity FCF.
+5. Do not divide by basic shares when dilution is economically real.
 
 <ExerciseReveal prompt="A company has a wonderful business DCF but expensive debt and heavy dilution. Can the stock still be unattractive?">
 Yes. Operating value can be excellent while debt claims, employee dilution, or an excessive

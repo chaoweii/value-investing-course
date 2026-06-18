@@ -1,0 +1,95 @@
+---
+title: Margin Of Safety · Protection Against Being Wrong
+description: Use conservative value, scenarios, and recognition timing to protect against forecast error.
+---
+import ChineseNote from '../../../components/ChineseNote.astro';
+import MarginSafetyStressLab from '../../../components/MarginSafetyStressLab.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Margin of safety is not a guaranteed future price
+
+Long-term FCF, terminal value, discount rates, and future market recognition are all uncertain.
+Margin of safety exists because you will be wrong about some of them.
+
+The phrase does **not** mean:
+
+```text
+The stock must trade at my target price within a few years.
+```
+
+It means:
+
+```text
+I am paying a price low enough that imperfect forecasts, delayed recognition,
+and some operating disappointment should not destroy the investment outcome.
+```
+
+<ChineseNote title="安全边际不是保证到价">
+安全边际不是承诺市场几年内一定给你目标价，而是承认自己会错：现金流会错、终值会错、利率会错、市场认知时间也会错。价格要低到足以承受这些错误。
+</ChineseNote>
+
+## Three values, three different jobs
+
+| Idea | Question | Common mistake |
+|---|---|---|
+| Intrinsic value today | What is the business worth now under conservative assumptions? | Treating one optimistic target price as fact. |
+| Future value path | What could per-share owner value become if the thesis plays out? | Ignoring dilution, reinvestment, and time. |
+| Future market price | What might other investors pay later? | Assuming recognition arrives exactly when your spreadsheet ends. |
+
+A good investment should not require fast recognition of full value. Time can be your friend when
+per-share owner value compounds, but it is your enemy when the only return comes from hoping
+someone else soon pays a higher multiple.
+
+## The practical test
+
+Use scenarios as mechanisms, not decorations:
+
+```text
+Bear case: preserve capital or limit permanent loss
+Base case: clear the benchmark after opportunity cost
+Bull case: provide asymmetric upside
+```
+
+The bear case can be below today’s price. That does not automatically disqualify the investment.
+But the downside must be sized, plausible, and survivable. If the base case cannot beat Treasury
+bills, the S&P 500, BRK.B, or your next best idea, the investment is relying too heavily on the
+bull case.
+
+<MarginSafetyStressLab />
+
+## Read the example
+
+The default lab starts with:
+
+```text
+Current price: $70
+Conservative value today: $80
+Base value today: $110
+Bull value today: $160
+
+Bear outcome in 5 years: $75
+Base outcome in 5 years: $135
+Bull outcome in 5 years: $220
+```
+
+At `$70`, the investor is not relying on the bull case. If the conservative outcome only reaches
+`$75`, the return is weak but capital is mostly preserved. The base case must still beat the
+benchmark. The bull case creates asymmetry, but should not be the only reason to buy.
+
+## What margin of safety protects against
+
+- FCF grows more slowly than expected.
+- Terminal value deserves a lower multiple or higher required return.
+- Interest rates stay higher for longer.
+- Recognition takes longer than your holding-period model assumes.
+- Management dilutes shareholders or uses cash poorly.
+- The business performs acceptably, but a better opportunity becomes available.
+
+<ExerciseReveal prompt="Why is 'bear value above my purchase price' too strict as a universal rule?">
+Because many attractive equities have real downside in severe scenarios. The right test is whether
+the downside is controlled, the probability is acceptable, the base case beats alternatives, and
+the position size keeps the portfolio alive if the bear case happens.
+</ExerciseReveal>
+
+<ProgressTracker id="dcf-margin-of-safety" />

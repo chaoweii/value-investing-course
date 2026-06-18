@@ -1,0 +1,59 @@
+<section class="market-lab" data-etf-lab>
+  <header class="market-lab__head">
+    <div>
+      <p class="exercise__label">Interactive ETF plumbing lab</p>
+      <h2>Does buying an ETF force the fund to buy stocks?</h2>
+      <p>Usually no. It depends on whether existing ETF shares trade or an authorized participant creates new ones.</p>
+    </div>
+  </header>
+
+  <div class="market-mode-buttons" role="tablist" aria-label="ETF transaction type">
+    <button type="button" data-etf-mode="secondary">Secondary-market trade</button>
+    <button type="button" data-etf-mode="creation">AP creation</button>
+    <button type="button" data-etf-mode="redemption">AP redemption</button>
+  </div>
+
+  <div class="market-lab__layout">
+    <form class="market-lab__controls">
+      <label>ETF shares traded or created <input data-etf-input="shares" type="number" min="0" step="10000" value="100000" /></label>
+      <label>ETF NAV per share <span><b>$</b><input data-etf-input="nav" type="number" min="0.01" step="0.1" value="100" /></span></label>
+      <label>ETF market price <span><b>$</b><input data-etf-input="price" type="number" min="0.01" step="0.1" value="100.5" /></span></label>
+      <label>Example stock basket weight <span><input data-etf-input="weight" type="number" min="0" max="100" step="1" value="8" /><b>%</b></span></label>
+    </form>
+
+    <div class="market-lab__results">
+      <div class="market-metrics">
+        <article><span>ETF transaction value</span><strong data-etf-output="value">—</strong></article>
+        <article><span>Premium / discount</span><strong data-etf-output="premium">—</strong></article>
+        <article><span>Underlying basket flow</span><strong data-etf-output="basket">—</strong></article>
+        <article><span>Example stock flow</span><strong data-etf-output="stock">—</strong></article>
+      </div>
+      <div class="market-lab__explanation" data-etf-explanation></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-etf-lab]').forEach((lab) => {
+    let mode='secondary';
+    const read=(name)=>Number(lab.querySelector(`[data-etf-input="${name}"]`)?.value)||0;
+    const out=(name)=>lab.querySelector(`[data-etf-output="${name}"]`);
+    const money=(v)=>`${v<0?'−':''}$${Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0})}`;
+    const render=()=>{
+      const shares=Math.max(0,read('shares')), nav=Math.max(.01,read('nav')), price=Math.max(.01,read('price')), weight=Math.max(0,read('weight'))/100;
+      const value=shares*price, basket=mode==='secondary'?0:(mode==='creation'?1:-1)*shares*nav;
+      out('value').textContent=money(value); out('premium').textContent=`${((price/nav-1)*100).toFixed(2)}%`;
+      out('basket').textContent=money(basket); out('stock').textContent=money(basket*weight);
+      lab.querySelectorAll('[data-etf-mode]').forEach(button=>button.classList.toggle('active',button.dataset.etfMode===mode));
+      lab.querySelector('[data-etf-explanation]').textContent=mode==='secondary'
+        ? 'One investor buys existing ETF shares from another. The ETF receives no new cash and the underlying basket demand is zero.'
+        : mode==='creation'
+          ? 'An authorized participant delivers the basket or cash and receives newly created ETF shares. This can create underlying-stock demand.'
+          : 'An authorized participant returns ETF shares and receives the basket or cash. This can create underlying-stock supply.';
+    };
+    lab.querySelectorAll('[data-etf-input]').forEach(input=>input.addEventListener('input',render));
+    lab.querySelectorAll('[data-etf-mode]').forEach(button=>button.addEventListener('click',()=>{mode=button.dataset.etfMode;render();}));
+    render();
+  });
+</script>

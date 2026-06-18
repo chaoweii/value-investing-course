@@ -1,0 +1,33 @@
+---
+title: Mutual Funds, ETFs, And Authorized Participants
+description: Learn when fund demand reaches underlying stocks and when it does not.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EtfMechanicsLab from '../../../components/EtfMechanicsLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Mutual-fund and ETF flows take different routes
+
+A mutual-fund investor transacts with the fund at end-of-day NAV. Net subscriptions generally give
+the manager cash to invest; redemptions require cash to be raised.
+
+Most ETF trades occur on an exchange between investors. The ETF itself receives nothing when one
+holder sells existing ETF shares to another.
+
+<EtfMechanicsLab />
+
+## Authorized participants connect ETF shares to the basket
+
+When ETF demand pushes the market price above NAV, an authorized participant may deliver the
+underlying basket or cash, receive newly created ETF shares, and sell them. When ETF shares trade
+below NAV, the reverse redemption process may remove ETF shares and release the basket.
+
+This arbitrage mechanism usually keeps price near NAV. It can weaken during market stress, when
+underlying securities are difficult to price or trade.
+
+<ChineseNote title="买 ETF 不等于 ETF 立刻买股票">
+普通二级市场交易只是 ETF 持有人之间换手。只有创建新 ETF 份额或基金直接收到净流入时，才通常会形成底层证券需求。
+</ChineseNote>
+
+<ProgressTracker id="market-etf-mechanics" />

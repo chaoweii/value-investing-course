@@ -1,0 +1,35 @@
+---
+title: How Indexes And Passive Funds Work
+description: Separate the rule publisher from the funds required to track those rules.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import IndexRebalanceLab from '../../../components/IndexRebalanceLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## An index is a rulebook, not a pool of money
+
+The index provider defines eligibility, constituents, float adjustments, weights, and effective
+dates. It does not buy securities. Index mutual funds, ETFs, mandates, futures, and structured
+products choose to track that rulebook.
+
+An index addition can create buying even with no new investor inflow: existing trackers must move
+from their old portfolio to the new weights. They may fund the addition by selling other holdings,
+using cash, receiving new subscriptions, or temporarily using derivatives.
+
+<IndexRebalanceLab />
+
+## Why trackers often trade near the close
+
+Tracking error is measured against the index. If a change becomes effective at the closing price,
+many funds prefer the closing auction because trading earlier creates a risk that their execution
+price differs from the benchmark.
+
+Fast entry, annual reconstitution, quarterly rebalancing, and corporate-action replacements are
+different mechanisms. Never infer a forced deletion unless the methodology requires one.
+
+<ChineseNote title="指数不买股票，跟踪指数的资金才买">
+规则提供者决定成分与权重；基金负责复制。加入指数会产生机械需求，但资金来源、执行时间和替代工具仍由基金管理。
+</ChineseNote>
+
+<ProgressTracker id="market-index-funds" />

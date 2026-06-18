@@ -1,0 +1,135 @@
+<section class="claim-match-lab" data-claim-match-lab>
+  <header class="claim-match-lab__head">
+    <div>
+      <p class="exercise__label">Interactive claim-matching valuation lab</p>
+      <h2>Value the same company through two valid paths</h2>
+      <p>Match the cash flow, discount rate, and value bridge to the people entitled to receive them.</p>
+    </div>
+    <button type="button" data-claim-reset>Reset example</button>
+  </header>
+
+  <div class="claim-match-lab__methods" role="tablist" aria-label="Valuation method focus">
+    <button type="button" data-method="equity">Equity owner FCF</button>
+    <button type="button" data-method="enterprise">FCFF → EV</button>
+    <button type="button" data-method="reconcile">Reconcile both</button>
+  </div>
+
+  <div class="claim-match-lab__layout">
+    <form class="claim-match-lab__controls">
+      <fieldset>
+        <legend>Cash-flow claims</legend>
+        <label>FCFF available to debt and equity <span><b>$</b><input data-claim-input="fcff" type="number" min="0" step="5" value="100" /></span></label>
+        <label>Cash interest paid <span><b>$</b><input data-claim-input="interest" type="number" min="0" step="1" value="20" /></span></label>
+        <label>Cash tax rate <span><input data-claim-input="taxRate" type="number" min="0" max="50" step="1" value="25" /><b>%</b></span></label>
+        <label>Net new borrowing <span><b>$</b><input data-claim-input="netBorrowing" type="number" step="1" value="10" /></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Discount rates and capital claims</legend>
+        <label>WACC for FCFF <span><input data-claim-input="wacc" type="number" min="1" max="30" step="0.5" value="8" /><b>%</b></span></label>
+        <label>Required equity return <span><input data-claim-input="equityReturn" type="number" min="1" max="40" step="0.5" value="10" /><b>%</b></span></label>
+        <label>Debt <span><b>$</b><input data-claim-input="debt" type="number" min="0" step="25" value="300" /></span></label>
+        <label>Preferred claims and NCI <span><b>$</b><input data-claim-input="otherClaims" type="number" min="0" step="10" value="0" /></span></label>
+        <label>Excess owner cash <span><b>$</b><input data-claim-input="ownerCash" type="number" min="0" step="10" value="100" /></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Public share offer</legend>
+        <label>Diluted shares <span><input data-claim-input="shares" type="number" min="1" step="10" value="100" /></span></label>
+        <label>Listed share price <span><b>$</b><input data-claim-input="price" type="number" min="0" step="0.5" value="8" /></span></label>
+      </fieldset>
+    </form>
+
+    <div class="claim-match-lab__results">
+      <article class="claim-path" data-path="enterprise">
+        <span class="claim-path__label">Path B · FCFF belongs to all capital providers</span>
+        <div><span>FCFF ÷ WACC</span><strong data-output="enterpriseValue">—</strong><small>Intrinsic enterprise value</small></div>
+        <div><span>− debt and other claims + owner cash</span><strong data-output="evEquityValue">—</strong><small>Intrinsic common-equity value</small></div>
+        <div><span>÷ diluted shares</span><strong data-output="evPerShare">—</strong><small>Intrinsic value per share</small></div>
+      </article>
+
+      <article class="claim-path" data-path="equity">
+        <span class="claim-path__label">Path A · Equity owner FCF belongs to common shareholders</span>
+        <div><span>FCFF − after-tax interest + net borrowing</span><strong data-output="equityFcf">—</strong><small>Equity owner FCF</small></div>
+        <div><span>Equity owner FCF ÷ required equity return + owner cash</span><strong data-output="directEquityValue">—</strong><small>Intrinsic common-equity value directly</small></div>
+        <div><span>÷ diluted shares</span><strong data-output="equityPerShare">—</strong><small>Intrinsic value per share</small></div>
+      </article>
+
+      <article class="claim-path claim-path--market" data-path="reconcile">
+        <span class="claim-path__label">Market offer · used after intrinsic value</span>
+        <div><span>Price × diluted shares</span><strong data-output="marketCap">—</strong><small>Current market capitalization</small></div>
+        <div><span>Intrinsic value versus market cap</span><strong data-output="marginSafety">—</strong><small>Margin of safety using the focused path</small></div>
+        <div><span>Difference between valuation paths</span><strong data-output="reconciliationGap">—</strong><small data-output="reconciliationNote">—</small></div>
+      </article>
+
+      <div class="claim-match-lab__warning" data-claim-warning></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-claim-match-lab]').forEach((lab) => {
+    const defaults = { fcff:100, interest:20, taxRate:25, netBorrowing:10, wacc:8, equityReturn:10, debt:300, otherClaims:0, ownerCash:100, shares:100, price:8 };
+    let method = 'reconcile';
+    const read = (name) => {
+      const input = lab.querySelector(`[data-claim-input="${name}"]`);
+      return input instanceof HTMLInputElement ? Number(input.value) || 0 : 0;
+    };
+    const out = (name) => lab.querySelector(`[data-output="${name}"]`);
+    const money = (value) => `$${Math.round(value).toLocaleString()}`;
+    const pct = (value) => `${(value * 100).toFixed(1)}%`;
+
+    const render = () => {
+      const x = Object.fromEntries(Object.keys(defaults).map((name) => [name, read(name)]));
+      const wacc = Math.max(0.001, x.wacc / 100);
+      const equityReturn = Math.max(0.001, x.equityReturn / 100);
+      const afterTaxInterest = x.interest * (1 - x.taxRate / 100);
+      const equityFcf = x.fcff - afterTaxInterest + x.netBorrowing;
+      const enterpriseValue = x.fcff / wacc;
+      const evEquityValue = enterpriseValue - x.debt - x.otherClaims + x.ownerCash;
+      const directEquityValue = equityFcf / equityReturn + x.ownerCash;
+      const shares = Math.max(1, x.shares);
+      const marketCap = x.price * shares;
+      const focusEquity = method === 'enterprise' ? evEquityValue : directEquityValue;
+      const gap = directEquityValue - evEquityValue;
+      const gapPct = evEquityValue === 0 ? 0 : gap / Math.abs(evEquityValue);
+
+      out('enterpriseValue').textContent = money(enterpriseValue);
+      out('evEquityValue').textContent = money(evEquityValue);
+      out('evPerShare').textContent = `$${(evEquityValue / shares).toFixed(2)}`;
+      out('equityFcf').textContent = money(equityFcf);
+      out('directEquityValue').textContent = money(directEquityValue);
+      out('equityPerShare').textContent = `$${(directEquityValue / shares).toFixed(2)}`;
+      out('marketCap').textContent = money(marketCap);
+      out('marginSafety').textContent = focusEquity > 0 ? pct((focusEquity - marketCap) / focusEquity) : 'Not meaningful';
+      out('reconciliationGap').textContent = `${gap >= 0 ? '+' : '−'}${money(Math.abs(gap))}`;
+      out('reconciliationNote').textContent = Math.abs(gapPct) < 0.01
+        ? 'The two paths reconcile within 1%.'
+        : 'The assumptions assign inconsistent value across claim holders.';
+
+      lab.querySelectorAll('[data-path]').forEach((path) => {
+        path.toggleAttribute('data-muted', method !== 'reconcile' && path.getAttribute('data-path') !== method && path.getAttribute('data-path') !== 'reconcile');
+      });
+      lab.querySelectorAll('[data-method]').forEach((button) => button.classList.toggle('active', button.getAttribute('data-method') === method));
+
+      const warnings = [];
+      if (Math.abs(gapPct) >= 0.01) warnings.push('The two methods do not reconcile. Check interest, net borrowing, discount rates, and omitted capital claims.');
+      if (x.ownerCash > 0) warnings.push('Add owner cash only if it was excluded from the forecast cash flow and is genuinely excess.');
+      if (x.otherClaims > 0) warnings.push('Preferred claims and NCI belong in the EV-to-equity bridge, not in diluted common shares.');
+      lab.querySelector('[data-claim-warning]').textContent = warnings.join(' ');
+    };
+
+    lab.querySelectorAll('[data-claim-input]').forEach((input) => input.addEventListener('input', render));
+    lab.querySelectorAll('[data-method]').forEach((button) => button.addEventListener('click', () => { method = button.getAttribute('data-method') || 'reconcile'; render(); }));
+    lab.querySelector('[data-claim-reset]')?.addEventListener('click', () => {
+      Object.entries(defaults).forEach(([name, value]) => {
+        const input = lab.querySelector(`[data-claim-input="${name}"]`);
+        if (input instanceof HTMLInputElement) input.value = String(value);
+      });
+      method = 'reconcile';
+      render();
+    });
+    render();
+  });
+</script>

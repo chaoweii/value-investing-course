@@ -1,0 +1,55 @@
+<section class="market-lab" data-index-lab>
+  <header class="market-lab__head">
+    <div>
+      <p class="exercise__label">Interactive index-rebalance lab</p>
+      <h2>How much exposure must trackers obtain?</h2>
+      <p>A mandate creates demand for exposure, not guaranteed access to shares at the old price.</p>
+    </div>
+  </header>
+
+  <div class="market-lab__layout">
+    <form class="market-lab__controls">
+      <label>Tracker assets <span><b>$B</b><input data-index-input="aum" type="number" min="0" step="10" value="500" /></span></label>
+      <label>New index weight <span><input data-index-input="weight" type="number" min="0" max="100" step="0.1" value="2" /><b>%</b></span></label>
+      <label>Stock price <span><b>$</b><input data-index-input="price" type="number" min="0.01" step="1" value="100" /></span></label>
+      <label>Free-float shares <span><input data-index-input="float" type="number" min="0" step="10" value="500" /><b>M</b></span></label>
+      <label>Existing shares owned <span><input data-index-input="existing" type="number" min="0" step="1" value="10" /><b>M</b></span></label>
+      <label>Derivative exposure <span><input data-index-input="derivatives" type="number" min="0" step="1" value="15" /><b>M shares</b></span></label>
+      <label>Shares sellers offer near price <span><input data-index-input="supply" type="number" min="0" step="1" value="30" /><b>M</b></span></label>
+    </form>
+
+    <div class="market-lab__results">
+      <div class="market-metrics">
+        <article><span>Target exposure</span><strong data-index-output="target">—</strong></article>
+        <article><span>Physical shares still needed</span><strong data-index-output="needed">—</strong></article>
+        <article><span>Near-price shares available</span><strong data-index-output="available">—</strong></article>
+        <article><span>Unfilled exposure</span><strong data-index-output="unfilled">—</strong></article>
+      </div>
+      <div class="index-gauge"><i data-index-gauge></i></div>
+      <div class="market-lab__explanation" data-index-explanation></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-index-lab]').forEach((lab)=>{
+    const read=(name)=>Number(lab.querySelector(`[data-index-input="${name}"]`)?.value)||0;
+    const out=(name)=>lab.querySelector(`[data-index-output="${name}"]`);
+    const render=()=>{
+      const aum=read('aum')*1000, weight=read('weight')/100, price=Math.max(.01,read('price')), float=Math.max(0,read('float'));
+      const targetShares=aum*weight/price, existing=read('existing'), derivatives=read('derivatives'), supply=read('supply');
+      const needed=Math.max(0,targetShares-existing-derivatives), available=Math.min(needed,supply), unfilled=Math.max(0,needed-supply);
+      const floatPct=float?needed/float:0;
+      out('target').textContent=`${targetShares.toFixed(1)}M shares`; out('needed').textContent=`${needed.toFixed(1)}M · ${(floatPct*100).toFixed(1)}% of float`;
+      out('available').textContent=`${available.toFixed(1)}M`; out('unfilled').textContent=`${unfilled.toFixed(1)}M`;
+      lab.querySelector('[data-index-gauge]').style.width=`${Math.min(100,floatPct*100)}%`;
+      lab.querySelector('[data-index-explanation]').textContent=unfilled>0
+        ? `Near-price supply is insufficient by ${unfilled.toFixed(1)}M shares. Trackers must bid higher, find block sellers, use more derivatives, or accept temporary tracking error.`
+        : needed===0
+          ? 'Existing physical and derivative exposure already meets the mandate. No immediate physical buying is required.'
+          : 'Near-price seller supply can satisfy the modeled physical demand, although actual execution may still move price.';
+    };
+    lab.querySelectorAll('[data-index-input]').forEach(input=>input.addEventListener('input',render)); render();
+  });
+</script>

@@ -1,0 +1,4 @@
+---
+const { term, definition } = Astro.props;
+---
+<abbr class="glossary-term" title={definition} aria-label={`${term}: ${definition}`}>{term}</abbr>

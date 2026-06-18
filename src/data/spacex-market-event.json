@@ -1,0 +1,43 @@
+{
+  "asOf": "2026-06-11",
+  "posture": "Confirmed methodology; reported IPO facts; cautious flow inference",
+  "warning": "Event facts and prices can change quickly",
+  "confirmed": [
+    "Nasdaq's published methodology permits a qualifying IPO fast entry after evaluation following its seventh trading day, with inclusion typically after 15 trading days.",
+    "A fast-entry addition may temporarily increase the Nasdaq-100 above 100 issuers; immediate deletion is not mandatory.",
+    "S&P U.S. methodology generally requires IPOs to trade for at least 12 months before S&P 500 eligibility.",
+    "An index provider publishes rules and weights; tracking products, not the index itself, trade securities."
+  ],
+  "reported": [
+    "Financial press reported that SpaceX priced 555.6 million shares at $135, raising about $75 billion at an approximately $1.77-$1.78 trillion valuation.",
+    "Financial press reported demand materially above the offered shares, but published estimates differ and are not equivalent to committed post-IPO market inflows.",
+    "The size, timing, and instruments used by future index trackers remain uncertain until eligibility, announcement, effective weights, and tracking assets are known."
+  ],
+  "inferences": [
+    "SpaceX index inclusion could create meaningful mechanical demand relative to available float.",
+    "Mechanical funding could create temporary selling elsewhere, but affected securities cannot be identified from the IPO order book alone.",
+    "Unallocated IPO bids are not a guaranteed pool that must be redeployed into thematic peers."
+  ],
+  "sources": [
+    {
+      "label": "Nasdaq-100 Index Methodology",
+      "url": "https://indexes.nasdaqomx.com/docs/Methodology_NDX.pdf",
+      "use": "Fast-entry eligibility, timing, weighting, and constituent-count mechanics"
+    },
+    {
+      "label": "S&P U.S. Indices Methodology",
+      "url": "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-us-indices.pdf",
+      "use": "IPO seasoning and S&P 500 eligibility"
+    },
+    {
+      "label": "SEC Investor Bulletin: Exchange-Traded Funds",
+      "url": "https://www.sec.gov/investor/alerts/etfs.pdf",
+      "use": "ETF secondary trading and creation/redemption mechanics"
+    },
+    {
+      "label": "Axios: SpaceX raises $75 billion in its IPO",
+      "url": "https://www.axios.com/2026/06/11/spacex-ipo-prices-75-billion",
+      "use": "Reported IPO pricing and offering size; treated as financial-press reporting"
+    }
+  ]
+}

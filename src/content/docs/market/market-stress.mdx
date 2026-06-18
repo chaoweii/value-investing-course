@@ -1,0 +1,29 @@
+---
+title: Leverage, Short Selling, Options, And Market Stress
+description: Learn how obligations and forced trades amplify market moves.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## Voluntary opinions can become forced transactions
+
+| Mechanism | Initial purpose | Stress transmission |
+|---|---|---|
+| Margin borrowing | Increase exposure | Falling prices trigger collateral calls and forced selling |
+| Short selling | Express negative view or hedge | Rising prices can force buy-ins or short covering |
+| Options | Transfer nonlinear risk | Dealers may hedge by buying into rallies or selling into declines |
+| Securities lending | Enable shorts and settlement | Recall or scarcity can raise borrow cost and disrupt positioning |
+| Circuit breakers | Slow disorderly trading | Pause execution; they do not determine fair value |
+
+A market maker manages inventory and risk. It does not promise infinite liquidity. During stress,
+quotes can widen or disappear because the cost of holding risk rises.
+
+Settlement failures and collateral shortages matter because markets are networks of obligations.
+The original thesis may remain unchanged while forced participants temporarily dominate price.
+
+<ChineseNote title="价格最剧烈时，交易者未必在表达观点">
+追加保证金、空头回补、期权对冲和赎回都可能迫使参与者交易。此时价格反映的是资产负债表约束，而不只是对企业价值的判断。
+</ChineseNote>
+
+<ProgressTracker id="market-stress" />

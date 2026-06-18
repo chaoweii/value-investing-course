@@ -1,0 +1,34 @@
+---
+title: How A Market Price Forms
+description: Understand order books, willing sellers, spreads, and price impact.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import PriceDiscoveryLab from '../../../components/PriceDiscoveryLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## A quote is not guaranteed inventory
+
+The best bid is the highest visible price a buyer offers. The best ask is the lowest visible price
+a seller accepts. The spread is the distance between them. A market order prioritizes execution;
+a limit order prioritizes price.
+
+Every completed purchase has a seller. If no seller accepts the bid, no trade occurs. A motivated
+buyer must raise the bid, wait, use a substitute, or remain unfilled.
+
+<PriceDiscoveryLab />
+
+## Why large orders move prices
+
+Displayed supply is a schedule, not a single number. The first shares may be available at `$100`,
+more at `$102`, and a much larger block only at `$110`. Consuming that ladder creates **price
+impact**. Free float, ownership concentration, volatility, and urgency determine how steep it is.
+
+Closing auctions concentrate many index and institutional orders at one clearing price. They can
+handle enormous volume, but they still require offsetting interest.
+
+<ChineseNote title="没有卖家，不是基金买不到股票，而是旧价格买不到">
+买方只能提高报价，直到有人愿意卖；否则订单无法成交。流动性不是固定库存，而是随价格变化的供给曲线。
+</ChineseNote>
+
+<ProgressTracker id="market-price-discovery" />

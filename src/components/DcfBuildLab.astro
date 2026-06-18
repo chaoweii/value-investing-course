@@ -67,7 +67,7 @@ const assumptions = [
   <div class="dcf-model-strip">
     <article><span>Year 1 revenue</span><strong data-model-revenue>—</strong><small>Operations layer</small></article>
     <article><span>Year 1 owner FCF</span><strong data-model-fcf>—</strong><small>After SBC offset</small></article>
-    <article><span>Equity value</span><strong data-model-equity>—</strong><small>Operations plus owner cash</small></article>
+    <article><span>Intrinsic equity value</span><strong data-model-equity>—</strong><small>Operating equity value plus owner cash</small></article>
     <article><span>Value / share</span><strong data-model-share>—</strong><small>Compared with workbench base</small></article>
   </div>
 
@@ -85,7 +85,7 @@ const assumptions = [
   <div class="dcf-value-decomposition">
     <article><span>Explicit FCF PV</span><strong data-explicit-pv>—</strong></article>
     <article><span>Terminal-value PV</span><strong data-terminal-pv>—</strong></article>
-    <article><span>Terminal share of EV</span><strong data-terminal-share>—</strong></article>
+    <article><span>Terminal share of operating equity value</span><strong data-terminal-share>—</strong></article>
     <article><span>Workbench base DCF</span><strong>{new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0}).format(tost.baseValue)}</strong></article>
   </div>
 
@@ -157,8 +157,8 @@ const assumptions = [
       const r=x.discountRate/100,g=x.terminalGrowth/100;
       const terminal=r>g?rows[9].ownerFcf*(1+g)/(r-g):Infinity;
       const terminalPv=terminal/((1+r)**10);
-      const ev=explicit+terminalPv, equity=ev+x.ownerCash, perShare=equity/x.shares;
-      return {x,rows,explicit,terminalPv,ev,equity,perShare};
+      const operatingEquityValue=explicit+terminalPv, equity=operatingEquityValue+x.ownerCash, perShare=equity/x.shares;
+      return {x,rows,explicit,terminalPv,operatingEquityValue,equity,perShare};
     };
 
     const render = () => {
@@ -170,19 +170,19 @@ const assumptions = [
       lab.querySelector('[data-model-equity]').textContent=money(model.equity);
       lab.querySelector('[data-model-share]').textContent=`$${model.perShare.toFixed(2)}`;
       lab.querySelector('[data-scenario-learner]').textContent=`$${model.perShare.toFixed(2)}`;
-      lab.querySelector('[data-dcf-bridge]').innerHTML=`<span>Revenue ${money(model.rows[0].revenue)}</span><b>−</b><span>Operating and reinvestment costs</span><b>=</b><span>Owner FCF ${money(model.rows[0].ownerFcf)}</span><b>→</b><span>Discounted equity value ${money(model.equity)}</span>`;
+      lab.querySelector('[data-dcf-bridge]').innerHTML=`<span>Revenue ${money(model.rows[0].revenue)}</span><b>−</b><span>Operating, reinvestment, and dilution costs</span><b>=</b><span>Equity owner FCF ${money(model.rows[0].ownerFcf)}</span><b>→</b><span>Operating equity value ${money(model.operatingEquityValue)}</span><b>+</b><span>Owner cash ${money(model.x.ownerCash)}</span><b>=</b><span>Intrinsic equity value ${money(model.equity)}</span>`;
       lab.querySelector('[data-dcf-forecast]').innerHTML=model.rows.map(r=>`<tr><td>${r.year}</td><td>${money(r.revenue)}</td><td>${pct(r.margin)}</td><td>${money(r.operatingIncome)}</td><td>${money(r.ownerFcf)}</td><td>${money(r.pv)}</td></tr>`).join('');
       lab.querySelector('[data-explicit-pv]').textContent=money(model.explicit);
       lab.querySelector('[data-terminal-pv]').textContent=money(model.terminalPv);
-      lab.querySelector('[data-terminal-share]').textContent=pct(model.terminalPv/model.ev);
-      const warning=[]; if(model.x.terminalGrowth>=model.x.discountRate)warning.push('Terminal growth must remain below the discount rate.'); if(model.terminalPv/model.ev>.75)warning.push('More than 75% of operating value comes from terminal value.'); if(model.rows[9].margin>.25)warning.push('Derived mature operating margin above 25% requires exceptional evidence.'); if(model.rows[0].ownerFcf<0)warning.push('The starting owner-FCF bridge is negative.');
+      lab.querySelector('[data-terminal-share]').textContent=pct(model.terminalPv/model.operatingEquityValue);
+      const warning=[]; if(model.x.terminalGrowth>=model.x.discountRate)warning.push('Terminal growth must remain below the discount rate.'); if(model.terminalPv/model.operatingEquityValue>.75)warning.push('More than 75% of operating equity value comes from terminal value.'); if(model.rows[9].margin>.25)warning.push('Derived mature operating margin above 25% requires exceptional evidence.'); if(model.rows[0].ownerFcf<0)warning.push('The starting owner-FCF bridge is negative.');
       const warningEl=lab.querySelector('[data-dcf-warning]'); warningEl.hidden=!warning.length; warningEl.textContent=warning.join(' ');
       const sensitivity=source.assumptions.map(a=>{const shock=a.id==='discountRate'||a.id==='terminalGrowth'?1:2;const changed=calculateModel({[a.id]:model.x[a.id]+shock});return {label:a.label,delta:changed.perShare-model.perShare};}).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta));
       lab.querySelector('[data-dcf-sensitivity]').innerHTML=sensitivity.map(s=>`<div><span>${s.label}</span><strong>${s.delta>=0?'+':''}$${s.delta.toFixed(2)}/share</strong><i style="width:${Math.min(Math.abs(s.delta)*8,100)}%"></i></div>`).join('');
       const market=tost.price; let implied=null; for(let growth=-5;growth<=40;growth+=0.1){const value=calculateModel({revenueGrowth:growth}).perShare;if(value>=market){implied=growth;break;}}
       lab.querySelector('[data-reverse-dcf]').textContent=implied===null?'The current price is above this model even at 40% revenue growth.':`Holding every other learner assumption constant, the current price of $${market.toFixed(2)} implies roughly ${implied.toFixed(1)}% annual revenue growth in this simplified model. This is a diagnostic, not a forecast.`;
       const ledgerRows=source.assumptions.map(a=>`| ${a.label} | ${model.x[a.id]} | ${(state.ledger[a.id]?.mechanism||a.mechanism).replaceAll('|','/')} | ${(state.ledger[a.id]?.falsifier||a.falsifier).replaceAll('|','/')} |`).join('\n');
-      lab.querySelector('[data-dcf-markdown]').value=`# TOST DCF Underwriting Journal\n\nDate: ${new Date().toISOString().slice(0,10)}\n\n## Valuation Read\n- Learner-model value per share: $${model.perShare.toFixed(2)}\n- Workbench base DCF: $${tost.baseValue.toFixed(2)}\n- Current price: $${tost.price.toFixed(2)}\n- Explicit FCF PV: ${money(model.explicit)}\n- Terminal-value PV: ${money(model.terminalPv)}\n\n## Assumption Ledger\n\n| Assumption | Base input | Mechanism | Falsifier |\n|---|---:|---|---|\n${ledgerRows}\n\n## Audit\n- What could be double-counted?\n- Which assumption is carrying the valuation?\n- What evidence would make me reduce value?\n- Why is DCF or SOTP the better primary method?\n`;
+      lab.querySelector('[data-dcf-markdown]').value=`# TOST DCF Underwriting Journal\n\nDate: ${new Date().toISOString().slice(0,10)}\n\n## Claim And Method\n- Cash-flow claim: equity owner FCF available to common shareholders after required operating, reinvestment, financing, and dilution-offset needs.\n- Discount rate: required equity return.\n- Result before owner cash: operating equity value, not enterprise value.\n- Simplifying assumption: no material preferred claim, NCI, required debt repayment, or sustainable net borrowing.\n\n## Valuation Read\n- Learner-model value per share: $${model.perShare.toFixed(2)}\n- Workbench base DCF: $${tost.baseValue.toFixed(2)}\n- Current price: $${tost.price.toFixed(2)}\n- Explicit owner-FCF PV: ${money(model.explicit)}\n- Terminal-value PV: ${money(model.terminalPv)}\n- Operating equity value: ${money(model.operatingEquityValue)}\n- Separately added owner cash: ${money(model.x.ownerCash)}\n- Intrinsic equity value: ${money(model.equity)}\n\n## Assumption Ledger\n\n| Assumption | Base input | Mechanism | Falsifier |\n|---|---:|---|---|\n${ledgerRows}\n\n## Audit\n- What could be double-counted?\n- Which assumption is carrying the valuation?\n- What evidence would make me reduce value?\n- Why is DCF or SOTP the better primary method?\n`;
     };
     lab.querySelectorAll('[data-dcf-input]').forEach(el=>{el.value=state.inputs[el.dataset.dcfInput]??el.value;el.addEventListener('input',render);});
     lab.querySelectorAll('[data-layer-button]').forEach(el=>el.addEventListener('click',()=>{state.layer=Number(el.dataset.layerButton);render();}));

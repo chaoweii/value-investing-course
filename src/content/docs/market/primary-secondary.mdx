@@ -1,0 +1,47 @@
+---
+title: Primary And Secondary Markets
+description: Separate capital raised by a company from money exchanged between investors.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+
+## The primary market funds the issuer
+
+In an IPO or follow-on offering, newly issued or selling-shareholder securities are allocated
+through underwriters. Only the issuer portion raises capital for the corporation.
+
+```text
+Investor cash → underwriter / offering process → company
+Company → newly issued shares → investor
+```
+
+An oversubscribed order book means requested allocations exceed offered shares. It does **not**
+prove that every order represents permanent, unlevered capital that must immediately buy something
+else.
+
+## The secondary market transfers existing claims
+
+After listing, most trading is investor-to-investor:
+
+```text
+Buyer cash → seller
+Seller's existing shares → buyer
+Company receives no new capital
+```
+
+The company may still be affected through employee compensation, acquisition currency, reputation,
+or future financing cost, but the ordinary trade itself does not fund operations.
+
+| Event | Company receives cash? | Shares outstanding change? |
+|---|---:|---:|
+| Primary issuance | Usually yes | Usually increases |
+| Selling shareholder in an IPO | No | No |
+| Ordinary exchange trade | No | No |
+| Company buyback | Company pays cash | Usually decreases after retirement |
+
+<ChineseNote title="买股票不一定是在给公司送钱">
+IPO 中的新股发行会给公司融资；上市后的普通交易通常只是投资者之间交换现金和股份。股价很重要，但每一笔成交并不会进入公司账户。
+</ChineseNote>
+
+<ProgressTracker id="market-primary-secondary" />

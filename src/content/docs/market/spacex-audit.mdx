@@ -1,0 +1,57 @@
+---
+title: SpaceX IPO And Index-Inclusion Audit
+description: A dated audit separating event facts, reported demand, methodology, and inference.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import EvidenceVsAssumption from '../../../components/EvidenceVsAssumption.astro';
+import IndexRebalanceLab from '../../../components/IndexRebalanceLab.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import event from '../../../data/spacex-market-event.json';
+
+<div class="event-audit-head">
+  <div><span>Dated event audit</span><strong>{event.asOf}</strong></div>
+  <div><span>Evidence posture</span><strong>{event.posture}</strong></div>
+  <div><span>Refresh warning</span><strong>{event.warning}</strong></div>
+</div>
+
+## What is confirmed, reported, and inferred?
+
+<EvidenceVsAssumption
+  evidence={event.confirmed}
+  assumptions={event.reported}
+  judgments={event.inferences}
+/>
+
+## The index-mechanics audit
+
+- Nasdaq-100 fast entry can evaluate a qualifying IPO after its seventh trading day and typically
+  make the addition after 15 trading days. Eligibility still matters.
+- Fast entry may temporarily increase the Nasdaq-100 above 100 issuers; it does not inherently
+  require an immediate deletion.
+- S&P 500 methodology generally requires an IPO to trade for at least 12 months before eligibility.
+  Eligibility never guarantees committee selection.
+- Existing trackers may need exposure even without new fund inflows. That demand can be funded by
+  selling other holdings, using cash, or using derivatives.
+
+<IndexRebalanceLab />
+
+## What the oversubscription does not prove
+
+Orders above the offered amount are not a guaranteed pool of cash that must enter GOOGL, META,
+AAPL, TSM, FUTU, or any thematic peer. Orders can be scaled, duplicated across managers, withdrawn,
+financed, or redirected to Treasury bills and unrelated assets.
+
+The disciplined claim is narrower: extraordinary demand is evidence of risk appetite and scarcity
+for this offering. It may influence adjacent securities, but each transmission channel requires
+separate evidence.
+
+<ChineseNote title="申购未获配，不等于资金必须流向类似股票">
+超额申购说明需求强，但订单不等于永久资本。投资者可以撤单、降低仓位、偿还融资、持有国债，或购买完全不同的资产。
+</ChineseNote>
+
+## Source trail
+
+{event.sources.map((source) => <p><a href={source.url}>{source.label}</a> · {source.use}</p>)}
+
+<ProgressTracker id="market-spacex-audit" />
