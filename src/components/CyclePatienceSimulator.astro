@@ -1,0 +1,262 @@
+---
+import snapshot from '../data/cycle-simulator.json';
+---
+
+<section class="cycle-lab" data-cycle-lab>
+  <div class="cycle-lab__head">
+    <div>
+      <p class="live-panel__eyebrow">Historical patience simulator</p>
+      <h2>What if you moved between S&P 500 ownership and T-bills?</h2>
+      <p>
+        This lab uses prior-year valuation and yield data only. It is a patience and cycle-awareness
+        exercise, not a trading system.
+      </p>
+    </div>
+    <span class="freshness">Snapshot {snapshot.generatedAt.slice(0, 10)}</span>
+  </div>
+
+  <script is:inline type="application/json" data-cycle-data set:html={JSON.stringify(snapshot)}></script>
+
+  <div class="cycle-warning">
+    <strong>Backtest, not forecast.</strong>
+    Valuation bands are better at shaping long-horizon expected return than predicting next year.
+    Rules that worked historically can fail in the future.
+  </div>
+
+  <div class="cycle-controls">
+    <label>Start year<input data-control="startYear" type="number" min={snapshot.defaultOptions.startYear} max={snapshot.defaultOptions.endYear - 1} value={snapshot.defaultOptions.startYear} /></label>
+    <label>End year<input data-control="endYear" type="number" min={snapshot.defaultOptions.startYear + 1} max={snapshot.defaultOptions.endYear} value={snapshot.defaultOptions.endYear} /></label>
+    <label>Low CAPE<input data-control="lowCape" type="number" min="5" max="35" step="1" value={snapshot.defaultOptions.lowCape} /></label>
+    <label>High CAPE<input data-control="highCape" type="number" min="10" max="50" step="1" value={snapshot.defaultOptions.highCape} /></label>
+    <label>Min equity %<input data-control="minEquity" type="number" min="0" max="100" step="5" value={snapshot.defaultOptions.minEquity * 100} /></label>
+    <label>Normal equity %<input data-control="normalEquity" type="number" min="0" max="100" step="5" value={snapshot.defaultOptions.normalEquity * 100} /></label>
+    <label>Max equity %<input data-control="maxEquity" type="number" min="0" max="100" step="5" value={snapshot.defaultOptions.maxEquity * 100} /></label>
+    <label>T-bill hurdle spread<input data-control="hurdleSpread" type="number" min="-5" max="10" step="0.5" value={snapshot.defaultOptions.hurdleSpread * 100} /></label>
+  </div>
+
+  <div class="cycle-metrics" data-cycle-summary></div>
+
+  <div class="cycle-chart-grid">
+    <article>
+      <h3>Wealth over time</h3>
+      <div class="cycle-chart" data-wealth-chart></div>
+    </article>
+    <article>
+      <h3>Patient strategy equity weight</h3>
+      <div class="cycle-chart" data-weight-chart></div>
+    </article>
+    <article>
+      <h3>Drawdown</h3>
+      <div class="cycle-chart" data-drawdown-chart></div>
+    </article>
+    <article>
+      <h3>CAPE regime</h3>
+      <div class="cycle-chart" data-cape-chart></div>
+    </article>
+  </div>
+
+  <h3>Cycle case studies</h3>
+  <div class="cycle-cases" data-cycle-cases></div>
+
+  <details class="portfolio-markdown">
+    <summary>Generate cycle journal entry</summary>
+    <textarea data-cycle-journal rows="16" readonly></textarea>
+    <button type="button" data-copy-cycle-journal>Copy Markdown</button>
+  </details>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-cycle-lab]').forEach((lab) => {
+    const data = JSON.parse(lab.querySelector('[data-cycle-data]').textContent || '{}');
+    const records = data.annualRecords || [];
+    const strategies = [
+      ['sp500', 'Buy and hold S&P 500'],
+      ['tbills', 'Treasury money-market'],
+      ['balanced', 'Static 70/30'],
+      ['valuation', 'Valuation-aware patient'],
+      ['spread', 'Earnings-yield spread'],
+      ['fear', 'Add-after-fear'],
+    ];
+    const fmtMoney = (value) => `$${Math.round(value).toLocaleString()}`;
+    const fmtPct = (value) => `${(value * 100).toFixed(1)}%`;
+    const control = (name) => Number(lab.querySelector(`[data-control="${name}"]`).value);
+    const average = (values) => {
+      const usable = values.filter((value) => Number.isFinite(value));
+      return usable.length ? usable.reduce((sum, value) => sum + value, 0) / usable.length : 0;
+    };
+    const options = () => ({
+      startYear: control('startYear'),
+      endYear: control('endYear'),
+      lowCape: control('lowCape'),
+      highCape: control('highCape'),
+      minEquity: control('minEquity') / 100,
+      normalEquity: control('normalEquity') / 100,
+      maxEquity: control('maxEquity') / 100,
+      hurdleSpread: control('hurdleSpread') / 100,
+      drawdownTrigger: -0.2,
+    });
+    const clampWeights = () => {
+      const min = control('minEquity');
+      const normal = control('normalEquity');
+      const max = control('maxEquity');
+      if (min > normal) lab.querySelector('[data-control="normalEquity"]').value = min;
+      if (normal > max) lab.querySelector('[data-control="maxEquity"]').value = normal;
+      if (control('lowCape') >= control('highCape')) lab.querySelector('[data-control="highCape"]').value = control('lowCape') + 1;
+      if (control('startYear') >= control('endYear')) lab.querySelector('[data-control="endYear"]').value = control('startYear') + 1;
+    };
+    const simulate = (strategy, opts) => {
+      const selected = records.filter((record) => record.year >= opts.startYear - 1 && record.year <= opts.endYear);
+      let wealth = 10000;
+      let spWealth = 10000;
+      let spPeak = 10000;
+      let peak = 10000;
+      let maxDrawdown = 0;
+      let priorWeight = null;
+      let turnover = 0;
+      const series = [];
+      for (let index = 1; index < selected.length; index += 1) {
+        const previous = selected[index - 1];
+        const current = selected[index];
+        if (current.year < opts.startYear) continue;
+        const spDrawdown = spWealth / spPeak - 1;
+        let equityWeight;
+        if (strategy === 'sp500') equityWeight = 1;
+        else if (strategy === 'tbills') equityWeight = 0;
+        else if (strategy === 'balanced') equityWeight = 0.7;
+        else if (strategy === 'spread') {
+          const earningsYield = previous.avgPe ? 1 / previous.avgPe : 0;
+          const spread = earningsYield - (previous.avgTbillYield ?? 0);
+          equityWeight = spread >= opts.hurdleSpread ? opts.maxEquity : spread <= 0 ? opts.minEquity : opts.normalEquity;
+        } else {
+          equityWeight = previous.avgCape <= opts.lowCape ? opts.maxEquity : previous.avgCape >= opts.highCape ? opts.minEquity : opts.normalEquity;
+          if (strategy === 'fear' && spDrawdown <= opts.drawdownTrigger && previous.avgCape < opts.highCape) {
+            equityWeight = Math.min(opts.maxEquity, equityWeight + 0.2);
+          }
+        }
+        if (priorWeight !== null) turnover += Math.abs(equityWeight - priorWeight);
+        priorWeight = equityWeight;
+        const annualReturn = equityWeight * current.spTotalReturn + (1 - equityWeight) * current.tbillReturn;
+        wealth *= 1 + annualReturn;
+        spWealth *= 1 + current.spTotalReturn;
+        spPeak = Math.max(spPeak, spWealth);
+        peak = Math.max(peak, wealth);
+        maxDrawdown = Math.min(maxDrawdown, wealth / peak - 1);
+        series.push({
+          year: current.year,
+          wealth,
+          spWealth,
+          annualReturn,
+          equityWeight,
+          drawdown: wealth / peak - 1,
+          cape: previous.avgCape,
+          tbillYield: previous.avgTbillYield,
+        });
+      }
+      const years = Math.max(1, series.length);
+      const rolling = (period) => {
+        const returns = [];
+        for (let i = period; i < series.length; i += 1) {
+          const start = i === period ? 10000 : series[i - period].wealth;
+          returns.push((series[i].wealth / start) ** (1 / period) - 1);
+        }
+        return returns.length ? Math.min(...returns) : null;
+      };
+      const foolishYears = series.filter((point, i) => {
+        const spReturn = records.find((record) => record.year === point.year)?.spTotalReturn ?? 0;
+        return point.equityWeight < 1 && spReturn - point.annualReturn > 0.05;
+      }).length;
+      return {
+        endingWealth: wealth,
+        cagr: (wealth / 10000) ** (1 / years) - 1,
+        maxDrawdown,
+        worstRolling5: rolling(5),
+        worstRolling10: rolling(10),
+        averageEquityWeight: average(series.map((point) => point.equityWeight)),
+        turnover,
+        foolishYears,
+        years,
+        series,
+      };
+    };
+    const svg = (paths, yMin, yMax, formatY = (v) => v.toFixed(0), height = 220) => {
+      const width = 720;
+      const pad = 34;
+      const all = paths.flatMap((path) => path.points);
+      const minYear = Math.min(...all.map((point) => point.year));
+      const maxYear = Math.max(...all.map((point) => point.year));
+      const x = (year) => pad + (year - minYear) / Math.max(1, maxYear - minYear) * (width - pad * 2);
+      const y = (value) => height - pad - (value - yMin) / Math.max(0.0001, yMax - yMin) * (height - pad * 2);
+      const lines = paths.map((path, index) => {
+        const d = path.points.map((point, i) => `${i ? 'L' : 'M'}${x(point.year).toFixed(1)} ${y(point.value).toFixed(1)}`).join(' ');
+        return `<path d="${d}" fill="none" stroke="${path.color}" stroke-width="2.2"/>`;
+      }).join('');
+      const legend = paths.map((path, index) => `<span><i style="background:${path.color}"></i>${path.label}</span>`).join('');
+      return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Historical chart">
+        <line x1="${pad}" y1="${height-pad}" x2="${width-pad}" y2="${height-pad}" stroke="currentColor" opacity=".25"/>
+        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height-pad}" stroke="currentColor" opacity=".25"/>
+        <text x="${pad}" y="${pad-10}" fill="currentColor">${formatY(yMax)}</text>
+        <text x="${pad}" y="${height-8}" fill="currentColor">${formatY(yMin)}</text>
+        ${lines}
+      </svg><div class="cycle-chart__legend">${legend}</div>`;
+    };
+    const cycleCaseHtml = (results) => {
+      const patient = results.valuation.series;
+      const cases = [
+        ['1970s inflation', 1973, 1982, 'Inflation and rates made cash more competitive while stock multiples compressed.'],
+        ['Dot-com unwind', 2000, 2002, 'High valuation reduced the forward odds before the crash arrived.'],
+        ['Global financial crisis', 2008, 2009, 'Fear created opportunity, but only investors with liquidity could use it.'],
+        ['2020 shock', 2020, 2020, 'A fast drawdown and fast recovery show why valuation is not a short-term clock.'],
+        ['2022 rate reset', 2022, 2022, 'Higher discount rates hurt long-duration assets while T-bills became useful again.'],
+      ];
+      return cases.map(([label, start, end, lesson]) => {
+        const window = patient.filter((point) => point.year >= start && point.year <= end);
+        const cumulative = window.reduce((wealth, point) => wealth * (1 + point.annualReturn), 1) - 1;
+        const weight = average(window.map((point) => point.equityWeight));
+        return `<article><strong>${label}</strong><span>${start}${start === end ? '' : `-${end}`}</span><p>${lesson}</p><em>Patient strategy: ${fmtPct(cumulative)} cumulative, avg equity ${fmtPct(weight)}</em></article>`;
+      }).join('');
+    };
+    const render = () => {
+      clampWeights();
+      const opts = options();
+      const results = Object.fromEntries(strategies.map(([key]) => [key, simulate(key, opts)]));
+      lab.querySelector('[data-cycle-summary]').innerHTML = strategies.map(([key, label]) => {
+        const result = results[key];
+        return `<article>
+          <span>${label}</span>
+          <strong>${fmtMoney(result.endingWealth)}</strong>
+          <small>CAGR ${fmtPct(result.cagr)} · max drawdown ${fmtPct(result.maxDrawdown)} · avg equity ${fmtPct(result.averageEquityWeight)}</small>
+          <small>Worst 5Y ${result.worstRolling5 == null ? 'n/a' : fmtPct(result.worstRolling5)} · worst 10Y ${result.worstRolling10 == null ? 'n/a' : fmtPct(result.worstRolling10)} · turnover ${result.turnover.toFixed(1)}x · patience-test years ${result.foolishYears}</small>
+        </article>`;
+      }).join('');
+      const lines = [
+        ['sp500', 'S&P 500', '#268679'],
+        ['valuation', 'Patient rule', '#d7a43b'],
+        ['tbills', 'T-bills', '#c85e49'],
+      ].map(([key, label, color]) => ({
+        label,
+        color,
+        points: results[key].series.map((point) => ({ year: point.year, value: Math.log10(point.wealth) })),
+      }));
+      const allWealth = lines.flatMap((line) => line.points.map((point) => point.value));
+      lab.querySelector('[data-wealth-chart]').innerHTML = svg(lines, Math.min(...allWealth), Math.max(...allWealth), (v) => fmtMoney(10 ** v));
+      lab.querySelector('[data-weight-chart]').innerHTML = svg([
+        { label: 'Patient equity weight', color: '#d7a43b', points: results.valuation.series.map((point) => ({ year: point.year, value: point.equityWeight })) },
+        { label: 'Add-after-fear weight', color: '#268679', points: results.fear.series.map((point) => ({ year: point.year, value: point.equityWeight })) },
+      ], 0, 1, fmtPct);
+      lab.querySelector('[data-drawdown-chart]').innerHTML = svg([
+        { label: 'Patient drawdown', color: '#d7a43b', points: results.valuation.series.map((point) => ({ year: point.year, value: point.drawdown })) },
+        { label: 'S&P drawdown', color: '#268679', points: results.sp500.series.map((point) => ({ year: point.year, value: point.drawdown })) },
+      ], Math.min(-0.6, ...results.sp500.series.map((point) => point.drawdown)), 0, fmtPct);
+      const capePoints = results.valuation.series.map((point) => ({ year: point.year, value: point.cape }));
+      lab.querySelector('[data-cape-chart]').innerHTML = svg([
+        { label: 'Prior-year CAPE', color: '#d7a43b', points: capePoints },
+      ], 5, Math.max(45, ...capePoints.map((point) => point.value)), (value) => value.toFixed(0));
+      lab.querySelector('[data-cycle-cases]').innerHTML = cycleCaseHtml(results);
+      lab.querySelector('[data-cycle-journal]').value = `# Patience, Cycles, And The Cash Option\n\nDate: ${new Date().toISOString().slice(0, 10)}\nData snapshot: ${data.generatedAt.slice(0, 10)}\nPeriod tested: ${opts.startYear}-${opts.endYear}\n\n## Current Rule Tested\n- Low CAPE threshold: ${opts.lowCape}\n- High CAPE threshold: ${opts.highCape}\n- Equity range: ${fmtPct(opts.minEquity)} to ${fmtPct(opts.maxEquity)}\n- Earnings-yield hurdle over T-bills: ${fmtPct(opts.hurdleSpread)}\n\n## Historical Read\n- Buy-and-hold S&P 500: ${fmtPct(results.sp500.cagr)} CAGR, ${fmtPct(results.sp500.maxDrawdown)} max drawdown.\n- Patient valuation rule: ${fmtPct(results.valuation.cagr)} CAGR, ${fmtPct(results.valuation.maxDrawdown)} max drawdown.\n- T-bills: ${fmtPct(results.tbills.cagr)} CAGR, ${fmtPct(results.tbills.maxDrawdown)} max drawdown.\n\n## Decision Discipline\nWhat would make me add equities:\n\nWhat would make me wait in T-bills:\n\nWhat would prove this rule is not working:\n\nReminder: this is a backtest, not a forecast. Valuation changes odds; it does not schedule the cycle.\n`;
+    };
+    lab.querySelectorAll('[data-control]').forEach((input) => input.addEventListener('input', render));
+    lab.querySelector('[data-copy-cycle-journal]').addEventListener('click', () => navigator.clipboard.writeText(lab.querySelector('[data-cycle-journal]').value));
+    render();
+  });
+</script>

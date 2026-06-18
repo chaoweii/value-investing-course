@@ -66,6 +66,7 @@ export default defineConfig({
           { label: 'Correlation And Ruin', slug: 'portfolio/correlation-and-ruin' },
           { label: 'Long-Term Holding', slug: 'portfolio/long-term-holding' },
           { label: 'Live Portfolio Lab', slug: 'portfolio/live-lab' },
+          { label: 'Patience And Cycles', slug: 'portfolio/patience-cycle-simulator' },
         ]},
         { label: 'Phase 5 · Understand The Market Machine', items: [
           { label: 'Market Machine Overview', slug: 'market' },

@@ -1091,6 +1091,181 @@ h3 {
   resize: vertical;
 }
 
+.cycle-lab {
+  margin: 2rem 0;
+  padding: 1.1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--sl-color-black) 95%, var(--sl-color-accent-low));
+}
+
+.cycle-lab__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cycle-lab__head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cycle-warning {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border-left: 3px solid var(--course-gold);
+  background: color-mix(in srgb, var(--course-gold) 9%, transparent);
+}
+
+.cycle-warning strong {
+  display: block;
+  color: var(--course-gold);
+}
+
+.cycle-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 1.25rem 0;
+}
+
+.cycle-controls label {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.cycle-lab input,
+.cycle-lab textarea,
+.cycle-lab button {
+  padding: 0.5rem;
+  color: var(--sl-color-gray-1);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 3px;
+  background: var(--sl-color-black);
+}
+
+.cycle-lab button {
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.cycle-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1rem 0;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+  background: var(--sl-color-gray-5);
+}
+
+.cycle-metrics article {
+  padding: 0.8rem;
+  background: var(--sl-color-black);
+}
+
+.cycle-metrics span,
+.cycle-metrics small {
+  display: block;
+  color: var(--sl-color-gray-3);
+  font-size: 0.68rem;
+}
+
+.cycle-metrics strong {
+  display: block;
+  margin: 0.35rem 0;
+  color: var(--course-gold);
+  font-size: 1.15rem;
+}
+
+.cycle-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.cycle-chart-grid article {
+  padding: 0.8rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+}
+
+.cycle-chart-grid h3 {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.05rem;
+}
+
+.cycle-chart {
+  overflow-x: auto;
+}
+
+.cycle-chart svg {
+  min-width: 28rem;
+  color: var(--sl-color-gray-3);
+}
+
+.cycle-chart text {
+  font-size: 0.72rem;
+}
+
+.cycle-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--sl-color-gray-3);
+  font-size: 0.72rem;
+}
+
+.cycle-chart__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.cycle-chart__legend i {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.2rem;
+}
+
+.cycle-cases {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.cycle-cases article {
+  padding: 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 4px;
+}
+
+.cycle-cases strong,
+.cycle-cases span,
+.cycle-cases em {
+  display: block;
+}
+
+.cycle-cases span,
+.cycle-cases p,
+.cycle-cases em {
+  color: var(--sl-color-gray-3);
+  font-size: 0.75rem;
+}
+
+.cycle-cases em {
+  color: var(--course-gold);
+  font-style: normal;
+}
+
 @media (max-width: 72rem) {
   .valuation-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1112,14 +1287,21 @@ h3 {
 
   .framework-grid,
   .policy-controls,
+  .cycle-controls,
   .decision-log-controls,
   .decision-log article {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cycle-metrics,
+  .cycle-cases {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 42rem) {
   .portfolio-lab__head,
+  .cycle-lab__head,
   .portfolio-add,
   .simulation-controls {
     align-items: stretch;
@@ -1127,6 +1309,10 @@ h3 {
   }
 
   .policy-controls,
+  .cycle-controls,
+  .cycle-metrics,
+  .cycle-chart-grid,
+  .cycle-cases,
   .portfolio-metrics,
   .decision-log-controls,
   .decision-log article {

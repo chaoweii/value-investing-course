@@ -17,6 +17,7 @@ npm run import:live
 npm run import:portfolio
 npm run import:dcf-learning
 npm run refresh:macro
+npm run import:cycles
 npm run dev
 ```
 
@@ -55,6 +56,7 @@ npm run import:live
 npm run import:portfolio
 npm run import:dcf-learning
 npm run refresh:macro
+npm run import:cycles
 npm run check:deploy
 git add src/data
 git add .
@@ -92,6 +94,16 @@ npm run refresh:macro
 This reads official U.S. Treasury and Federal Reserve/FRED sources and writes only
 `src/data/macro-snapshot.json` inside this course repository. Normal builds use the last stored
 snapshot and never require network access.
+
+## Refresh the cycle simulator snapshot
+
+```bash
+npm run import:cycles
+```
+
+This reads Robert Shiller's public historical market workbook and FRED Treasury series, then writes
+only `src/data/cycle-simulator.json`. The published simulator uses the committed snapshot, so Vercel
+does not need network access for historical data.
 
 Validate the stored snapshot without a network call:
 

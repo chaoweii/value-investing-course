@@ -1,0 +1,111 @@
+---
+title: Patience, Cycles, And The Cash Option
+description: Use history to test valuation-aware patience without pretending to forecast the next cycle.
+---
+
+import ChineseNote from '../../../components/ChineseNote.astro';
+import ExerciseReveal from '../../../components/ExerciseReveal.astro';
+import ProgressTracker from '../../../components/ProgressTracker.astro';
+import CyclePatienceSimulator from '../../../components/CyclePatienceSimulator.astro';
+
+## The final portfolio lesson is patience
+
+Stocks are long-term ownership. Cash and Treasury bills are not a failure of imagination; they are
+the option to wait for better odds. Valuation changes expected return, cycles create opportunity,
+and patience prevents forced mistakes.
+
+That sounds simple. It is emotionally hard because cycles do not arrive on schedule. An expensive
+market can become more expensive. A cheap market can become cheaper. A patient investor may look
+wrong for years before the odds show up in returns.
+
+```text
+Stocks are long-term ownership.
+Cash/T-bills are the option to wait.
+Valuation changes expected return.
+Cycles create opportunity.
+Patience prevents forced mistakes.
+```
+
+<ChineseNote title="现金的真实含义">
+现金不是放弃收益，而是等待更好赔率的选择权。尤其当短期国债收益率很高时，等待本身也有回报。
+</ChineseNote>
+
+## Buffett, Munger, and Marks are not saying the same thing as market timers
+
+**Buffett:** wait for understandable opportunities with favorable odds. The edge is not predicting
+next month; it is refusing to buy mediocre odds when cash has a respectable risk-free return.
+
+**Munger:** avoid envy, activity, and false precision. A rule that makes you trade because it looks
+smart is dangerous if it weakens judgment.
+
+**Howard Marks:** cycles do not tell you exactly when to trade, but they do tell you where risk and
+reward are leaning. When optimism is extreme, future return usually has less room. When fear is
+extreme, future return usually has more room.
+
+The simulator below tests that philosophy using history. It compares buy-and-hold S&P 500 against
+simple annual rules that move between S&P 500 exposure and Treasury money-market returns inside a
+tax-free account.
+
+## What the simulator is allowed to do
+
+The simulator uses:
+
+- Robert Shiller's long-run S&P 500 price, dividends, earnings, CPI, and CAPE history;
+- FRED 3-month Treasury bill returns and long Treasury yields where available;
+- annual rebalancing;
+- reinvested dividends and reinvested Treasury yield;
+- no leverage, no shorting, and no tax drag.
+
+The most important guardrail: each year’s allocation uses the prior year’s valuation and yield
+regime. It is not allowed to peek at the return that is about to happen.
+
+<CyclePatienceSimulator />
+
+## How to read the result
+
+Do not ask, “Which rule had the highest historical ending wealth?” That is how backtests become
+dangerous.
+
+Ask better questions:
+
+1. Did the rule reduce permanent-damage risk, or only reduce volatility?
+2. Did the rule rely on staying out of equities for too long?
+3. Did it underperform buy-and-hold for emotionally painful periods?
+4. Did it preserve enough upside when valuations were high?
+5. Would you actually follow it when it looked foolish?
+
+<ExerciseReveal prompt="If the valuation-aware rule underperforms buy-and-hold for five years, does that prove it is wrong?">
+Not automatically. A patient rule can look wrong during the final stage of a bull market. But you
+must ask whether the rule's mechanism still makes sense, whether the opportunity cost of cash has
+changed, and whether the rule has become an excuse for avoiding ownership altogether.
+</ExerciseReveal>
+
+## The cycle lesson
+
+The phrase “this time is different” is sometimes partly true. Technology changes. Regulation
+changes. Monetary policy regimes change. But investor behavior, credit cycles, and valuation
+gravity have not disappeared.
+
+The right lesson is not “sell every high P/E market.” The right lesson is:
+
+- valuation is weak as a one-year timing signal;
+- valuation is useful as a long-horizon expected-return signal;
+- cash has value when it lets you avoid forced selling and exploit future fear;
+- a rule that cannot survive years of embarrassment is not a real rule.
+
+<ChineseNote title="周期的边界">
+周期会重复，但不会按你的时间表重复。估值纪律不是预测明天，而是提高未来十年的赔率。
+</ChineseNote>
+
+## Durable journal prompt
+
+Use the generated journal entry from the simulator, then write your own answer:
+
+- What valuation regime do I believe we are in?
+- What does the Treasury money-market yield pay me to wait?
+- What portfolio equity weight fits my evidence, not my mood?
+- What would make me add equities?
+- What would make me wait?
+- What would make me admit the rule is not working?
+
+<ProgressTracker id="portfolio-patience-cycle-simulator" />

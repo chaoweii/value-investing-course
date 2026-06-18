@@ -1,0 +1,892 @@
+{
+  "generatedAt": "2026-06-18T05:15:31.120Z",
+  "warnings": [],
+  "assumptions": {
+    "initialWealth": 10000,
+    "taxFreeAccount": true,
+    "annualRebalancing": true,
+    "dividendsReinvested": true,
+    "tbillYieldReinvested": true,
+    "noLeverage": true,
+    "noShorting": true,
+    "transactionCosts": "Ignored in v1 for teaching simplicity",
+    "lookAheadGuard": "Each annual allocation uses the prior year valuation and yield regime."
+  },
+  "sources": {
+    "shiller": "https://shillerdata.com/ and its ie_data.xls download",
+    "fred": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS,GS10"
+  },
+  "defaultOptions": {
+    "startYear": 1935,
+    "endYear": 2023,
+    "lowCape": 15,
+    "highCape": 25,
+    "minEquity": 0.3,
+    "normalEquity": 0.6,
+    "maxEquity": 0.9,
+    "hurdleSpread": 0.02,
+    "drawdownTrigger": -0.2
+  },
+  "annualRecords": [
+    {
+      "year": 1934,
+      "spTotalReturn": -0.028001016782678523,
+      "tbillReturn": 0.002786750230675983,
+      "avgCape": 12.196440210190227,
+      "avgPe": 21.14271277702364,
+      "avgTbillYield": 0.0027833333333333334,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1935,
+      "spTotalReturn": 0.4701557632316651,
+      "tbillReturn": 0.0016762845541142823,
+      "avgCape": 13.121034644832386,
+      "avgPe": 14.317457394793257,
+      "avgTbillYield": 0.0016750000000000003,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1936,
+      "spTotalReturn": 0.35750551339919756,
+      "tbillReturn": 0.0017263594658873949,
+      "avgCape": 19.258219785004638,
+      "avgPe": 17.503155612167664,
+      "avgTbillYield": 0.001725,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1937,
+      "spTotalReturn": -0.3192989320907813,
+      "tbillReturn": 0.002761749102832667,
+      "avgCape": 18.456452062568257,
+      "avgPe": 13.479124260139082,
+      "avgTbillYield": 0.0027583333333333327,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1938,
+      "spTotalReturn": 0.2248425869304611,
+      "tbillReturn": 0.0006501919090087238,
+      "avgCape": 13.928836272543192,
+      "avgPe": 15.307357642104664,
+      "avgTbillYield": 0.0006500000000000001,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1939,
+      "spTotalReturn": 0.020102712645297283,
+      "tbillReturn": 0.0004584259832460802,
+      "avgCape": 15.566002901709131,
+      "avgPe": 15.704804522109123,
+      "avgTbillYield": 0.0004583333333333334,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1940,
+      "spTotalReturn": -0.09664887419856583,
+      "tbillReturn": 0.0003583896579275603,
+      "avgCape": 14.685711745357976,
+      "avgPe": 10.779803657000599,
+      "avgTbillYield": 0.00035833333333333333,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1941,
+      "spTotalReturn": -0.10742296914099525,
+      "tbillReturn": 0.0012924013547928048,
+      "avgCape": 12.213140092379732,
+      "avgPe": 8.826136530985831,
+      "avgTbillYield": 0.0012916666666666667,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1942,
+      "spTotalReturn": 0.17159749804925828,
+      "tbillReturn": 0.0034303702244677936,
+      "avgCape": 9.238363694165024,
+      "avgPe": 8.622296808840497,
+      "avgTbillYield": 0.0034249999999999997,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1943,
+      "spTotalReturn": 0.27002959471607957,
+      "tbillReturn": 0.0038066253243331793,
+      "avgCape": 11.042084780634513,
+      "avgPe": 10.919019659610578,
+      "avgTbillYield": 0.0037999999999999996,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1944,
+      "spTotalReturn": 0.20018289516842436,
+      "tbillReturn": 0.0038066253243331793,
+      "avgCape": 11.342426436018632,
+      "avgPe": 13.545829214983357,
+      "avgTbillYield": 0.0037999999999999996,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1945,
+      "spTotalReturn": 0.3813967069059525,
+      "tbillReturn": 0.0038066253243331793,
+      "avgCape": 13.270630274594241,
+      "avgPe": 15.544288152511733,
+      "avgTbillYield": 0.0037999999999999996,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1946,
+      "spTotalReturn": -0.09086036237649209,
+      "tbillReturn": 0.0038066253243331793,
+      "avgCape": 14.046018713521287,
+      "avgPe": 18.845429516813947,
+      "avgTbillYield": 0.0037999999999999996,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1947,
+      "spTotalReturn": 0.04482210976988554,
+      "tbillReturn": 0.006024682156191563,
+      "avgCape": 11.17286198550464,
+      "avgPe": 10.802673411798816,
+      "avgTbillYield": 0.006008333333333333,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1948,
+      "spTotalReturn": 0.06871343787193585,
+      "tbillReturn": 0.010500179941280718,
+      "avgCape": 10.65454570143761,
+      "avgPe": 8.140667310781692,
+      "avgTbillYield": 0.010450000000000001,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1949,
+      "spTotalReturn": 0.1646767707339034,
+      "tbillReturn": 0.011207143804767172,
+      "avgCape": 9.901772261745396,
+      "avgPe": 6.429347633477733,
+      "avgTbillYield": 0.01115,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1950,
+      "spTotalReturn": 0.2787220082689088,
+      "tbillReturn": 0.012099886000931814,
+      "avgCape": 11.182580532268718,
+      "avgPe": 7.156359390204611,
+      "avgTbillYield": 0.012033333333333333,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1951,
+      "spTotalReturn": 0.2679781631984084,
+      "tbillReturn": 0.015280938562582502,
+      "avgCape": 12.00818538179422,
+      "avgPe": 8.443328030510727,
+      "avgTbillYield": 0.015175000000000001,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1952,
+      "spTotalReturn": 0.1792155782821896,
+      "tbillReturn": 0.017361544887121383,
+      "avgCape": 12.455449499147159,
+      "avgPe": 10.302136233815638,
+      "avgTbillYield": 0.017225,
+      "avgGs10Yield": null
+    },
+    {
+      "year": 1953,
+      "spTotalReturn": 0.0098867721667657,
+      "tbillReturn": 0.01907276685347936,
+      "avgCape": 12.002525101865137,
+      "avgPe": 9.938766732503728,
+      "avgTbillYield": 0.018908333333333333,
+      "avgGs10Yield": 0.028522222222222227
+    },
+    {
+      "year": 1954,
+      "spTotalReturn": 0.4805558266365022,
+      "tbillReturn": 0.009423692285917218,
+      "avgCape": 13.66440052930428,
+      "avgPe": 11.307541116178898,
+      "avgTbillYield": 0.009383333333333334,
+      "avgGs10Yield": 0.02401666666666667
+    },
+    {
+      "year": 1955,
+      "spTotalReturn": 0.34953178794181117,
+      "tbillReturn": 0.017386226972674113,
+      "avgCape": 17.524315148386403,
+      "avgPe": 12.499211739912981,
+      "avgTbillYield": 0.01725,
+      "avgGs10Yield": 0.028166666666666663
+    },
+    {
+      "year": 1956,
+      "spTotalReturn": 0.06312078059632809,
+      "tbillReturn": 0.02659338956078905,
+      "avgCape": 18.25869727394657,
+      "avgPe": 13.1168767239431,
+      "avgTbillYield": 0.026274999999999996,
+      "avgGs10Yield": 0.03182499999999999
+    },
+    {
+      "year": 1957,
+      "spTotalReturn": -0.0965889201502792,
+      "tbillReturn": 0.032730852160301804,
+      "avgCape": 15.61397531137987,
+      "avgPe": 12.981527659590816,
+      "avgTbillYield": 0.03225,
+      "avgGs10Yield": 0.036475
+    },
+    {
+      "year": 1958,
+      "spTotalReturn": 0.37779324081714405,
+      "tbillReturn": 0.017850477132428377,
+      "avgCape": 15.142733465369519,
+      "avgPe": 15.49757367732166,
+      "avgTbillYield": 0.017708333333333333,
+      "avgGs10Yield": 0.03315833333333334
+    },
+    {
+      "year": 1959,
+      "spTotalReturn": 0.13915393154712374,
+      "tbillReturn": 0.03438717717479567,
+      "avgCape": 18.366962921735468,
+      "avgPe": 17.463069210824504,
+      "avgTbillYield": 0.03385833333333333,
+      "avgGs10Yield": 0.043333333333333335
+    },
+    {
+      "year": 1960,
+      "spTotalReturn": -0.004348918908978594,
+      "tbillReturn": 0.029215378263565794,
+      "avgCape": 17.41692508086285,
+      "avgPe": 16.88932726790319,
+      "avgTbillYield": 0.028833333333333336,
+      "avgGs10Yield": 0.04116666666666666
+    },
+    {
+      "year": 1961,
+      "spTotalReturn": 0.3009502392517247,
+      "tbillReturn": 0.023797303262963032,
+      "avgCape": 20.456643703807327,
+      "avgPe": 21.41109199958024,
+      "avgTbillYield": 0.02354166666666667,
+      "avgGs10Yield": 0.038825
+    },
+    {
+      "year": 1962,
+      "spTotalReturn": -0.0972091434961948,
+      "tbillReturn": 0.028088564930507154,
+      "avgCape": 18.823512160803748,
+      "avgPe": 18.037482834534824,
+      "avgTbillYield": 0.027733333333333332,
+      "avgGs10Yield": 0.03945833333333334
+    },
+    {
+      "year": 1963,
+      "spTotalReturn": 0.22189218666955268,
+      "tbillReturn": 0.03205286575682398,
+      "avgCape": 20.259239490935123,
+      "avgPe": 18.125642967533235,
+      "avgTbillYield": 0.031591666666666664,
+      "avgGs10Yield": 0.040025000000000005
+    },
+    {
+      "year": 1964,
+      "spTotalReturn": 0.16576515456421603,
+      "tbillReturn": 0.03604887158802961,
+      "avgCape": 22.55342366287709,
+      "avgPe": 18.75721206175998,
+      "avgTbillYield": 0.03546666666666667,
+      "avgGs10Yield": 0.04186666666666666
+    },
+    {
+      "year": 1965,
+      "spTotalReturn": 0.1254233626142982,
+      "tbillReturn": 0.04021427785469345,
+      "avgCape": 23.262154451973327,
+      "avgPe": 18.120334393829225,
+      "avgTbillYield": 0.03949166666666667,
+      "avgGs10Yield": 0.042824999999999995
+    },
+    {
+      "year": 1966,
+      "spTotalReturn": -0.08333848931252907,
+      "tbillReturn": 0.04972303089480645,
+      "avgCape": 21.30176394974926,
+      "avgPe": 15.708105792349775,
+      "avgTbillYield": 0.048624999999999995,
+      "avgGs10Yield": 0.04923333333333333
+    },
+    {
+      "year": 1967,
+      "spTotalReturn": 0.20939603295899367,
+      "tbillReturn": 0.04392619748496185,
+      "avgCape": 21.606171100998413,
+      "avgPe": 17.127008717335404,
+      "avgTbillYield": 0.04306666666666667,
+      "avgGs10Yield": 0.050733333333333346
+    },
+    {
+      "year": 1968,
+      "spTotalReturn": 0.15201453994606573,
+      "tbillReturn": 0.05470872228603518,
+      "avgCape": 21.486086263647653,
+      "avgPe": 17.70346801450455,
+      "avgTbillYield": 0.05338333333333333,
+      "avgGs10Yield": 0.05645833333333333
+    },
+    {
+      "year": 1969,
+      "spTotalReturn": -0.11670507993815249,
+      "tbillReturn": 0.06874046872147543,
+      "avgCape": 19.42748464177537,
+      "avgPe": 16.781381663693235,
+      "avgTbillYield": 0.06666666666666667,
+      "avgGs10Yield": 0.06670833333333333
+    },
+    {
+      "year": 1970,
+      "spTotalReturn": 0.026872307938396123,
+      "tbillReturn": 0.06582021696074758,
+      "avgCape": 15.184151673384717,
+      "avgPe": 15.246837425175025,
+      "avgTbillYield": 0.06391666666666666,
+      "avgGs10Yield": 0.07348333333333333
+    },
+    {
+      "year": 1971,
+      "spTotalReturn": 0.1365304757429635,
+      "tbillReturn": 0.044194487404347615,
+      "avgCape": 16.867287601325412,
+      "avgPe": 18.321447196041394,
+      "avgTbillYield": 0.043325,
+      "avgGs10Yield": 0.06159166666666666
+    },
+    {
+      "year": 1972,
+      "spTotalReturn": 0.21878133629655494,
+      "tbillReturn": 0.041492400702133114,
+      "avgCape": 17.768766727502307,
+      "avgPe": 18.12871938044473,
+      "avgTbillYield": 0.040725000000000004,
+      "avgGs10Yield": 0.062099999999999995
+    },
+    {
+      "year": 1973,
+      "spTotalReturn": -0.1685841820188565,
+      "tbillReturn": 0.07262303980042417,
+      "avgCape": 16.147915285294847,
+      "avgPe": 14.785265381263342,
+      "avgTbillYield": 0.07031666666666668,
+      "avgGs10Yield": 0.068425
+    },
+    {
+      "year": 1974,
+      "spTotalReturn": -0.2609544236254556,
+      "tbillReturn": 0.08117087540181522,
+      "avgCape": 10.926211788700995,
+      "avgPe": 9.525286157610024,
+      "avgTbillYield": 0.0783,
+      "avgGs10Yield": 0.075575
+    },
+    {
+      "year": 1975,
+      "spTotalReturn": 0.3804279909193713,
+      "tbillReturn": 0.05930258525768739,
+      "avgCape": 10.236239875586339,
+      "avgPe": 10.658715810275663,
+      "avgTbillYield": 0.05775,
+      "avgGs10Yield": 0.079875
+    },
+    {
+      "year": 1976,
+      "spTotalReturn": 0.22519213217310696,
+      "tbillReturn": 0.050891209130013104,
+      "avgCape": 11.543463939501493,
+      "avgPe": 11.140513382333166,
+      "avgTbillYield": 0.04974166666666666,
+      "avgGs10Yield": 0.07611666666666667
+    },
+    {
+      "year": 1977,
+      "spTotalReturn": -0.06305244416709987,
+      "tbillReturn": 0.05398140685613351,
+      "avgCape": 10.431512631231,
+      "avgPe": 9.420572615576768,
+      "avgTbillYield": 0.05269166666666667,
+      "avgGs10Yield": 0.07419166666666667
+    },
+    {
+      "year": 1978,
+      "spTotalReturn": 0.07820935072149582,
+      "tbillReturn": 0.07429576106566049,
+      "avgCape": 9.379139649517638,
+      "avgPe": 8.432798318662199,
+      "avgTbillYield": 0.07188333333333334,
+      "avgGs10Yield": 0.08410000000000002
+    },
+    {
+      "year": 1979,
+      "spTotalReturn": 0.18159969683516297,
+      "tbillReturn": 0.10546596969383693,
+      "avgCape": 8.927233482385267,
+      "avgPe": 7.377794904197002,
+      "avgTbillYield": 0.10069166666666668,
+      "avgGs10Yield": 0.094425
+    },
+    {
+      "year": 1980,
+      "spTotalReturn": 0.3022895211596057,
+      "tbillReturn": 0.12049530814517007,
+      "avgCape": 8.83304899028994,
+      "avgPe": 7.967873242023033,
+      "avgTbillYield": 0.11434166666666667,
+      "avgGs10Yield": 0.11460000000000002
+    },
+    {
+      "year": 1981,
+      "spTotalReturn": -0.024992234436277294,
+      "tbillReturn": 0.14961372899898895,
+      "avgCape": 8.463210955228996,
+      "avgPe": 8.538333507114608,
+      "avgTbillYield": 0.14025,
+      "avgGs10Yield": 0.1391083333333333
+    },
+    {
+      "year": 1982,
+      "spTotalReturn": 0.19204591520950376,
+      "tbillReturn": 0.11143827752141355,
+      "avgCape": 7.346745558527981,
+      "avgPe": 8.59891165227083,
+      "avgTbillYield": 0.10614166666666665,
+      "avgGs10Yield": 0.13001666666666664
+    },
+    {
+      "year": 1983,
+      "spTotalReturn": 0.23170662118134122,
+      "tbillReturn": 0.08958845654762704,
+      "avgCape": 9.642081816632981,
+      "avgPe": 12.376546311746198,
+      "avgTbillYield": 0.08610833333333334,
+      "avgGs10Yield": 0.11105000000000002
+    },
+    {
+      "year": 1984,
+      "spTotalReturn": 0.04721854661252367,
+      "tbillReturn": 0.0994908135134025,
+      "avgCape": 9.429556230519186,
+      "avgPe": 10.081566885730252,
+      "avgTbillYield": 0.095225,
+      "avgGs10Yield": 0.1243833333333333
+    },
+    {
+      "year": 1985,
+      "spTotalReturn": 0.3135770432222782,
+      "tbillReturn": 0.07740839571750824,
+      "avgCape": 10.691307551020616,
+      "avgPe": 11.99459817929848,
+      "avgTbillYield": 0.07479166666666666,
+      "avgGs10Yield": 0.10623333333333333
+    },
+    {
+      "year": 1986,
+      "spTotalReturn": 0.24119235832244712,
+      "tbillReturn": 0.06144718414059702,
+      "avgCape": 13.387709194472007,
+      "avgPe": 16.13203458478149,
+      "avgTbillYield": 0.05978333333333333,
+      "avgGs10Yield": 0.07682500000000002
+    },
+    {
+      "year": 1987,
+      "spTotalReturn": -0.001050465923245092,
+      "tbillReturn": 0.05930305590658502,
+      "avgCape": 16.014868770327574,
+      "avgPe": 18.66310579515768,
+      "avgTbillYield": 0.057749999999999996,
+      "avgGs10Yield": 0.08384166666666666
+    },
+    {
+      "year": 1988,
+      "spTotalReturn": 0.18795832689502712,
+      "tbillReturn": 0.06874797728031412,
+      "avgCape": 14.439915771745747,
+      "avgPe": 12.649368202655259,
+      "avgTbillYield": 0.066675,
+      "avgGs10Yield": 0.08845833333333335
+    },
+    {
+      "year": 1989,
+      "spTotalReturn": 0.3021080243420513,
+      "tbillReturn": 0.0842007318565563,
+      "avgCape": 16.613701519631366,
+      "avgPe": 13.339793835944041,
+      "avgTbillYield": 0.08111666666666666,
+      "avgGs10Yield": 0.08498333333333331
+    },
+    {
+      "year": 1990,
+      "spTotalReturn": -0.023500245564228917,
+      "tbillReturn": 0.0775607110619676,
+      "avgCape": 16.456913166059824,
+      "avgPe": 15.472722050707402,
+      "avgTbillYield": 0.07493333333333334,
+      "avgGs10Yield": 0.0855
+    },
+    {
+      "year": 1991,
+      "spTotalReturn": 0.22069447446274126,
+      "tbillReturn": 0.05509266326133977,
+      "avgCape": 17.919848388811925,
+      "avgPe": 20.065031588708703,
+      "avgTbillYield": 0.05374999999999999,
+      "avgGs10Yield": 0.07858333333333332
+    },
+    {
+      "year": 1992,
+      "spTotalReturn": 0.15505602121062956,
+      "tbillReturn": 0.03486097203810834,
+      "avgCape": 19.63522223076564,
+      "avgPe": 24.04764182516801,
+      "avgTbillYield": 0.03431666666666667,
+      "avgGs10Yield": 0.0701
+    },
+    {
+      "year": 1993,
+      "spTotalReturn": 0.09960391171568439,
+      "tbillReturn": 0.03039024352472297,
+      "avgCape": 20.749117407500346,
+      "avgPe": 22.439103559024517,
+      "avgTbillYield": 0.029975000000000005,
+      "avgGs10Yield": 0.05873333333333333
+    },
+    {
+      "year": 1994,
+      "spTotalReturn": 0.004568193224462336,
+      "tbillReturn": 0.043300502533584195,
+      "avgCape": 20.479030410018904,
+      "avgPe": 18.09222683996691,
+      "avgTbillYield": 0.04246666666666667,
+      "avgGs10Yield": 0.07080000000000002
+    },
+    {
+      "year": 1995,
+      "spTotalReturn": 0.3841977219744439,
+      "tbillReturn": 0.05630253068709323,
+      "avgCape": 22.71993096178558,
+      "avgPe": 16.027916412571305,
+      "avgTbillYield": 0.0549,
+      "avgGs10Yield": 0.06580000000000001
+    },
+    {
+      "year": 1996,
+      "spTotalReturn": 0.23562919975964003,
+      "tbillReturn": 0.051222932703831825,
+      "avgCape": 25.943122022946,
+      "avgPe": 18.877741277489786,
+      "avgTbillYield": 0.05005833333333334,
+      "avgGs10Yield": 0.06438333333333333
+    },
+    {
+      "year": 1997,
+      "spTotalReturn": 0.31771500298336885,
+      "tbillReturn": 0.05179884926861833,
+      "avgCape": 30.954953088184382,
+      "avgPe": 21.70087647352011,
+      "avgTbillYield": 0.05060833333333333,
+      "avgGs10Yield": 0.06352500000000001
+    },
+    {
+      "year": 1998,
+      "spTotalReturn": 0.25492459631092235,
+      "tbillReturn": 0.04882592682034392,
+      "avgCape": 36.006714382488845,
+      "avgPe": 28.00709512377615,
+      "avgTbillYield": 0.04776666666666666,
+      "avgGs10Yield": 0.05264166666666666
+    },
+    {
+      "year": 1999,
+      "spTotalReturn": 0.2155798719452966,
+      "tbillReturn": 0.04738189626891809,
+      "avgCape": 42.06803058666612,
+      "avgPe": 31.68517846530197,
+      "avgTbillYield": 0.04638333333333334,
+      "avgGs10Yield": 0.056366666666666676
+    },
+    {
+      "year": 2000,
+      "spTotalReturn": -0.05754530730020457,
+      "tbillReturn": 0.05974244331503664,
+      "avgCape": 41.70060878139849,
+      "avgPe": 27.719090396679018,
+      "avgTbillYield": 0.05816666666666667,
+      "avgGs10Yield": 0.06029166666666667
+    },
+    {
+      "year": 2001,
+      "spTotalReturn": -0.12820683273716182,
+      "tbillReturn": 0.0344095340246684,
+      "avgCape": 32.064468907981485,
+      "avgPe": 34.58593816623184,
+      "avgTbillYield": 0.03388333333333333,
+      "avgGs10Yield": 0.05017499999999999
+    },
+    {
+      "year": 2002,
+      "spTotalReturn": -0.2018608098009338,
+      "tbillReturn": 0.016143083249523515,
+      "avgCape": 25.916637185881786,
+      "avgPe": 37.278886172155374,
+      "avgTbillYield": 0.016025,
+      "avgGs10Yield": 0.046108333333333335
+    },
+    {
+      "year": 2003,
+      "spTotalReturn": 0.2226303581821778,
+      "tbillReturn": 0.010155248215546253,
+      "avgCape": 24.107617090137623,
+      "avgPe": 26.952384600353373,
+      "avgTbillYield": 0.010108333333333332,
+      "avgGs10Yield": 0.04015
+    },
+    {
+      "year": 2004,
+      "spTotalReturn": 0.12816034620628414,
+      "tbillReturn": 0.013802407469599043,
+      "avgCape": 26.41342856404407,
+      "avgPe": 20.50088753640327,
+      "avgTbillYield": 0.013716666666666669,
+      "avgGs10Yield": 0.04274166666666666
+    },
+    {
+      "year": 2005,
+      "spTotalReturn": 0.0708551193628133,
+      "tbillReturn": 0.03192339478953343,
+      "avgCape": 26.014442018722963,
+      "avgPe": 18.8972262193199,
+      "avgTbillYield": 0.03146666666666667,
+      "avgGs10Yield": 0.042899999999999994
+    },
+    {
+      "year": 2006,
+      "spTotalReturn": 0.14266539628540897,
+      "tbillReturn": 0.04830399369746785,
+      "avgCape": 25.977896347783886,
+      "avgPe": 17.295050235593973,
+      "avgTbillYield": 0.04726666666666667,
+      "avgGs10Yield": 0.04791666666666667
+    },
+    {
+      "year": 2007,
+      "spTotalReturn": 0.06313479744736683,
+      "tbillReturn": 0.04441061255702028,
+      "avgCape": 26.83191627923667,
+      "avgPe": 18.689112235923886,
+      "avgTbillYield": 0.043533333333333334,
+      "avgGs10Yield": 0.046291666666666675
+    },
+    {
+      "year": 2008,
+      "spTotalReturn": -0.39232806986334345,
+      "tbillReturn": 0.013733340985024434,
+      "avgCape": 20.77402766981083,
+      "avgPe": 28.389615957273225,
+      "avgTbillYield": 0.013650000000000002,
+      "avgGs10Yield": 0.03666666666666666
+    },
+    {
+      "year": 2009,
+      "spTotalReturn": 0.3003007486401985,
+      "tbillReturn": 0.0015010118636078484,
+      "avgCape": 16.924720443938458,
+      "avgPe": 83.59773269125573,
+      "avgTbillYield": 0.0014999999999999998,
+      "avgGs10Yield": 0.03256666666666667
+    },
+    {
+      "year": 2010,
+      "spTotalReturn": 0.1401613229360752,
+      "tbillReturn": 0.0013675197656888294,
+      "avgCape": 20.719795045033575,
+      "avgPe": 17.13278119043183,
+      "avgTbillYield": 0.0013666666666666669,
+      "avgGs10Yield": 0.032141666666666666
+    },
+    {
+      "year": 2011,
+      "spTotalReturn": 0.021045256087038444,
+      "tbillReturn": 0.0005251173758433758,
+      "avgCape": 21.754609406620883,
+      "avgPe": 15.143107026923884,
+      "avgTbillYield": 0.0005250000000000001,
+      "avgGs10Yield": 0.027858333333333332
+    },
+    {
+      "year": 2012,
+      "spTotalReturn": 0.16799077615573044,
+      "tbillReturn": 0.000858669454326888,
+      "avgCape": 21.35329994536245,
+      "avgPe": 15.78745933132908,
+      "avgTbillYield": 0.0008583333333333333,
+      "avgGs10Yield": 0.018025000000000003
+    },
+    {
+      "year": 2013,
+      "spTotalReturn": 0.2971480385691474,
+      "tbillReturn": 0.0005834873159737963,
+      "avgCape": 23.24460982780762,
+      "avgPe": 17.811814292960772,
+      "avgTbillYield": 0.0005833333333333333,
+      "avgGs10Yield": 0.023508333333333336
+    },
+    {
+      "year": 2014,
+      "spTotalReturn": 0.15863400121076898,
+      "tbillReturn": 0.00032504799036758847,
+      "avgCape": 25.467618038269354,
+      "avgPe": 18.762219452648477,
+      "avgTbillYield": 0.00032500000000000004,
+      "avgGs10Yield": 0.025408333333333335
+    },
+    {
+      "year": 2015,
+      "spTotalReturn": 0.020379230337262966,
+      "tbillReturn": 0.0005251109850206159,
+      "avgCape": 26.213671401952457,
+      "avgPe": 21.940648063460085,
+      "avgTbillYield": 0.000525,
+      "avgGs10Yield": 0.02135833333333333
+    },
+    {
+      "year": 2016,
+      "spTotalReturn": 0.11731441807475562,
+      "tbillReturn": 0.0031795991511476274,
+      "avgCape": 26.054203072708287,
+      "avgPe": 23.611010923580427,
+      "avgTbillYield": 0.0031750000000000003,
+      "avgGs10Yield": 0.018416666666666668
+    },
+    {
+      "year": 2017,
+      "spTotalReturn": 0.2091210485174564,
+      "tbillReturn": 0.00934790380698347,
+      "avgCape": 29.84686911425563,
+      "avgPe": 23.528371474859068,
+      "avgTbillYield": 0.009308333333333333,
+      "avgGs10Yield": 0.0233
+    },
+    {
+      "year": 2018,
+      "spTotalReturn": -0.01820958928274874,
+      "tbillReturn": 0.019564598013019463,
+      "avgCape": 31.45170187910945,
+      "avgPe": 22.33100062359543,
+      "avgTbillYield": 0.019391666666666668,
+      "avgGs10Yield": 0.029099999999999997
+    },
+    {
+      "year": 2019,
+      "spTotalReturn": 0.2615290488979718,
+      "tbillReturn": 0.02080365880441226,
+      "avgCape": 29.424055802524023,
+      "avgPe": 21.5804983704071,
+      "avgTbillYield": 0.02060833333333333,
+      "avgGs10Yield": 0.021441666666666668
+    },
+    {
+      "year": 2020,
+      "spTotalReturn": 0.18498732394424033,
+      "tbillReturn": 0.003654986747128497,
+      "avgCape": 29.812129454693615,
+      "avgPe": 30.91772759235729,
+      "avgTbillYield": 0.003649999999999999,
+      "avgGs10Yield": 0.008941666666666669
+    },
+    {
+      "year": 2021,
+      "spTotalReturn": 0.2826065741300492,
+      "tbillReturn": 0.00044175501057885924,
+      "avgCape": 36.8170686289282,
+      "avgPe": 27.918698684676187,
+      "avgTbillYield": 0.00044166666666666676,
+      "avgGs10Yield": 0.014425
+    },
+    {
+      "year": 2022,
+      "spTotalReturn": -0.1498509425789467,
+      "tbillReturn": 0.020395924220916406,
+      "avgCape": 30.984552565354548,
+      "avgPe": 21.62087086761611,
+      "avgTbillYield": 0.02021666666666667,
+      "avgGs10Yield": 0.029516666666666667
+    },
+    {
+      "year": 2023,
+      "spTotalReturn": 0.21692225080139327,
+      "tbillReturn": 0.051877098828746915,
+      "avgCape": 29.49085937457832,
+      "avgPe": 23.5848115710445,
+      "avgTbillYield": 0.05068333333333333,
+      "avgGs10Yield": 0.039575
+    }
+  ],
+  "defaultStrategies": {
+    "sp500": {
+      "endingWealth": 113644388.8442821,
+      "cagr": 0.11062630391618056,
+      "maxDrawdown": -0.39232806986334345,
+      "averageEquityWeight": 1,
+      "turnover": 0,
+      "years": 89
+    },
+    "tbills": {
+      "endingWealth": 209750.81232552696,
+      "cagr": 0.03478613931687513,
+      "maxDrawdown": 0,
+      "averageEquityWeight": 0,
+      "turnover": 0,
+      "years": 89
+    },
+    "balanced": {
+      "endingWealth": 23553975.62901253,
+      "cagr": 0.09115981131924356,
+      "maxDrawdown": -0.27050964660883303,
+      "averageEquityWeight": 0.7000000000000012,
+      "turnover": 0,
+      "years": 89
+    },
+    "valuation": {
+      "endingWealth": 30645554.359303873,
+      "cagr": 0.09439139178606903,
+      "maxDrawdown": -0.20361734355863104,
+      "averageEquityWeight": 0.6404494382022469,
+      "turnover": 4.199999999999999,
+      "years": 89
+    },
+    "spread": {
+      "endingWealth": 69490305.63110231,
+      "cagr": 0.10450500421989894,
+      "maxDrawdown": -0.28709286397141986,
+      "averageEquityWeight": 0.7348314606741568,
+      "turnover": 6.599999999999998,
+      "years": 89
+    },
+    "fear": {
+      "endingWealth": 34324827.24921632,
+      "cagr": 0.09578647722142852,
+      "maxDrawdown": -0.19047465961333576,
+      "averageEquityWeight": 0.6471910112359547,
+      "turnover": 4.6,
+      "years": 89
+    }
+  }
+}

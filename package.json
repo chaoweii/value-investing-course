@@ -11,6 +11,7 @@
     "import:live": "python3 scripts/import_live_companions.py",
     "import:portfolio": "python3 scripts/import_portfolio_candidates.py",
     "import:dcf-learning": "python3 scripts/import_dcf_learning.py",
+    "import:cycles": "node scripts/import_cycle_simulator.mjs",
     "refresh:macro": "python3 scripts/import_macro_snapshot.py",
     "verify:live": "python3 scripts/verify_live_companions.py",
     "verify:macro": "python3 scripts/verify_macro_snapshot.py",
@@ -24,7 +25,8 @@
   "dependencies": {
     "@astrojs/starlight": "^0.35.0",
     "astro": "^5.0.0",
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
