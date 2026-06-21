@@ -5,6 +5,9 @@ description: Build, challenge, and document a Toast valuation from operating dri
 import ChineseNote from '../../../components/ChineseNote.astro';
 import DcfBuildLab from '../../../components/DcfBuildLab.astro';
 import ProgressTracker from '../../../components/ProgressTracker.astro';
+import ToastCaseMap from '../../../components/ToastCaseMap.astro';
+
+<ToastCaseMap />
 
 <ChineseNote title="使用方法">
 逐层打开模型。每调整一个数字，先写下经济机制和反证条件，再观察估值变化。目标不是逼近工作台目标价，而是理解差异来自哪里。
@@ -14,6 +17,19 @@ This build-along uses the course's primary **equity owner-FCF** path. Discounted
 equity value directly. Toast is modeled as debt-light: the simplified learner model assumes no
 material preferred claim, NCI, required debt repayment, or sustainable net borrowing. It adds only
 separately underwritten owner cash, then divides by diluted shares.
+
+## Source and assumption discipline
+
+| Model item | Classification | Anchor |
+|---|---|---|
+| Historical revenue, operating income, cash flow, and capex | Reported fact | Toast filings imported through the read-only workbench |
+| Q1 diluted shares and balance-sheet liquidity | Reported/derived fact | Q1 2026 release and owner-cash waterfall |
+| Revenue drivers and mature cost ratios | Analyst assumption | Dependency-aware TOST operating model |
+| SBC offset and valuation FCF | Derived owner-economics bridge | Reported cash flow, dilution, and repurchase mechanics |
+| Discount rate and terminal growth | Investor judgment | Treasury opportunity cost, business risk, and mature economics |
+
+The lab displays the dated snapshot beside every input. A newer price changes expected return; it does
+not silently rewrite historical facts or business assumptions.
 
 <DcfBuildLab />
 
@@ -25,5 +41,12 @@ separately underwritten owner cash, then divides by diluted shares.
 4. Is SBC paid through dilution or repurchase cash?
 5. Is owner cash counted only once?
 6. Does the reverse DCF imply an achievable operating path?
+7. Did positive restaurant diligence improve evidence confidence without directly changing a number?
+
+## Primary evidence
+
+- [Toast Q1 2026 earnings release on SEC EDGAR](https://www.sec.gov/Archives/edgar/data/1650164/000165016426000113/tost-20260331xexhibit991.htm)
+- [Toast Q1 2026 prepared remarks](https://s28.q4cdn.com/141746709/files/doc_financials/2026/q1/TOST-1Q26-Prepared-Remarks.pdf)
+- The lab's workbench snapshot is read-only and visibly dated.
 
 <ProgressTracker id="dcf-tost-build-lab" />

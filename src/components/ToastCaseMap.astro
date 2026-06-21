@@ -1,0 +1,24 @@
+---
+const steps = [
+  { label: 'Restaurant problem', detail: 'Uptime, payments, labor, orders, guests', href: '/decision-labs/tost/' },
+  { label: 'Product adoption', detail: 'Software, payments, hardware, service', href: '/core/revenue-drivers/' },
+  { label: 'Economic gross profit', detail: 'Locations, GPV, modules, pricing', href: '/core/product-scale-to-owner-value/' },
+  { label: 'Operating leverage', detail: 'Gross profit grows faster than operating cost', href: '/core/product-scale-to-owner-value/#profit-inflection-lab' },
+  { label: 'Owner FCF', detail: 'Taxes, reinvestment, working capital', href: '/core/owner-fcf-per-share/' },
+  { label: 'Per-share value', detail: 'SBC, buybacks, cash, diluted shares', href: '/core/owner-fcf-per-share/#sbc-and-buyback-lab' },
+  { label: 'Price and allocation', detail: 'DCF, margin of safety, position size', href: '/core/tost-dcf-lab/' },
+];
+---
+
+<nav class="toast-case-map" aria-label="Toast case learning path">
+  {steps.map((step, index) => (
+    <>
+      <a href={step.href}>
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <strong>{step.label}</strong>
+        <small>{step.detail}</small>
+      </a>
+      {index < steps.length - 1 && <b aria-hidden="true">→</b>}
+    </>
+  ))}
+</nav>

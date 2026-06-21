@@ -1,0 +1,113 @@
+---
+import snapshot from '../data/dcf-learning.json';
+
+const tost = snapshot.companies.TOST;
+const first = tost.baseForecast[0];
+const defaults = {
+  operatingEquityValue: 19000,
+  ownerCash: tost.scenarioParameters.base.netCashM,
+  startingShares: 602,
+  sbcDollars: Math.round(first.required_sbc_offset_buyback_m),
+  sbcGrantPrice: 25,
+  buybackCash: 500,
+  buybackPrice: 25,
+};
+---
+
+<section class="toast-model-lab" data-sbc-lab id="sbc-and-buyback-lab">
+  <script is:inline type="application/json" data-sbc-source set:html={JSON.stringify({defaults, sourceDate: tost.sourceDate})}></script>
+  <div class="toast-model-lab__head">
+    <div>
+      <p class="live-panel__eyebrow">Interactive capital-allocation lab · Toast-scale preset</p>
+      <h2>SBC creates claims; buybacks spend cash</h2>
+      <p>Compare the repurchase with the honest no-buyback baseline after employee shares are issued.</p>
+    </div>
+    <span class="freshness">Model source {tost.sourceDate}</span>
+  </div>
+
+  <div class="buyback-presets" role="group" aria-label="Buyback price presets">
+    <button type="button" data-buyback-preset="20">Below estimated value</button>
+    <button type="button" data-buyback-preset="34">Near estimated value</button>
+    <button type="button" data-buyback-preset="50">Above estimated value</button>
+  </div>
+
+  <div class="toast-model-lab__layout">
+    <div class="toast-model-controls">
+      <label><span>Operating equity value</span><b>$M <input data-sbc-input="operatingEquityValue" type="number" min="1000" step="500" /></b></label>
+      <label><span>Underwriteable owner cash</span><b>$M <input data-sbc-input="ownerCash" type="number" min="0" step="100" /></b></label>
+      <label><span>Starting diluted shares</span><b>M <input data-sbc-input="startingShares" type="number" min="100" step="1" /></b></label>
+      <label><span>Annual SBC grant value</span><b>$M <input data-sbc-input="sbcDollars" type="number" min="0" step="10" /></b></label>
+      <label><span>Average SBC grant price</span><b>$ <input data-sbc-input="sbcGrantPrice" type="number" min="1" step="1" /></b></label>
+      <label><span>Cash spent on buybacks</span><b>$M <input data-sbc-input="buybackCash" type="number" min="0" step="50" /></b></label>
+      <label><span>Average buyback price</span><b>$ <input data-sbc-input="buybackPrice" type="number" min="1" step="1" /></b></label>
+      <button type="button" data-sbc-reset>Reset Toast preset</button>
+    </div>
+
+    <div class="toast-model-results">
+      <article><span>SBC shares issued</span><strong data-sbc-issued>—</strong><small>new employee claims</small></article>
+      <article><span>Shares repurchased</span><strong data-sbc-repurchased>—</strong><small>after spending company cash</small></article>
+      <article><span>Ending diluted shares</span><strong data-sbc-ending>—</strong><small>issuance minus repurchases</small></article>
+      <article><span>Ending owner cash</span><strong data-sbc-cash>—</strong><small>cash cannot remain after it is spent</small></article>
+      <article><span>No-buyback value/share</span><strong data-sbc-baseline>—</strong><small>after SBC dilution</small></article>
+      <article><span>After-buyback value/share</span><strong data-sbc-after>—</strong><small>after cash and share changes</small></article>
+    </div>
+  </div>
+
+  <div class="toast-model-warning" data-sbc-conclusion></div>
+  <p class="toast-model-footnote">The operating equity value is assumed to have already recognized employee labor expense. This lab then models the ownership claims issued as SBC and the cash used for repurchases. A full valuation must also forecast taxes, reinvestment, and operating performance.</p>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-sbc-lab]').forEach((lab) => {
+    const source = JSON.parse(lab.querySelector('[data-sbc-source]').textContent || '{}');
+    const defaults = source.defaults;
+    const key = 'owner-mindset-toast-sbc-lab-v1';
+    let state = {...defaults, ...(JSON.parse(localStorage.getItem(key) || 'null') || {})};
+    const fields = [...lab.querySelectorAll('[data-sbc-input]')];
+    fields.forEach((field) => { field.value = state[field.dataset.sbcInput]; });
+
+    const render = () => {
+      state = Object.fromEntries(fields.map((field) => [field.dataset.sbcInput, Number(field.value)]));
+      const buybackCash = Math.min(state.buybackCash, state.ownerCash);
+      const startingEquity = state.operatingEquityValue + state.ownerCash;
+      const sbcShares = state.sbcDollars / Math.max(1, state.sbcGrantPrice);
+      const baselineShares = state.startingShares + sbcShares;
+      const baselinePerShare = startingEquity / baselineShares;
+      const repurchasedShares = buybackCash / Math.max(1, state.buybackPrice);
+      const endingShares = Math.max(1, baselineShares - repurchasedShares);
+      const endingEquity = startingEquity - buybackCash;
+      const endingPerShare = endingEquity / endingShares;
+      localStorage.setItem(key, JSON.stringify(state));
+
+      lab.querySelector('[data-sbc-issued]').textContent = `${sbcShares.toFixed(1)}M`;
+      lab.querySelector('[data-sbc-repurchased]').textContent = `${repurchasedShares.toFixed(1)}M`;
+      lab.querySelector('[data-sbc-ending]').textContent = `${endingShares.toFixed(1)}M`;
+      lab.querySelector('[data-sbc-cash]').textContent = `$${Math.round(state.ownerCash - buybackCash).toLocaleString()}M`;
+      lab.querySelector('[data-sbc-baseline]').textContent = `$${baselinePerShare.toFixed(2)}`;
+      lab.querySelector('[data-sbc-after]').textContent = `$${endingPerShare.toFixed(2)}`;
+
+      const delta = endingPerShare - baselinePerShare;
+      const netShareChange = endingShares - state.startingShares;
+      const messages = [];
+      if (state.buybackCash > state.ownerCash) messages.push('Buyback cash was capped at available owner cash.');
+      messages.push(delta > 0.01 ? `Buying below the no-buyback per-share value adds about $${delta.toFixed(2)} per remaining share in this model.` : delta < -0.01 ? `Buying above the no-buyback per-share value destroys about $${Math.abs(delta).toFixed(2)} per remaining share in this model.` : 'The repurchase is near value-neutral at this price.');
+      messages.push(Math.abs(netShareChange) < 0.05 ? 'Diluted shares are roughly flat after the repurchase offsets almost all SBC issuance.' : netShareChange < 0 ? `Diluted shares fall by ${Math.abs(netShareChange).toFixed(1)}M after offsetting SBC.` : `Diluted shares still rise by ${netShareChange.toFixed(1)}M despite the repurchase.`);
+      lab.querySelector('[data-sbc-conclusion]').textContent = messages.join(' ');
+    };
+
+    fields.forEach((field) => field.addEventListener('input', render));
+    lab.querySelectorAll('[data-buyback-preset]').forEach((button) => button.addEventListener('click', () => {
+      const field = lab.querySelector('[data-sbc-input="buybackPrice"]');
+      field.value = button.dataset.buybackPreset;
+      render();
+    }));
+    lab.querySelector('[data-sbc-reset]').addEventListener('click', () => {
+      localStorage.removeItem(key);
+      state = {...defaults};
+      fields.forEach((field) => { field.value = defaults[field.dataset.sbcInput]; });
+      render();
+    });
+    render();
+  });
+</script>

@@ -17,6 +17,20 @@ const assumptions = [
   { id: 'discountRate', line: 'Present value', label: 'Discount rate / required return', value: (baseParameters.discountRate * 100), min: 7, max: 16, step: 0.1, source: 'TOST base DCF', mechanism: 'Treasury opportunity cost plus business and estimation risk', falsifier: 'Risk or opportunity cost changes materially' },
   { id: 'terminalGrowth', line: 'Terminal value', label: 'Terminal growth', value: (baseParameters.terminalGrowth * 100), min: 0, max: 5, step: 0.1, source: 'TOST base DCF', mechanism: 'Long-run nominal growth after reinvestment and competition', falsifier: 'Mature growth requires implausible market share or reinvestment' },
 ];
+const classifications: Record<string, string> = {
+  revenueGrowth: 'Analyst assumption',
+  costOfRevenueRate: 'Analyst assumption',
+  salesMarketingRate: 'Analyst assumption',
+  researchDevelopmentRate: 'Analyst assumption',
+  generalAdminRate: 'Analyst assumption',
+  taxRate: 'Normalization judgment',
+  capexRate: 'Analyst assumption',
+  workingCapitalRate: 'Normalization judgment',
+  noncashAddbackRate: 'Derived bridge',
+  sbcOffsetRate: 'Derived owner-cost bridge',
+  discountRate: 'Required-return judgment',
+  terminalGrowth: 'Mature-economics judgment',
+};
 ---
 <section class="dcf-lab" data-dcf-lab>
   <script is:inline type="application/json" data-dcf-source set:html={JSON.stringify({snapshot, assumptions})}></script>
@@ -49,18 +63,18 @@ const assumptions = [
       <label data-assumption-control data-min-layer={index < 5 ? 1 : index < 10 ? 2 : 4}>
         <span>{assumption.label}</span>
         <input data-dcf-input={assumption.id} type="number" value={assumption.value} min={assumption.min} max={assumption.max} step={assumption.step} />
-        <small>{assumption.source}</small>
+        <small>{classifications[assumption.id]} · {assumption.source} · snapshot {tost.sourceDate}</small>
       </label>
     ))}
     <label data-assumption-control data-min-layer="3">
       <span>Underwriteable owner cash ($M)</span>
       <input data-dcf-input="ownerCash" type="number" value={baseParameters.netCashM} min="0" max="5000" step="50" />
-      <small>TOST owner-cash waterfall</small>
+      <small>Derived owner-cash waterfall · snapshot {tost.sourceDate}</small>
     </label>
     <label data-assumption-control data-min-layer="3">
       <span>Diluted shares (M)</span>
       <input data-dcf-input="shares" type="number" value={first.share_count_m} min="300" max="900" step="1" />
-      <small>Current model share basis</small>
+      <small>Reported/derived diluted-share basis · snapshot {tost.sourceDate}</small>
     </label>
   </div>
 
@@ -108,7 +122,7 @@ const assumptions = [
       <details data-ledger-entry={assumption.id}>
         <summary><strong>{assumption.label}</strong><span>{assumption.line}</span></summary>
         <div class="assumption-ledger__grid">
-          <label>Source / historical range<textarea data-ledger-field="evidence">{assumption.source}</textarea></label>
+          <label>Source / historical range<textarea data-ledger-field="evidence">{classifications[assumption.id]} · {assumption.source} · snapshot {tost.sourceDate}</textarea></label>
           <label>Causal mechanism<textarea data-ledger-field="mechanism">{assumption.mechanism}</textarea></label>
           <label>Scenario range and confidence<textarea data-ledger-field="range">Bear / base / bull range still requires my judgment.</textarea></label>
           <label>Falsifier / next checkpoint<textarea data-ledger-field="falsifier">{assumption.falsifier}</textarea></label>

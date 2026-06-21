@@ -1,0 +1,134 @@
+---
+import snapshot from '../data/dcf-learning.json';
+
+const tost = snapshot.companies.TOST;
+const first = tost.baseForecast[0];
+const economicGrossProfit = first.subscription_gross_profit_m + first.fintech_gross_profit_m + first.hardware_services_gross_profit_m;
+const operatingCosts = first.sales_marketing_m + first.research_development_m + first.general_admin_m;
+const otherOperatingCost = economicGrossProfit - operatingCosts - first.operating_income_m;
+const noncashBridge = first.owner_fcf_m - first.operating_income_m * 0.88 + first.capex_m + first.working_capital_m;
+---
+
+<section class="toast-model-lab" data-profit-lab id="profit-inflection-lab">
+  <script is:inline type="application/json" data-profit-source set:html={JSON.stringify({
+    sourceDate: tost.sourceDate,
+    historical: tost.historical,
+    defaults: {
+      startingGrossProfit: Number(economicGrossProfit.toFixed(1)),
+      grossProfitGrowth: 20,
+      startingOperatingCosts: Number((operatingCosts + otherOperatingCost).toFixed(1)),
+      operatingCostGrowth: 9,
+      taxRate: 12,
+      noncashBridge: Number(noncashBridge.toFixed(1)),
+      reinvestment: Number((first.capex_m + first.working_capital_m).toFixed(1)),
+      sbcOffset: Number(first.required_sbc_offset_buyback_m.toFixed(1)),
+    },
+  })}></script>
+
+  <div class="toast-model-lab__head">
+    <div>
+      <p class="live-panel__eyebrow">Interactive teaching model · Toast preset</p>
+      <h2>When does growth become profit?</h2>
+      <p>Start with economic gross profit, then ask whether it grows faster than the resources required to operate the company.</p>
+    </div>
+    <span class="freshness">Model source {tost.sourceDate}</span>
+  </div>
+
+  <div class="toast-history-strip">
+    {tost.historical.map((row) => (
+      <article>
+        <span>{row.period}</span>
+        <strong>{row.operating_income_m < 0 ? '−' : '+'}${Math.abs(Math.round(row.operating_income_m)).toLocaleString()}M</strong>
+        <small>reported operating income</small>
+      </article>
+    ))}
+  </div>
+
+  <div class="toast-model-lab__layout">
+    <div class="toast-model-controls">
+      <label><span>Starting economic gross profit</span><b>$M <input data-profit-input="startingGrossProfit" type="number" min="100" step="25" /></b></label>
+      <label><span>Annual gross-profit growth</span><b>% <input data-profit-input="grossProfitGrowth" type="number" min="-10" max="50" step="0.5" /></b></label>
+      <label><span>Starting operating costs</span><b>$M <input data-profit-input="startingOperatingCosts" type="number" min="100" step="25" /></b></label>
+      <label><span>Annual operating-cost growth</span><b>% <input data-profit-input="operatingCostGrowth" type="number" min="-10" max="50" step="0.5" /></b></label>
+      <label><span>Cash tax rate</span><b>% <input data-profit-input="taxRate" type="number" min="0" max="30" step="1" /></b></label>
+      <label><span>Year 1 noncash cash-flow bridge</span><b>$M <input data-profit-input="noncashBridge" type="number" min="0" step="10" /></b></label>
+      <label><span>Year 1 capex + working capital</span><b>$M <input data-profit-input="reinvestment" type="number" min="0" step="10" /></b></label>
+      <label><span>Year 1 required SBC offset</span><b>$M <input data-profit-input="sbcOffset" type="number" min="0" step="10" /></b></label>
+      <button type="button" data-profit-reset>Reset Toast preset</button>
+    </div>
+
+    <div>
+      <div class="toast-model-results">
+        <article><span>Profit inflection</span><strong data-profit-breakeven>—</strong><small>first positive operating-income year</small></article>
+        <article><span>Year 5 operating-income conversion</span><strong data-profit-margin>—</strong><small>operating income ÷ economic gross profit</small></article>
+        <article><span>Year 1 reported-FCF proxy</span><strong data-profit-reported-fcf>—</strong><small>includes noncash compensation add-back</small></article>
+        <article><span>Year 1 valuation FCF</span><strong data-profit-owner-fcf>—</strong><small>after required SBC offset</small></article>
+      </div>
+      <div class="toast-model-warning" data-profit-warning></div>
+    </div>
+  </div>
+
+  <div class="toast-table-wrap">
+    <table class="toast-model-table">
+      <thead><tr><th>Year</th><th>Economic gross profit</th><th>Operating costs</th><th>Operating income</th><th>Reported-FCF proxy</th><th>After SBC offset</th></tr></thead>
+      <tbody data-profit-table></tbody>
+    </table>
+  </div>
+
+  <p class="toast-model-footnote"><strong>Teaching definition:</strong> economic gross profit combines modeled subscription gross profit, fintech gross profit, and hardware/services gross profit. It is not a separately reported Toast segment. Reported-FCF proxy is intentionally simplified and must be reconciled to filings before investment use.</p>
+</section>
+
+<script>
+  // @ts-nocheck
+  document.querySelectorAll('[data-profit-lab]').forEach((lab) => {
+    const source = JSON.parse(lab.querySelector('[data-profit-source]').textContent || '{}');
+    const defaults = source.defaults;
+    const key = 'owner-mindset-toast-profit-lab-v1';
+    let state = {...defaults, ...(JSON.parse(localStorage.getItem(key) || 'null') || {})};
+    const fields = [...lab.querySelectorAll('[data-profit-input]')];
+    fields.forEach((field) => { field.value = state[field.dataset.profitInput]; });
+    const money = (value) => `${value < 0 ? '−' : ''}$${Math.abs(Math.round(value)).toLocaleString()}M`;
+
+    const calculate = () => {
+      state = Object.fromEntries(fields.map((field) => [field.dataset.profitInput, Number(field.value)]));
+      localStorage.setItem(key, JSON.stringify(state));
+      const rows = [];
+      for (let index = 0; index < 5; index += 1) {
+        const grossProfit = state.startingGrossProfit * ((1 + state.grossProfitGrowth / 100) ** index);
+        const operatingCosts = state.startingOperatingCosts * ((1 + state.operatingCostGrowth / 100) ** index);
+        const operatingIncome = grossProfit - operatingCosts;
+        const afterTaxOperatingIncome = operatingIncome > 0 ? operatingIncome * (1 - state.taxRate / 100) : operatingIncome;
+        const noncashBridge = state.noncashBridge * ((1 + state.operatingCostGrowth / 100) ** index);
+        const reinvestment = state.reinvestment * ((1 + state.grossProfitGrowth / 100) ** index);
+        const reportedFcf = afterTaxOperatingIncome + noncashBridge - reinvestment;
+        const sbcOffset = state.sbcOffset * ((1 + state.operatingCostGrowth / 100) ** index);
+        rows.push({year: 2026 + index, grossProfit, operatingCosts, operatingIncome, reportedFcf, ownerFcf: reportedFcf - sbcOffset});
+      }
+      return rows;
+    };
+
+    const render = () => {
+      const rows = calculate();
+      const breakEven = rows.find((row) => row.operatingIncome > 0);
+      lab.querySelector('[data-profit-breakeven]').textContent = breakEven ? String(breakEven.year) : 'After 2030';
+      lab.querySelector('[data-profit-margin]').textContent = `${(rows[4].operatingIncome / rows[4].grossProfit * 100).toFixed(1)}%`;
+      lab.querySelector('[data-profit-reported-fcf]').textContent = money(rows[0].reportedFcf);
+      lab.querySelector('[data-profit-owner-fcf]').textContent = money(rows[0].ownerFcf);
+      lab.querySelector('[data-profit-table]').innerHTML = rows.map((row) => `<tr><td>${row.year}</td><td>${money(row.grossProfit)}</td><td>${money(row.operatingCosts)}</td><td>${money(row.operatingIncome)}</td><td>${money(row.reportedFcf)}</td><td>${money(row.ownerFcf)}</td></tr>`).join('');
+      const warnings = [];
+      if (state.grossProfitGrowth <= state.operatingCostGrowth) warnings.push('Growth alone does not create leverage: operating costs are growing at least as fast as economic gross profit.');
+      if (rows[0].reportedFcf > 0 && rows[0].ownerFcf <= 0) warnings.push('Reported cash flow is positive, but the dilution-adjusted owner line is not.');
+      if (rows[4].operatingIncome / rows[4].grossProfit > 0.4) warnings.push('The derived Year 5 margin is unusually high and needs stronger evidence.');
+      lab.querySelector('[data-profit-warning]').textContent = warnings.length ? warnings.join(' ') : 'The model shows operating leverage, but the result still depends on customer retention, service quality, reinvestment, and SBC discipline.';
+    };
+
+    fields.forEach((field) => field.addEventListener('input', render));
+    lab.querySelector('[data-profit-reset]').addEventListener('click', () => {
+      localStorage.removeItem(key);
+      state = {...defaults};
+      fields.forEach((field) => { field.value = defaults[field.dataset.profitInput]; });
+      render();
+    });
+    render();
+  });
+</script>

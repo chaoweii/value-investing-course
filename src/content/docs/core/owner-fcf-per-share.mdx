@@ -4,6 +4,7 @@ description: Treat SBC, buybacks, cash, and share count as real owner-economics 
 ---
 import ChineseNote from '../../../components/ChineseNote.astro';
 import ProgressTracker from '../../../components/ProgressTracker.astro';
+import SbcBuybackLab from '../../../components/SbcBuybackLab.astro';
 
 ## Company cash flow is not shareholder cash flow
 
@@ -23,4 +24,24 @@ diluted shares for current value; use a cash-funded share bridge for forward tar
 <ChineseNote title="每股才是最终单位">
 公司自由现金流增长 20%，若股数也增长 10%，股东获得的复利远低于标题数字。回购不是免费魔法，它先消耗现金。
 </ChineseNote>
+
+## Toast checkpoint: reported cash is not the final owner line
+
+Toast can report positive FCF while issuing employee shares because SBC is added back as a noncash
+expense in the cash-flow statement. That accounting treatment is correct, but the new shares are still
+economic claims. The investor must either model dilution or reserve cash to offset it.
+
+<SbcBuybackLab />
+
+The honest comparison is not “share count before versus after the buyback.” It is:
+
+```text
+Shares without buyback after SBC
+versus
+shares after SBC and cash-funded buyback
+```
+
+A repurchase can reduce diluted shares and still be poor capital allocation if the company pays above
+intrinsic value. It can also be sensible while merely preventing dilution, but then it should not be
+described as free per-share growth.
 <ProgressTracker id="dcf-owner-fcf-share" />

@@ -47,6 +47,7 @@ export default defineConfig({
           { label: 'Normalize History', slug: 'core/normalize-history' },
           { label: 'Revenue Drivers', slug: 'core/revenue-drivers' },
           { label: 'Costs And Reinvestment', slug: 'core/costs-and-reinvestment' },
+          { label: 'Product Scale To Owner Value', slug: 'core/product-scale-to-owner-value' },
           { label: 'Owner FCF Per Share', slug: 'core/owner-fcf-per-share' },
           { label: 'Discount Rates', slug: 'core/discount-rates' },
           { label: 'Terminal Value', slug: 'core/terminal-value' },
